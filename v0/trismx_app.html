@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrismX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#F6F8FA; --surface:#FFFFFF; --surface-2:#F1F4F8; --surface-3:#E7ECF2;
+    --border:#E2E7EE; --border-strong:#CDD5DF;
+    --ink:#101828; --ink-2:#475467; --muted:#8A95A5;
+    --accent:#127C74; --accent-2:#0E655E; --accent-tint:#E4F1EF; --on-accent:#FFFFFF;
+    --ok:#0E7C56; --ok-tint:#E5F3EC;
+    --warn:#9A5B0B; --warn-tint:#FAEEDD;
+    --crit:#B42318; --crit-tint:#FBE9E7;
+    --blue:#2B5FB4; --blue-tint:#E7EEFA;
+    --radius:10px;
+    color-scheme:light;
+  }
+  :root:not([data-theme="light"]){ @media (prefers-color-scheme:dark){
+    --bg:#0C1116; --surface:#141B22; --surface-2:#1A222B; --surface-3:#222D38;
+    --border:#28323D; --border-strong:#3A4855;
+    --ink:#E9EEF4; --ink-2:#B3C0CE; --muted:#7E8C9C;
+    --accent:#2CB3AA; --accent-2:#4FC7BF; --accent-tint:#10302D; --on-accent:#04211F;
+    --ok:#3FBE84; --ok-tint:#0F2C21;
+    --warn:#D68B34; --warn-tint:#2E2210;
+    --crit:#E5695E; --crit-tint:#301A18;
+    --blue:#7BA6EA; --blue-tint:#16233A;
+    color-scheme:dark;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#0C1116; --surface:#141B22; --surface-2:#1A222B; --surface-3:#222D38;
+    --border:#28323D; --border-strong:#3A4855;
+    --ink:#E9EEF4; --ink-2:#B3C0CE; --muted:#7E8C9C;
+    --accent:#2CB3AA; --accent-2:#4FC7BF; --accent-tint:#10302D; --on-accent:#04211F;
+    --ok:#3FBE84; --ok-tint:#0F2C21;
+    --warn:#D68B34; --warn-tint:#2E2210;
+    --crit:#E5695E; --crit-tint:#301A18;
+    --blue:#7BA6EA; --blue-tint:#16233A;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+  .num{font-variant-numeric:tabular-nums}
+  h1,h2,h3{margin:0;line-height:1.25}
+  a{color:inherit}
+
+  /* Shell */
+  .app{display:grid;grid-template-columns:230px 1fr;height:100%;min-height:0}
+  .rail{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:0}
+  .brand{display:flex;align-items:center;gap:10px;padding:16px 18px 14px;border-bottom:1px solid var(--border)}
+  .logo{width:26px;height:26px;border-radius:7px;flex:none;background:conic-gradient(from 200deg,var(--accent),#3AA0B8,#5B84D6,var(--accent));box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+  .brand b{font-weight:700;letter-spacing:.2px;font-size:15px}
+  .nav{list-style:none;margin:0;padding:10px 10px;flex:1;overflow:auto}
+  .nav .sec{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:12px 11px 5px}
+  .nav li{margin:1px 0}
+  .nav-btn{width:100%;display:flex;gap:10px;align-items:center;text-align:left;background:none;border:0;border-radius:8px;padding:9px 11px;cursor:pointer;color:var(--ink-2);font:inherit;font-size:13px;font-weight:500}
+  .nav-btn:hover{background:var(--surface-2)}
+  .nav-btn.active{background:var(--accent-tint);color:var(--ink);font-weight:600}
+  .nav-btn.active svg{color:var(--accent)}
+  .nav-btn svg{width:17px;height:17px;flex:none;color:var(--muted)}
+  .rail-foot{padding:11px 14px;border-top:1px solid var(--border);display:flex;align-items:center;gap:9px}
+  .rail-foot .av{width:28px;height:28px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ink-2);flex:none}
+  .rail-foot small{display:block;color:var(--muted);font-size:10.5px}
+  .rail-foot .nm{font-size:12.5px;font-weight:600}
+
+  /* Main */
+  .main{display:flex;flex-direction:column;min-width:0;min-height:0}
+  .topbar{display:flex;align-items:center;gap:14px;padding:13px 26px;border-bottom:1px solid var(--border);background:var(--surface)}
+  .topbar .tt{font-size:16px;font-weight:700}
+  .topbar .crumb{font-size:12px;color:var(--muted)}
+  .search{margin-left:auto;display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:7px 11px;width:240px;color:var(--muted)}
+  .search input{border:0;background:none;outline:none;font:inherit;font-size:13px;color:var(--ink);width:100%}
+  .topbar .org{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:5px 12px}
+  .topbar .org .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .content{overflow:auto;flex:1;min-height:0;padding:24px 26px 34px}
+  .wrap{max-width:1000px;margin:0 auto}
+
+  /* Bits */
+  .btn{font:inherit;font-weight:600;font-size:13px;border-radius:8px;padding:8px 15px;cursor:pointer;border:1px solid var(--border-strong);background:var(--surface);color:var(--ink)}
+  .btn:hover{border-color:var(--muted)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+  .btn.primary:hover{background:var(--accent-2);border-color:var(--accent-2)}
+  .btn.ghost{border-color:transparent;background:transparent;color:var(--ink-2)}
+  .btn.sm{padding:6px 12px;font-size:12px}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;border-radius:999px;padding:3px 9px;border:1px solid transparent;white-space:nowrap}
+  .pill.ok{background:var(--ok-tint);color:var(--ok)}
+  .pill.warn{background:var(--warn-tint);color:var(--warn)}
+  .pill.crit{background:var(--crit-tint);color:var(--crit)}
+  .pill.neutral{background:var(--surface-2);color:var(--ink-2);border-color:var(--border)}
+  .pill.accent{background:var(--accent-tint);color:var(--accent-2)}
+  .pill .d{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+  .tag{font-size:10.5px;font-weight:600;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 7px;white-space:nowrap}
+  .muted{color:var(--muted)}
+  .sechead{display:flex;align-items:baseline;gap:10px;margin:0 0 12px}
+  .sechead h2{font-size:13px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-2)}
+  .sechead .r{margin-left:auto}
+  .view{display:none}
+  .view.active{display:block}
+  .empty{display:grid;place-items:center;min-height:52vh;text-align:center;color:var(--muted)}
+  .empty .ei{width:44px;height:44px;border-radius:11px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;margin:0 auto 14px;color:var(--muted)}
+  .empty h3{font-size:15px;color:var(--ink);font-weight:700;margin-bottom:4px}
+
+  /* Stat tiles */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px}
+  .stat .v{font-size:26px;font-weight:700;letter-spacing:-.01em}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:2px}
+
+  /* Accordion */
+  .acc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+  .arow{border-top:1px solid var(--border)}
+  .arow:first-child{border-top:0}
+  .ahead{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;width:100%;background:none;border:0;font:inherit;color:var(--ink);text-align:left}
+  .ahead:hover{background:var(--surface-2)}
+  .ahead .chev{margin-left:auto;color:var(--muted);transition:transform .18s ease;flex:none}
+  .arow.open .chev{transform:rotate(90deg)}
+  .ahead .nm{font-weight:600;font-size:13.5px}
+  .ahead .sub{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .ahead .col{display:flex;align-items:center;gap:8px;flex:none}
+  .abody{display:none;padding:4px 18px 22px 18px;border-top:1px dashed var(--border);background:var(--surface-2)}
+  .arow.open .abody{display:block}
+
+  /* System detail */
+  .blab{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:18px 0 9px;display:flex;align-items:center;gap:8px}
+  .blab .rt{margin-left:auto;font-weight:500;letter-spacing:0;text-transform:none;color:var(--muted)}
+  .idstrip{display:flex;flex-wrap:wrap;gap:7px}
+  .idstrip .kt{font-size:11.5px;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:4px 9px;color:var(--ink-2)}
+  .idstrip .kt b{color:var(--ink);font-weight:600}
+  .owners{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .own{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 13px}
+  .own .r{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;font-weight:600}
+  .own .n{font-weight:600;font-size:13px;margin-top:3px}
+  .own .e{font-size:12px;color:var(--accent-2)}
+  .own .role{font-size:11.5px;color:var(--muted)}
+
+  table.bt{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden}
+  table.bt th{font-size:10px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);text-align:left;font-weight:600;padding:9px 12px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+  table.bt td{padding:9px 12px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:top}
+  table.bt tr:last-child td{border-bottom:0}
+  table.bt td.cmp{font-weight:600;color:var(--ink)}
+  table.bt td .ver{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-2)}
+  .src{font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;letter-spacing:.02em}
+  .src.int{background:var(--accent-tint);color:var(--accent-2)}
+  .src.ext{background:var(--blue-tint);color:var(--blue)}
+  .src.oss{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--border)}
+  .src.mix{background:var(--warn-tint);color:var(--warn)}
+  .wtag{font-size:9.5px;font-weight:700;color:var(--crit);background:var(--crit-tint);border-radius:4px;padding:1px 5px;margin-left:5px}
+  .legend{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
+
+  .flowbox{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:11px 13px;font-size:12.5px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+  .flowbox dt{color:var(--muted);font-weight:500}
+  .flowbox dd{margin:0}
+
+  .tel{display:flex;flex-wrap:wrap;gap:8px}
+  .telc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 11px;min-width:96px}
+  .telc .tl{font-size:10.5px;color:var(--muted)}
+  .telc .tv{font-size:14px;font-weight:700;margin-top:1px;font-variant-numeric:tabular-nums}
+  pre.log{margin:12px 0 0;background:var(--surface-3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.6;overflow:auto;color:var(--ink-2)}
+
+  /* Inventory table + drawer */
+  .pill.blue{background:var(--blue-tint);color:var(--blue)}
+  .stat.clickable{cursor:pointer;transition:border-color .15s}
+  .stat.clickable:hover{border-color:var(--border-strong)}
+  .stat.clickable.on{border-color:var(--accent);background:var(--accent-tint)}
+  .stat.clickable .l{display:flex;align-items:center;gap:5px}
+  .stat.clickable .l svg{width:12px;height:12px;color:var(--muted)}
+  table.t tr.clk{cursor:pointer}
+  table.t tr.clk:hover td{background:var(--surface-2)}
+  table.t td .ttl{font-weight:600;color:var(--ink)}
+  table.t td .tsub{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .modlist{display:flex;flex-wrap:wrap;gap:5px}
+  .modlist .mchip{font-size:11px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 7px;color:var(--ink-2)}
+
+  .drawer-back{position:fixed;inset:0;background:rgba(10,16,22,.38);opacity:0;visibility:hidden;transition:.2s;z-index:60}
+  .drawer-back.open{opacity:1;visibility:visible}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:480px;max-width:94vw;background:var(--surface);border-left:1px solid var(--border);box-shadow:-10px 0 34px rgba(0,0,0,.16);transform:translateX(100%);transition:transform .22s ease;z-index:70;display:flex;flex-direction:column}
+  .drawer.open{transform:none}
+  .drawer-head{display:flex;align-items:center;gap:11px;padding:15px 18px;border-bottom:1px solid var(--border)}
+  .drawer-head .dtt{flex:1;min-width:0}
+  .drawer-head .dt{font-size:15px;font-weight:700;line-height:1.25}
+  .drawer-head .ds{font-size:12px;color:var(--muted);margin-top:1px}
+  .iconbtn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--surface);display:grid;place-items:center;cursor:pointer;color:var(--ink-2);flex:none}
+  .iconbtn:hover{background:var(--surface-2)}
+  .drawer-body{overflow:auto;padding:18px;flex:1}
+  .badgerow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
+  .litem{display:flex;align-items:center;gap:12px;padding:11px 13px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;cursor:pointer;background:var(--surface)}
+  .litem:hover{border-color:var(--border-strong);background:var(--surface-2)}
+  .litem .li-ic{width:30px;height:30px;border-radius:7px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;flex:none;font-size:11px;font-weight:700;color:var(--ink-2)}
+  .litem .nm{font-weight:600;font-size:13px}
+  .litem .sub{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .litem .chev{margin-left:auto;color:var(--muted);flex:none}
+  .usedby{display:flex;flex-wrap:wrap;gap:6px}
+  .usedby .ub{font-size:11.5px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;color:var(--ink-2)}
+  table.bt tr.clk{cursor:pointer}
+  table.bt tr.clk:hover td{background:var(--surface-2)}
+  .lnk{color:var(--accent-2);font-weight:600;cursor:pointer}
+  .lnk:hover{text-decoration:underline}
+
+  /* People */
+  .backlink{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-2);cursor:pointer;font-weight:600;margin-bottom:14px;background:none;border:0;font-family:inherit}
+  .backlink:hover{color:var(--ink)}
+  .pdhead{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:4px}
+  .pdhead .pav{width:46px;height:46px;border-radius:50%;background:var(--accent-tint);color:var(--accent-2);display:grid;place-items:center;font-weight:700;font-size:15px;flex:none}
+  .pdhead .pn{font-size:16px;font-weight:700}
+  .pdhead .pm{font-size:12.5px;color:var(--muted)}
+  .pdhead .pmeta{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+  .avem{width:30px;height:30px;border-radius:50%;background:var(--surface-3);color:var(--ink-2);display:inline-grid;place-items:center;font-weight:700;font-size:11px;flex:none}
+  .status-ok{color:var(--ok)} .status-warn{color:var(--warn)} .status-crit{color:var(--crit)}
+
+  /* Trust Centre */
+  .trust-hero{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-bottom:20px}
+  .trust-hero .eyebrow{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent-2);font-weight:700}
+  .trust-hero h1{font-size:22px;font-weight:700;margin:6px 0 4px}
+  .trust-hero p{margin:0;color:var(--ink-2);max-width:70ch;font-size:13.5px}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:7px 11px}
+  .badge svg{width:15px;height:15px;color:var(--accent);flex:none}
+  .trust-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:12px}
+  .trust-card .tc-h{display:flex;align-items:center;gap:10px}
+  .trust-card h3{font-size:14.5px;font-weight:700}
+  .trust-card .tc-p{font-size:12.5px;color:var(--ink-2);margin:8px 0 0}
+  .tc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+  .tc-grid .lab{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:700;margin-bottom:6px}
+  .chips{display:flex;flex-wrap:wrap;gap:5px}
+  .chip{font-size:11.5px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;color:var(--ink-2)}
+
+  /* Connect infrastructure */
+  .searchbar{display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--border-strong);border-radius:9px;padding:10px 13px;margin-bottom:18px;color:var(--muted)}
+  .searchbar input{border:0;background:none;outline:none;font:inherit;font-size:14px;color:var(--ink);width:100%}
+  .catsec{margin-bottom:22px}
+  .catsec .ch{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-2);margin:0 0 10px;display:flex;align-items:center;gap:8px}
+  .catsec .ch .n{color:var(--muted);font-weight:600}
+  .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:10px}
+  .vcard{display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 13px}
+  .vcard .vlogo{width:32px;height:32px;border-radius:8px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;font-size:10.5px;font-weight:700;color:var(--ink-2);flex:none}
+  .vcard .vn{font-size:13px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .vcard .va{margin-left:auto;flex:none}
+  .btn.xs{padding:5px 11px;font-size:12px}
+  .connected{font-size:11.5px;font-weight:600;color:var(--ok);display:inline-flex;align-items:center;gap:5px}
+  .connected::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+  .deploy-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:12px}
+  .drow{display:flex;align-items:center;gap:13px}
+  .drow .vlogo{width:36px;height:36px;border-radius:8px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ink-2);flex:none}
+  .drow .dn{font-weight:600;font-size:13.5px}
+  .drow .dm{font-size:12px;color:var(--muted)}
+  .cbar2{height:8px;border-radius:999px;background:var(--surface-3);overflow:hidden;margin:14px 0 10px}
+  .cbar2 i{display:block;height:100%;background:var(--accent)}
+  .platrow{display:flex;justify-content:space-between;font-size:12.5px;padding:7px 0;border-top:1px solid var(--border)}
+
+  /* Dashboard */
+  .dash-chat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:22px}
+  .dash-chat .dc-h{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14.5px}
+  .dash-chat .dc-h .sp{width:24px;height:24px;border-radius:7px;background:var(--accent-tint);color:var(--accent-2);display:grid;place-items:center;flex:none}
+  .dash-chat .askrow{display:flex;gap:9px;margin-top:13px}
+  .dash-chat input{flex:1;border:1px solid var(--border-strong);border-radius:9px;padding:11px 13px;font:inherit;font-size:14px;background:var(--surface-2);color:var(--ink);outline:none}
+  .chips2{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .qchip{font:inherit;font-size:12.5px;border:1px solid var(--border);background:var(--surface-2);border-radius:999px;padding:6px 12px;cursor:pointer;color:var(--ink-2)}
+  .qchip:hover{border-color:var(--muted);color:var(--ink)}
+  .qchip.on{background:var(--accent-tint);border-color:var(--accent);color:var(--accent-2)}
+  .answer{margin-top:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:13.5px;color:var(--ink-2);line-height:1.6;display:none}
+  .answer.show{display:block}
+  .answer .aq{font-weight:600;color:var(--ink);margin-bottom:7px;display:flex;gap:8px;align-items:flex-start}
+  .answer b{color:var(--ink)}
+  .rings{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+  .ring{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:16px}
+  .rc{position:relative;width:66px;height:66px;border-radius:50%;flex:none;background:conic-gradient(var(--accent) calc(var(--p,0)*1%),var(--surface-3) 0)}
+  .rc::before{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--surface)}
+  .rc b{position:absolute;inset:0;display:grid;place-items:center;font-size:15px;font-weight:700}
+  .ring .rt{font-size:13.5px;font-weight:700}
+  .ring .rs{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .bars2{display:grid;gap:9px;margin-top:4px}
+  .bar2{display:grid;grid-template-columns:160px 1fr 54px;align-items:center;gap:12px;font-size:12.5px}
+  .bar2 .track{height:9px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+  .bar2 .track i{display:block;height:100%;background:var(--warn)}
+  .bar2 .track i.crit{background:var(--crit)} .bar2 .track i.ok{background:var(--accent)}
+  .bar2 .bv{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+
+  /* Questionnaire Assistant (chat) */
+  .content.flush{padding:0;overflow:hidden}
+  .content.flush .wrap{max-width:none;margin:0;padding:0;height:100%;min-height:0}
+  .content.flush .view.active{height:100%;min-height:0}
+  .qa-view{display:flex;flex-direction:column;height:100%;min-height:0}
+  .qa-bar{display:flex;align-items:center;gap:12px;padding:12px 26px;border-bottom:1px solid var(--border);background:var(--surface)}
+  .qa-bar .step{font-size:12.5px;color:var(--muted)}
+  .qa-bar .sp2{margin-left:auto;display:flex;gap:8px}
+  .qa-scroll{flex:1;min-height:0;overflow-y:auto;padding:22px 26px}
+  .qa-inner{max-width:880px;margin:0 auto}
+  .msg{display:flex;gap:11px;margin-bottom:18px;align-items:flex-start}
+  .msg.user{flex-direction:row-reverse}
+  .msg .mav{width:30px;height:30px;border-radius:8px;flex:none;display:grid;place-items:center;font-size:11px;font-weight:700}
+  .msg.bot .mav{background:var(--accent-tint);color:var(--accent-2)}
+  .msg.user .mav{background:var(--surface-3);color:var(--ink-2)}
+  .bubble{border-radius:12px;padding:13px 15px;font-size:13.5px;line-height:1.55;max-width:84%}
+  .msg.bot .bubble{background:var(--surface);border:1px solid var(--border);color:var(--ink)}
+  .msg.user .bubble{background:var(--accent-tint);border:1px solid var(--accent);color:var(--ink)}
+  .bubble p{margin:0 0 8px} .bubble p:last-child{margin-bottom:0}
+  .bubble b{font-weight:700}
+  .filechip{display:inline-flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px 11px;font-size:12.5px;font-weight:600}
+  .filechip svg{width:16px;height:16px;color:var(--accent-2)}
+  .dropzone{border:1.5px dashed var(--border-strong);border-radius:11px;padding:22px;text-align:center;color:var(--muted);margin-top:10px;background:var(--surface-2)}
+  .dropzone .big{font-size:13px;font-weight:600;color:var(--ink-2);margin-bottom:3px}
+  .cov{display:flex;gap:18px;align-items:center;margin:12px 0 4px;flex-wrap:wrap}
+  .cov .big{font-size:26px;font-weight:700}
+  .cov .cbar{flex:1;min-width:140px;height:8px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+  .cov .cbar i{display:block;height:100%;background:var(--accent)}
+  .cpill{font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px}
+  .cpill.ans{background:var(--ok-tint);color:var(--ok)} .cpill.man{background:var(--warn-tint);color:var(--warn)}
+  table.q{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}
+  table.q th{font-size:10px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);text-align:left;font-weight:600;padding:7px 9px;border-bottom:1px solid var(--border)}
+  table.q td{padding:7px 9px;border-bottom:1px solid var(--border);vertical-align:top}
+  table.q tr:last-child td{border-bottom:0}
+  table.q td.qid{font-family:"IBM Plex Mono",monospace;color:var(--muted);white-space:nowrap}
+  table.q tr.man{background:var(--warn-tint)}
+  .manu{color:var(--warn);font-weight:700;white-space:nowrap}
+  .ans-ev{display:block;font-size:10.5px;color:var(--muted);margin-top:2px}
+  .ans-v{font-weight:600;color:var(--ink)}
+  .qa-input{display:flex;align-items:center;gap:10px;padding:14px 26px;border-top:1px solid var(--border);background:var(--surface)}
+  .qa-input .box{flex:1;display:flex;align-items:center;gap:9px;border:1px solid var(--border-strong);border-radius:10px;padding:11px 13px;background:var(--surface-2);color:var(--muted);font-size:13.5px}
+  .qa-input .box svg{width:17px;height:17px}
+
+  /* Compliance */
+  .segmented{display:inline-flex;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:3px;margin-bottom:18px;gap:2px}
+  .seg{font:inherit;font-size:12.5px;font-weight:600;padding:6px 15px;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:6px}
+  .seg.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .att{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-left-width:3px;border-radius:9px;margin-bottom:8px;cursor:pointer;background:var(--surface)}
+  .att:hover{background:var(--surface-2)}
+  .att.gap{border-left-color:var(--crit)}
+  .att.partial{border-left-color:var(--warn)}
+  .att .aid{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);font-weight:600;min-width:54px;flex:none}
+  .att .amn{flex:1;min-width:0}
+  .att .anm{font-weight:600;font-size:13px}
+  .att .amiss{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .att .aown{font-size:11px;color:var(--muted)}
+  .att .chev{color:var(--muted);flex:none}
+  .dbars{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .dbari{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:11px 13px}
+  .dbari .t{display:flex;justify-content:space-between;font-size:12px;margin-bottom:7px;gap:8px}
+  .dbari .t b{font-weight:600}
+  .dbari .t .p{color:var(--muted);font-weight:600}
+  .dbari .bar{height:6px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+  .dbari .bar i{display:block;height:100%;background:var(--accent)}
+  .attsec .blab, .barsec .blab{margin-top:22px}
+  .fwtabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:18px;flex-wrap:wrap}
+  .fwtab{font:inherit;font-size:13px;font-weight:600;padding:9px 14px;border:0;background:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+  .fwtab:hover{color:var(--ink-2)}
+  .fwtab.active{color:var(--ink);border-bottom-color:var(--accent)}
+  .fwtab .cnt{font-size:11px;color:var(--muted);font-weight:500;margin-left:6px;background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:1px 7px}
+  .csum{display:flex;align-items:center;gap:26px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:18px;flex-wrap:wrap}
+  .csum .big{font-size:34px;font-weight:700;letter-spacing:-.02em;line-height:1}
+  .csum .biglab{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .csum .cbar{flex:1;min-width:160px;height:7px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+  .csum .cbar i{display:block;height:100%;background:var(--accent)}
+  .csum .counts{display:flex;gap:8px}
+  .cchip{border:1px solid var(--border);border-radius:8px;padding:6px 11px;min-width:66px}
+  .cchip .cv{font-size:16px;font-weight:700}
+  .cchip .cl{font-size:10.5px;color:var(--muted)}
+  .cchip.ok .cv{color:var(--ok)} .cchip.warn .cv{color:var(--warn)} .cchip.crit .cv{color:var(--crit)}
+  .dgroup{margin-bottom:12px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+  .dhead{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface-2);cursor:pointer}
+  .dhead .did{font-weight:700;font-size:13px;min-width:38px}
+  .dhead .dnm{font-size:12.5px;color:var(--ink-2);font-weight:500}
+  .dhead .dcount{font-size:11px;color:var(--muted)}
+  .dhead .dbar{width:110px;height:6px;border-radius:999px;background:var(--surface-3);overflow:hidden;margin-left:auto}
+  .dhead .dbar i{display:block;height:100%;background:var(--accent)}
+  .dhead .dpct{font-size:12px;font-weight:700;min-width:38px;text-align:right}
+  .dhead .dchev{color:var(--muted);transition:transform .18s ease}
+  .dgroup.collapsed .dchev{transform:rotate(-90deg)}
+  .dgroup.collapsed .dlist{display:none}
+  .dlist{border-top:1px solid var(--border)}
+  .ctlrow{border-top:1px solid var(--border)}
+  .ctlrow:first-child{border-top:0}
+  .ctlhead{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;width:100%;background:none;border:0;font:inherit;color:var(--ink);text-align:left}
+  .ctlhead:hover{background:var(--surface-2)}
+  .ctlid{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);font-weight:600;min-width:58px;flex:none}
+  .ctlhead .mn{flex:1;min-width:0}
+  .ctlhead .nm{font-weight:600;font-size:13px}
+  .ctlhead .sub{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .ctlhead .chev{color:var(--muted);transition:transform .18s ease;flex:none}
+  .ctlrow.open .chev{transform:rotate(90deg)}
+  .ctlbody{display:none;padding:2px 16px 18px 58px;background:var(--surface-2)}
+  .ctlrow.open .ctlbody{display:block}
+  .ctlbody p{margin:0;font-size:13px;color:var(--ink-2);max-width:76ch}
+  .evlist{display:grid;gap:8px}
+  .ev{display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 12px}
+  .ev .evmk{width:18px;height:18px;border-radius:5px;display:grid;place-items:center;font-size:11px;font-weight:700;flex:none}
+  .ev.collected .evmk{background:var(--ok-tint);color:var(--ok)}
+  .ev.stale .evmk{background:var(--warn-tint);color:var(--warn)}
+  .ev.missing .evmk{background:var(--crit-tint);color:var(--crit)}
+  .ev .evt{font-size:12.5px;font-weight:600}
+  .ev .evs{font-size:11px;color:var(--muted);margin-top:1px}
+  .ev .evp{margin-left:auto}
+
+  @media (max-width:860px){
+    .app{grid-template-columns:1fr}
+    .rail{display:none}
+    .stats{grid-template-columns:1fr 1fr}
+    .owners{grid-template-columns:1fr}
+    .flowbox{grid-template-columns:1fr}
+    .search{display:none}
+    .ctlbody{padding-left:16px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Rail -->
+  <aside class="rail">
+    <div class="brand"><div class="logo"></div><b>TrismX</b></div>
+    <ul class="nav" id="nav">
+      <li><button class="nav-btn" data-view="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg> AI Posture</button></li>
+      <li><button class="nav-btn" data-view="questionnaire"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5a2 2 0 012-2h9l5 5v6a2 2 0 01-2 2h-1M14 3v5h5"/><path d="M3 15l-1 6 6-1 9.5-9.5a2.1 2.1 0 00-3-3L5 12z"/></svg> Questionnaire Assistant</button></li>
+      <li><button class="nav-btn" data-view="inventory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg> AI Inventory</button></li>
+      <li><button class="nav-btn" data-view="compliance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg> Compliance</button></li>
+      <li><button class="nav-btn" data-view="people"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3 2.6-5 5.5-5s5.5 2 5.5 5"/><path d="M16 5.2a3 3 0 010 5.6M18 20c0-2.4-1-4.2-2.6-5"/></svg> People</button></li>
+      <li><button class="nav-btn" data-view="shadow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M12 8v4M12 15.5v.5"/></svg> Shadow AI</button></li>
+      <li><button class="nav-btn" data-view="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3z"/></svg> Trust Centre</button></li>
+      <li><button class="nav-btn" data-view="connect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 7V3M15 7V3M8 7h8v4a4 4 0 01-4 4 4 4 0 01-4-4V7zM12 15v6"/></svg> Connect Infrastructure</button></li>
+    </ul>
+    <div class="rail-foot">
+      <div class="av">NC</div><div><div class="nm">Northcrest Bank</div><small>Governance workspace</small></div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="tt" id="pageTitle">AI Inventory</div>
+        <div class="crumb" id="pageCrumb">Discovered AI systems &amp; AI-BOM</div>
+      </div>
+      <div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input placeholder="Search systems, people, controls…"></div>
+      <div class="org"><span class="dot"></span> Northcrest Bank</div>
+    </header>
+
+    <div class="content">
+      <div class="wrap">
+
+        <!-- DASHBOARD -->
+        <section class="view" data-view="dashboard">
+          <div class="dash-chat">
+            <div class="dc-h"><span class="sp"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 00-9 9 9 9 0 001.5 5L3 21l4-1.5A9 9 0 1012 3z"/></svg></span> Ask about your compliance posture</div>
+            <div class="askrow"><input id="askInput" placeholder="e.g. What's our overall compliance posture?" readonly></div>
+            <div class="chips2" id="askChips"></div>
+            <div class="answer" id="askAnswer"></div>
+          </div>
+
+          <div class="sechead"><h2>Agent governance</h2></div>
+          <div class="stats" style="margin-bottom:22px">
+            <div class="stat"><div class="v num">6</div><div class="l">AI agents</div></div>
+            <div class="stat"><div class="v num">8</div><div class="l">Models in use</div></div>
+            <div class="stat"><div class="v num">9</div><div class="l">MCP servers</div></div>
+            <div class="stat"><div class="v num">9</div><div class="l">External vendors</div></div>
+          </div>
+
+          <div class="sechead"><h2>Compliance posture</h2></div>
+          <div class="rings">
+            <div class="ring"><div class="rc" style="--p:88"><b>88%</b></div><div><div class="rt">ISO/IEC 42001</div><div class="rs">30 Ready · 7 Partial · 1 Gap</div></div></div>
+            <div class="ring"><div class="rc" style="--p:68"><b>68%</b></div><div><div class="rt">NIST AI RMF</div><div class="rs">Govern · Map · Measure · Manage</div></div></div>
+            <div class="ring"><div class="rc" style="--p:72"><b>72%</b></div><div><div class="rt">EU AI Act</div><div class="rs">Deployer readiness · 2 exceptions</div></div></div>
+          </div>
+
+          <div class="sechead"><h2>Shadow AI usage</h2><span class="r muted" style="font-size:12px">Last 90 days</span></div>
+          <div class="stats" style="margin-bottom:18px">
+            <div class="stat"><div class="v num">10</div><div class="l">Sanctioned AI apps</div></div>
+            <div class="stat"><div class="v num" style="color:var(--warn)">642</div><div class="l">Shadow-AI users flagged</div></div>
+            <div class="stat"><div class="v num" style="color:var(--crit)">23</div><div class="l">Unsanctioned tools</div></div>
+            <div class="stat"><div class="v num">1,942</div><div class="l">Upload attempts blocked</div></div>
+          </div>
+          <div class="card" style="padding:16px 18px">
+            <div class="blab" style="margin-top:0">Top shadow-AI tools by users</div>
+            <div class="bars2" id="shadowBars"></div>
+          </div>
+        </section>
+
+        <!-- QUESTIONNAIRE ASSISTANT -->
+        <section class="view" data-view="questionnaire">
+          <div class="qa-view">
+            <div class="qa-bar">
+              <span class="step" id="qaStep">Step 1 / 8</span>
+              <div class="sp2">
+                <button class="btn sm" id="qaRestart">Restart</button>
+                <button class="btn primary sm" id="qaNext">Next&nbsp;▶</button>
+              </div>
+            </div>
+            <div class="qa-scroll" id="qaScroll"><div class="qa-inner" id="qaInner"></div></div>
+            <div class="qa-input"><div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.4 11.6L12 21a5 5 0 01-7-7l9-9a3.5 3.5 0 015 5l-8.5 8.5a1.9 1.9 0 01-2.7-2.7L15 11"/></svg> Message TrismX… (simulated — use Next to advance)</div><button class="btn sm" disabled>Send</button></div>
+          </div>
+        </section>
+
+        <!-- AI INVENTORY -->
+        <section class="view active" data-view="inventory">
+          <div class="fwtabs" id="invTabs">
+            <button class="fwtab active" data-inv="systems">AI Agents <span class="cnt" id="cntSys">6</span></button>
+            <button class="fwtab" data-inv="vendors">Vendors <span class="cnt" id="cntVend">0</span></button>
+            <button class="fwtab" data-inv="models">Models <span class="cnt" id="cntMod">0</span></button>
+            <button class="fwtab" data-inv="apps">Apps <span class="cnt" id="cntApp">0</span></button>
+            <button class="fwtab" data-inv="domains">Domains <span class="cnt" id="cntDom">0</span></button>
+            <button class="fwtab" data-inv="mcp">MCP servers <span class="cnt" id="cntMcp">0</span></button>
+          </div>
+          <div id="invSystems">
+            <div class="sechead"><h2>AI Agents</h2><span class="r muted" style="font-size:12px">Click an agent to open its AI-BOM</span></div>
+            <table class="t">
+              <thead><tr><th>Agent</th><th>Owner</th><th class="c">Components</th><th>Models</th><th></th></tr></thead>
+              <tbody id="sysTbody"></tbody>
+            </table>
+          </div>
+          <div id="invInline" hidden></div>
+        </section>
+
+        <!-- COMPLIANCE -->
+        <section class="view" data-view="compliance">
+          <div class="fwtabs" id="fwTabs">
+            <button class="fwtab active" data-fw="iso">ISO/IEC 42001 <span class="cnt">38</span></button>
+            <button class="fwtab" data-fw="nist">NIST AI RMF <span class="cnt">soon</span></button>
+            <button class="fwtab" data-fw="eu">EU AI Act <span class="cnt">soon</span></button>
+            <button class="fwtab" data-fw="admt">ADMT / US state <span class="cnt">soon</span></button>
+          </div>
+          <div id="fwIso">
+            <div class="csum">
+              <div><div class="big" id="isoPct">—</div><div class="biglab">ISO/IEC 42001 readiness</div></div>
+              <div class="cbar"><i id="isoBar" style="width:0"></i></div>
+              <div class="counts" id="isoCounts"></div>
+            </div>
+            <div class="segmented" id="isoSeg">
+              <button class="seg active" data-seg="overview">Overview</button>
+              <button class="seg" data-seg="all">All controls</button>
+            </div>
+            <div id="isoOverview">
+              <div class="attsec">
+                <div class="sechead"><h2>Needs attention</h2><span class="r muted" style="font-size:12px">Gaps and partials first</span></div>
+                <div id="isoAttention"></div>
+              </div>
+              <div class="barsec">
+                <div class="sechead"><h2>Readiness by domain</h2></div>
+                <div class="dbars" id="isoDomainBars"></div>
+              </div>
+            </div>
+            <div id="isoAll" hidden>
+              <div id="isoDomains"></div>
+            </div>
+          </div>
+          <div id="fwOther" hidden>
+            <div class="empty"><div><div class="ei"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3 id="otherName">NIST AI RMF</h3><div>Crosswalked from the ISO evidence base — populated after ISO sign-off.</div></div></div>
+          </div>
+        </section>
+
+        <!-- PEOPLE -->
+        <section class="view" data-view="people">
+          <div id="peopleList">
+            <div class="stats">
+              <div class="stat"><div class="v num">4,812</div><div class="l">Managed users</div></div>
+              <div class="stat"><div class="v num">3,914</div><div class="l">Using AI apps</div></div>
+              <div class="stat"><div class="v num">642</div><div class="l">Shadow-AI flagged</div></div>
+              <div class="stat"><div class="v num">128</div><div class="l">Running agents</div></div>
+            </div>
+            <div class="searchbar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input id="peopleSearch" placeholder="Search people by name, email or department…"></div>
+            <div class="chips2" id="peopleFilters" style="margin:0 0 16px">
+              <button class="qchip on" data-pf="all">All people</button>
+              <button class="qchip" data-pf="flagged">Shadow-AI flagged</button>
+              <button class="qchip" data-pf="agents">Running agents</button>
+            </div>
+            <div class="sechead"><h2>People</h2><span class="r muted" style="font-size:12px" id="peopleCount">50 of 4,812 users</span></div>
+            <table class="t">
+              <thead><tr><th>Person</th><th>Department</th><th class="c">AI apps</th><th class="c">Agents</th><th class="c">MCP</th><th>Last active</th><th></th></tr></thead>
+              <tbody id="peopleTbody"></tbody>
+            </table>
+          </div>
+          <div id="personDetail" hidden></div>
+        </section>
+
+        <!-- SHADOW AI -->
+        <section class="view" data-view="shadow">
+          <div class="stats">
+            <div class="stat"><div class="v num" style="color:var(--warn)">642</div><div class="l">Shadow-AI users</div></div>
+            <div class="stat"><div class="v num" style="color:var(--crit)">23</div><div class="l">Unsanctioned tools</div></div>
+            <div class="stat"><div class="v num">406</div><div class="l">Personal accounts</div></div>
+            <div class="stat"><div class="v num">1,942</div><div class="l">Blocked attempts (90d)</div></div>
+          </div>
+          <div class="sechead"><h2>Unsanctioned domains</h2></div>
+          <div id="shDomains"></div>
+          <div class="sechead" style="margin-top:22px"><h2>Unregistered MCP servers</h2></div>
+          <div id="shMcp"></div>
+          <div class="sechead" style="margin-top:22px"><h2>Personal accounts</h2></div>
+          <div id="shAccounts"></div>
+        </section>
+
+        <!-- TRUST -->
+        <section class="view" data-view="trust">
+          <div class="trust-hero">
+            <div class="eyebrow">Northcrest Bank · AI Trust Center</div>
+            <h1>How we build and govern AI</h1>
+            <p>A public register of the AI systems we operate — the models and tools each one accesses, where data is processed, and the oversight in place. Maintained continuously by our AI governance platform.</p>
+            <div class="badges">
+              <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg> ISO/IEC 42001 · in progress</span>
+              <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg> ISO/IEC 27001 · certified</span>
+              <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg> SOC 2 Type II</span>
+              <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg> EU AI Act aligned</span>
+            </div>
+          </div>
+          <div class="sechead"><h2>AI Agents</h2><span class="r muted" style="font-size:12px" id="trustCount">Public register · updated 29 Sep 2026</span></div>
+          <div id="trustList"></div>
+        </section>
+
+        <!-- CONNECT -->
+        <section class="view" data-view="connect">
+          <div class="segmented" id="connSeg">
+            <button class="seg active" data-cseg="tools">Connect tools</button>
+            <button class="seg" data-cseg="deploy">Deploy endpoint agent</button>
+          </div>
+          <div id="connTools">
+            <div class="searchbar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input id="vendSearch" placeholder="Search integrations by name or category…"></div>
+            <div id="vendorCats"></div>
+          </div>
+          <div id="connDeploy" hidden>
+            <div class="deploy-card">
+              <div class="blab" style="margin-top:0">Step 1 · MDM connection</div>
+              <div class="drow"><span class="vlogo">JA</span><div><div class="dn">Jamf Pro</div><div class="dm">Mobile device management · 4,812 enrolled devices</div></div><span class="va" style="margin-left:auto"><span class="connected">Connected</span></span></div>
+              <div class="drow" style="margin-top:12px"><span class="vlogo">IN</span><div><div class="dn">Microsoft Intune</div><div class="dm">Alternative MDM source</div></div><span class="va" style="margin-left:auto"><button class="btn xs">Connect</button></span></div>
+            </div>
+            <div class="deploy-card">
+              <div class="blab" style="margin-top:0">Step 2 · TrismX endpoint package</div>
+              <div class="drow"><span class="vlogo">TX</span><div><div class="dn">TrismX Endpoint Agent v3.4</div><div class="dm">Signed package · scans AI touchpoints, browser extensions, local MCP servers</div></div><span class="va" style="margin-left:auto"><span class="tag">Target: all corporate laptops</span></span></div>
+            </div>
+            <div class="deploy-card">
+              <div class="blab" style="margin-top:0">Step 3 · Fleet deployment</div>
+              <div class="stats" style="margin-bottom:6px">
+                <div class="stat"><div class="v num">4,812</div><div class="l">Laptops in scope</div></div>
+                <div class="stat"><div class="v num" style="color:var(--ok)">4,760</div><div class="l">Deployed</div></div>
+                <div class="stat"><div class="v num" style="color:var(--warn)">52</div><div class="l">Pending</div></div>
+                <div class="stat"><div class="v num">0</div><div class="l">Failed</div></div>
+              </div>
+              <div class="cbar2"><i style="width:98.9%"></i></div>
+              <div class="muted" style="font-size:12px;margin-bottom:8px">98.9% coverage</div>
+              <div class="platrow"><span>macOS (Jamf)</span><span class="mono">2,140 / 2,140 · 100%</span></div>
+              <div class="platrow"><span>Windows (Jamf)</span><span class="mono">2,620 / 2,672 · 98.1%</span></div>
+              <div style="margin-top:14px;display:flex;gap:9px"><button class="btn primary sm">Push to 52 pending</button><button class="btn sm">View deployment log</button></div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Right drill-down drawer -->
+  <div class="drawer-back" id="drawerBack"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <button class="iconbtn" id="drawerBackBtn" style="display:none" title="Back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <div class="dtt"><div class="dt" id="drawerTitle">—</div><div class="ds" id="drawerSub"></div></div>
+      <button class="iconbtn" id="drawerClose" title="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+</div>
+
+<script>
+(function(){
+  /* ---------- AI systems data (illustrative) ---------- */
+  // component: {name, kind, source(int/ext/oss/mix), ver, host, provider?, detail{}}
+  var PROVIDERS = {
+    anthropic:{name:"Anthropic",detail:{"Category":"Foundation model","Access":"via Amazon Bedrock","Data residency":"AWS eu-west-1","Certifications":"SOC 2 Type II, ISO 27001","Training on our data":"No (Bedrock)"}},
+    aws:{name:"Amazon Web Services",detail:{"Category":"Cloud & models","Data residency":"eu-west-1","Certifications":"SOC 2 Type II, ISO 27001, ISO 42001","DPA":"in MSA"}},
+    workday:{name:"Workday",detail:{"Category":"HR / ATS","Data residency":"EU","Certifications":"SOC 2 Type II, ISO 27001","DPA":"14 Jan 2026","Sub-processors":"AWS"}},
+    google:{name:"Google",detail:{"Category":"Productivity / Calendar","Data residency":"EU","Certifications":"SOC 2, ISO 27001","DPA":"in Workspace terms"}},
+    microsoft:{name:"Microsoft",detail:{"Category":"Productivity / Foundation model","Data residency":"EU Data Boundary","Certifications":"SOC 2 Type II, ISO 27001, ISO 42001","DPA":"01 Jan 2026","Training on tenant data":"No (contractual)"}},
+    feedzai:{name:"Feedzai",detail:{"Category":"Fraud intelligence","Data residency":"EU","Certifications":"SOC 2 Type II, ISO 27001, PCI-DSS","DPA":"09 Feb 2026"}},
+    experian:{name:"Experian",detail:{"Category":"Credit bureau","Data residency":"EU","Certifications":"ISO 27001","DPA":"01 Jan 2026","Lawful basis":"Contract"}},
+    github:{name:"GitHub",detail:{"Category":"Developer AI","Data residency":"EU / US","Certifications":"SOC 2 Type II, ISO 27001","Content exclusion":"Enabled","Training on our code":"No (Business)"}},
+    jasper:{name:"Jasper",detail:{"Category":"Content generation","Data residency":"US (transfer review open)","Certifications":"SOC 2 Type II","DPA":"05 Feb 2026","Training on our data":"No"}}
+  };
+
+  var SYSTEMS = [
+    { name:"Candidate Screening Assistant", origin:"int",
+      owner:{n:"Aoife Nolan", role:"Head of Talent Acquisition", e:"aoife.nolan@northcrestbank.ie"},
+      purpose:"Ranks applicants and drafts interview scheduling for recruiters.",
+      id:{"System ID":"AIS-0071","Type":"Internally developed · agentic","Lifecycle":"Production · v1.4.2","In service since":"02 Apr 2026","Deployment":"AWS eu-west-1 · EKS prod-agents-hr"},
+      bom:[
+        {name:"Claude 3.7 Sonnet",kind:"model",source:"ext",ver:"anthropic.claude-3-7-sonnet-20250219",host:"AWS eu-west-1",provider:"anthropic",detail:{"Provider":"Anthropic (via AWS Bedrock)","Model ID":"anthropic.claude-3-7-sonnet-20250219","Modality":"Text","Context window":"200K tokens","Hosting region":"AWS eu-west-1","Access":"Bedrock InvokeModel API"}},
+        {name:"Amazon Titan Text Embeddings V2",kind:"model",source:"ext",ver:"amazon.titan-embed-text-v2:0",host:"AWS eu-west-1",provider:"aws",detail:{"Provider":"Amazon Web Services","Model ID":"amazon.titan-embed-text-v2:0","Modality":"Embeddings","Dimensions":"1024","Hosting region":"AWS eu-west-1","Access":"Bedrock"}},
+        {name:"Workday Recruiting — talent ranking",kind:"vendor",source:"ext",ver:"Workday 2026R1",host:"Workday Cloud (EU)",provider:"workday",detail:{"Vendor":"Workday","Function":"ATS talent ranking","Data residency":"EU","Access":"Workday REST v2"}},
+        {name:"CV Parser service",kind:"service",source:"int",ver:"northcrest/cv-parser@e3a91f2",host:"AWS eu-west-1",detail:{"Repository":"github.com/northcrest/cv-parser","Language":"Python 3.12","Owner team":"Talent Platform","Endpoint":"internal gRPC"}},
+        {name:"Agent orchestrator",kind:"service",source:"oss",ver:"LangGraph 0.4.6",host:"AWS EKS",detail:{"Package":"LangGraph 0.4.6","License":"MIT","Type":"Agent framework","SBOM":"sbom-screening-1.4.2.spdx"}},
+        {name:"Role knowledge base (RAG)",kind:"data",source:"int",ver:"OpenSearch kb-roles-v4",host:"AWS eu-west-1",detail:{"Store":"OpenSearch","Index":"kb-roles-v4","Records":"3,120 docs","Classification":"Internal","Owner":"Talent Platform"}},
+        {name:"calendar.schedule_interview",kind:"tool",source:"ext",ver:"Google Calendar API v3",host:"Google SaaS",provider:"google",detail:{"Integration":"Google Calendar","Scope":"Write — create events","Auth principal":"svc-screening-agent (OAuth)","API":"Calendar API v3"}}
+      ]},
+    { name:"Fraud Signal Scorer", origin:"int",
+      owner:{n:"Cian Murphy", role:"Head of Financial Crime", e:"cian.murphy@northcrestbank.ie"},
+      purpose:"Scores transactions for fraud likelihood and routes cases to analysts.",
+      id:{"System ID":"AIS-0068","Type":"Internally developed · scoring","Lifecycle":"Production · v3.2.0","In service since":"21 Nov 2025","Deployment":"AWS eu-west-1 · SageMaker"},
+      bom:[
+        {name:"Fraud scorecard model",kind:"model",source:"int",ver:"fraud-xgb-v3.2 · mr-4821",host:"AWS SageMaker",detail:{"Type":"XGBoost classifier","Registry ID":"mr-4821","Version":"v3.2","Framework":"XGBoost 2.0","Hosting":"SageMaker eu-west-1","Trained on":"Internal transaction data"}},
+        {name:"GPT-4o case summariser",kind:"model",source:"ext",ver:"gpt-4o-2024-11-20",host:"Azure North Europe",provider:"microsoft",detail:{"Provider":"Microsoft Azure OpenAI","Model ID":"gpt-4o-2024-11-20","Modality":"Text","Hosting region":"Azure North Europe","Access":"Azure OpenAI endpoint"}},
+        {name:"Feedzai behavioural signals",kind:"vendor",source:"ext",ver:"Feedzai 6.4",host:"Feedzai (EU)",provider:"feedzai",detail:{"Vendor":"Feedzai","Function":"Device & behavioural fraud signals","Data residency":"EU","Access":"Feedzai API"}},
+        {name:"Feature store",kind:"service",source:"oss",ver:"Feast 0.36",host:"AWS eu-west-1",detail:{"Package":"Feast 0.36","License":"Apache-2.0","Purpose":"Feature serving"}},
+        {name:"Case-routing agent",kind:"service",source:"int",ver:"northcrest/case-router@a17c4b",host:"AWS EKS",detail:{"Repository":"github.com/northcrest/case-router","Language":"Go","Owner team":"Financial Crime Eng","Scope":"Write — queue assignment"}},
+        {name:"Guardrails",kind:"control",source:"int",ver:"GW-FRAUD-v2",host:"Inline",detail:{"Type":"Runtime guardrail","Policy":"GW-FRAUD-v2","Enforcement point":"TrismX Gateway (inline)","Coverage":"100% egress"}}
+      ]},
+    { name:"Credit Limit Recommender", origin:"int",
+      owner:{n:"Fintan Walsh", role:"Head of Retail Credit", e:"fintan.walsh@northcrestbank.ie"},
+      purpose:"Recommends retail credit limits with adverse-action reason codes.",
+      id:{"System ID":"AIS-0063","Type":"Internally developed · scoring","Lifecycle":"Production · v4.1","In service since":"09 Sep 2025","Deployment":"AWS eu-west-1 · SageMaker"},
+      bom:[
+        {name:"Credit scorecard model",kind:"model",source:"int",ver:"credit-scorecard-v4.1 · mr-3390",host:"AWS SageMaker",detail:{"Type":"Gradient-boosted scorecard","Registry ID":"mr-3390","Version":"v4.1","Hosting":"SageMaker eu-west-1","Trained on":"Internal + bureau data"}},
+        {name:"Experian bureau data",kind:"data",source:"ext",ver:"Experian Connect API",host:"Experian (EU)",provider:"experian",detail:{"Provider":"Experian","Function":"Credit bureau data","Data residency":"EU","Access":"Experian Connect API","Lawful basis":"Contract"}},
+        {name:"Explainability service",kind:"service",source:"oss",ver:"SHAP 0.45",host:"AWS eu-west-1",detail:{"Package":"SHAP 0.45","License":"MIT","Purpose":"Reason-code generation"}},
+        {name:"Decision service",kind:"service",source:"int",ver:"northcrest/credit-decision@22d1",host:"AWS EKS",detail:{"Repository":"github.com/northcrest/credit-decision","Language":"Java","Owner team":"Retail Credit Eng","Scope":"Write — decision record"}},
+        {name:"Guardrails",kind:"control",source:"int",ver:"GW-CREDIT-v3",host:"Inline",detail:{"Type":"Runtime guardrail","Policy":"GW-CREDIT-v3","Enforcement point":"TrismX Gateway (inline)","Coverage":"100% egress"}}
+      ]},
+    { name:"M365 Copilot — Finance &amp; HR", origin:"ext",
+      owner:{n:"Sinéad Byrne", role:"Digital Workplace Lead, CFO Office", e:"sinead.byrne@northcrestbank.ie"},
+      purpose:"Summarises documents and drafts content over tenant data for Finance & HR staff.",
+      id:{"System ID":"AIS-0057","Type":"Vendor SaaS assistant (configured)","Vendor":"Microsoft (Enterprise Agreement)","Lifecycle":"Production · 640 licensed","In service since":"04 May 2026","Deployment":"Microsoft EU Data Boundary"},
+      bom:[
+        {name:"Copilot orchestrator + LLMs",kind:"model",source:"ext",ver:"Microsoft (GPT-4 class)",host:"MS EU Data Boundary",provider:"microsoft",detail:{"Provider":"Microsoft","Models":"GPT-4 class (managed)","Configurable":"No","Hosting":"MS EU Data Boundary","Training on tenant data":"No (contractual)"}},
+        {name:"Microsoft Graph grounding",kind:"vendor",source:"ext",ver:"tenant retrieval",host:"Tenant",provider:"microsoft",detail:{"Vendor":"Microsoft","Function":"Retrieval over tenant data","Scope":"Read — permission-trimmed","Data residency":"EU"}},
+        {name:"Copilot Studio agents (3)",kind:"tool",source:"int",ver:"northcrest tenant",host:"Tenant",detail:{"Agents":"FinPolicyBot (read), InvoiceTriage (write: Planner), HR-FAQ (read)","Config owner":"M365 Platform","Scope":"Mixed"}},
+        {name:"Connectors / plugins",kind:"tool",source:"mix",ver:"6 approved",host:"Tenant",detail:{"Count":"6 allow-listed","Scope":"Mixed read / write","Governance":"Admin allow-list"}},
+        {name:"Purview sensitivity + DLP",kind:"control",source:"int",ver:"Purview policy",host:"Tenant",detail:{"Control":"Sensitivity labels + DLP","Enforcement point":"Microsoft Purview","Scope":"Grounding + prompts"}},
+        {name:"TrismX Gateway",kind:"control",source:"int",ver:"GW-M365-v1",host:"Inline",detail:{"Policy":"GW-M365-v1","Enforcement point":"Inline (browser + API)","Coverage":"100%"}}
+      ]},
+    { name:"GitHub Copilot — Engineering", origin:"ext",
+      owner:{n:"Harish Menon", role:"Head of Engineering Enablement", e:"harish.menon@northcrestbank.ie"},
+      purpose:"AI pair-programming assistant for the engineering organisation.",
+      id:{"System ID":"AIS-0082","Type":"Vendor SaaS (configured)","Vendor":"GitHub (Copilot Business)","Lifecycle":"Production · 210 seats","In service since":"03 Mar 2026","Deployment":"IDE extension · GitHub cloud"},
+      bom:[
+        {name:"GitHub Copilot model",kind:"model",source:"ext",ver:"GPT-4 class + Codex-derived",host:"GitHub cloud (EU/US)",provider:"github",detail:{"Provider":"GitHub / OpenAI","Models":"GPT-4 class + Codex-derived","Hosting":"GitHub cloud","Training on our code":"No (Business — content exclusion)","Access":"IDE extension"}},
+        {name:"Copilot IDE extension",kind:"tool",source:"ext",ver:"VS Code / JetBrains",host:"Endpoint",provider:"github",detail:{"Vendor":"GitHub","Scope":"Read repo context in IDE","Managed via":"MDM-pushed extension policy"}},
+        {name:"Content exclusion policy",kind:"control",source:"int",ver:"org content-exclusion",host:"GitHub org",detail:{"Control":"Repo / path content exclusions","Enforcement point":"GitHub org settings","Scope":"Secrets & sensitive repos"}},
+        {name:"TrismX Endpoint Agent",kind:"control",source:"int",ver:"EP-POL-COPILOT-01",host:"Endpoint",detail:{"Policy":"EP-POL-COPILOT-01","Enforcement point":"Endpoint","Scope":"Usage telemetry + DLP"}}
+      ]},
+    { name:"Marketing Copy Generator", origin:"ext",
+      owner:{n:"Ella Brennan", role:"VP Marketing", e:"ella.brennan@northcrestbank.ie"},
+      purpose:"Drafts campaign and marketing copy from briefs.",
+      id:{"System ID":"AIS-0079","Type":"Vendor SaaS (configured)","Vendor":"Jasper AI","Lifecycle":"Production · 45 seats","In service since":"12 Feb 2026","Deployment":"Jasper Cloud (US)"},
+      bom:[
+        {name:"Jasper AI",kind:"model",source:"ext",ver:"Jasper (GPT-4 class)",host:"Jasper Cloud (US)",provider:"jasper",detail:{"Vendor":"Jasper","Underlying models":"GPT-4 class (OpenAI / Anthropic)","Hosting":"Jasper Cloud (US)","Data residency":"US — transfer review open","Training on our data":"No"}},
+        {name:"Brand voice KB connector",kind:"data",source:"int",ver:"northcrest/brand-kb@0d13",host:"AWS eu-west-1",detail:{"Repository":"github.com/northcrest/brand-kb","Content":"Brand guidelines (no PII)","Owner team":"MarTech"}},
+        {name:"TrismX Gateway",kind:"control",source:"int",ver:"GW-MKT-v1",host:"Inline",detail:{"Policy":"GW-MKT-v1","Enforcement point":"Inline API","Coverage":"100%"}}
+      ]}
+  ];
+
+  var SRC={int:"Internal",ext:"External",oss:"OSS",mix:"Mixed"};
+  var KIND={model:"Model",vendor:"Vendor feature",tool:"Tool",control:"Control",service:"Service",data:"Data"};
+
+  function esc(s){return (''+s);}
+  function usedBy(name){ return SYSTEMS.filter(function(s){return s.bom.some(function(c){return c.name===name;});}).map(function(s){return s.name;}); }
+  function originLine(bom){var e=0,i=0,o=0;bom.forEach(function(c){if(c.source==='ext')e++;else if(c.source==='oss')o++;else i++;});return e+' external · '+i+' internal · '+o+' OSS';}
+
+  /* ----- Table ----- */
+  function modelsOf(s){return s.bom.filter(function(c){return c.kind==='model';});}
+  function renderTable(){
+    document.getElementById('sysTbody').innerHTML = SYSTEMS.map(function(s,i){
+      var mods = modelsOf(s).map(function(c){return '<span class="mchip">'+c.name+'</span>';}).join('');
+      return '<tr class="clk" data-open="sys:'+i+'">'+
+        '<td><div class="ttl">'+s.name+'</div><div class="tsub">'+s.purpose+'</div></td>'+
+        '<td><div class="ttl" style="font-weight:500">'+s.owner.n+'</div><div class="tsub">'+s.owner.role+'</div></td>'+
+        '<td class="c">'+s.bom.length+'</td>'+
+        '<td><div class="modlist">'+mods+'</div></td>'+
+        '<td style="text-align:right;color:var(--muted)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></td>'+
+      '</tr>';
+    }).join('');
+  }
+  renderTable();
+
+  /* ----- Drawer ----- */
+  var dBack=document.getElementById('drawerBack'), dEl=document.getElementById('drawer'),
+      dTitle=document.getElementById('drawerTitle'), dSub=document.getElementById('drawerSub'),
+      dBody=document.getElementById('drawerBody'), dBackBtn=document.getElementById('drawerBackBtn');
+  var stack=[];
+  function openDrawer(frame){ stack.push(frame); paint(); dBack.classList.add('open'); dEl.classList.add('open'); dEl.setAttribute('aria-hidden','false'); }
+  function paint(){ var f=stack[stack.length-1]; dTitle.innerHTML=f.title; dSub.textContent=f.sub||''; dBody.innerHTML=f.html(); dBody.scrollTop=0; dBackBtn.style.display = stack.length>1?'grid':'none'; }
+  function closeDrawer(){ stack=[]; dBack.classList.remove('open'); dEl.classList.remove('open'); dEl.setAttribute('aria-hidden','true'); }
+  dBack.addEventListener('click',closeDrawer);
+  document.getElementById('drawerClose').addEventListener('click',closeDrawer);
+  dBackBtn.addEventListener('click',function(){ stack.pop(); paint(); });
+
+  function kv(obj){ return '<dl class="flowbox">'+Object.keys(obj).map(function(k){return '<dt>'+k+'</dt><dd>'+obj[k]+'</dd>';}).join('')+'</dl>'; }
+  function srcBadge(src){ return '<span class="src '+src+'">'+SRC[src].toUpperCase()+'</span>'; }
+
+  function systemFrame(i){
+    var s=SYSTEMS[i];
+    return { title:s.name, sub:s.id["System ID"],
+      html:function(){
+        var rows=s.bom.map(function(c,j){
+          return '<tr class="clk" data-open="comp:'+i+':'+j+'">'+
+            '<td class="cmp">'+c.name+'</td>'+
+            '<td>'+KIND[c.kind]+'</td>'+
+            '<td>'+srcBadge(c.source)+'</td>'+
+            '<td style="text-align:right;color:var(--muted)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></td>'+
+          '</tr>';
+        }).join('');
+        return '<div class="blab">Identity</div><div class="idstrip">'+
+            Object.keys(s.id).map(function(k){return '<span class="kt">'+k+': <b>'+s.id[k]+'</b></span>';}).join('')+'</div>'+
+          '<div class="blab">Purpose</div><p style="margin:0;font-size:13px;color:var(--ink-2)">'+s.purpose+'</p>'+
+          '<div class="blab">Owner</div><div class="own" style="max-width:340px"><div class="n">'+s.owner.n+'</div><div class="role">'+s.owner.role+'</div><div class="e">'+s.owner.e+'</div></div>'+
+          '<div class="blab">AI Bill of Materials<span class="rt">'+originLine(s.bom)+'</span></div>'+
+          '<table class="bt"><thead><tr><th>Component</th><th>Type</th><th>Source</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>'+
+          '<div class="legend"><span><i style="background:var(--accent)"></i>Internal</span><span><i style="background:var(--blue)"></i>External</span><span><i style="background:var(--muted)"></i>OSS</span><span class="muted">Click a component for detail</span></div>';
+      }};
+  }
+  function compFrame(c){
+    return { title:c.name, sub:KIND[c.kind],
+      html:function(){
+        var h='<div class="badgerow">'+srcBadge(c.source)+'<span class="tag">'+KIND[c.kind]+'</span></div>';
+        var base={"Version / ID":c.ver,"Hosting":c.host};
+        h+=kv(Object.assign(base, c.detail||{}));
+        if(c.provider){ h+='<div class="blab">Vendor</div><div class="litem" data-open="prov:'+c.provider+'"><div class="li-ic">'+PROVIDERS[c.provider].name.slice(0,2).toUpperCase()+'</div><div><div class="nm">'+PROVIDERS[c.provider].name+'</div><div class="sub">View vendor profile</div></div><svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>'; }
+        var ub=usedBy(c.name);
+        h+='<div class="blab">Used by</div><div class="usedby">'+ub.map(function(n){return '<span class="ub">'+n+'</span>';}).join('')+'</div>';
+        return h;
+      }};
+  }
+  function compByName(name){ for(var i=0;i<SYSTEMS.length;i++){for(var j=0;j<SYSTEMS[i].bom.length;j++){if(SYSTEMS[i].bom[j].name===name)return SYSTEMS[i].bom[j];}} }
+  function providerFrame(key){
+    var p=PROVIDERS[key];
+    return { title:p.name, sub:"External vendor",
+      html:function(){
+        var comps=[]; var seen={};
+        SYSTEMS.forEach(function(s){ s.bom.forEach(function(c){ if(c.provider===key && !seen[c.name]){seen[c.name]=1; comps.push(c);} }); });
+        var h=kv(p.detail);
+        h+='<div class="blab">Components from this vendor</div>';
+        h+=comps.map(function(c){ return '<div class="litem" data-open="cname:'+encodeURIComponent(c.name)+'"><div class="li-ic">'+KIND[c.kind].slice(0,2)+'</div><div><div class="nm">'+c.name+'</div><div class="sub">'+KIND[c.kind]+' · '+c.host+'</div></div><svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>'; }).join('');
+        return h;
+      }};
+  }
+  /* ----- Inline lists for the stat tiles (rendered on the page, not the drawer) ----- */
+  function inlineTable(title, sub, head, rows){
+    return '<div class="sechead"><h2>'+title+'</h2><span class="r muted" style="font-size:12px">'+sub+'</span></div>'+
+      '<table class="t"><thead><tr>'+head.map(function(h){return '<th'+(h.c?' class="c"':'')+'>'+h.t+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table>';
+  }
+  // org-wide AI apps & domains discovered by gateway + endpoint
+  var INV_APPS=[
+    ["Microsoft 365 Copilot","Assistant","SSO · Entra ID","640","Sanctioned","ok"],
+    ["ChatGPT Enterprise","Assistant","SSO · SCIM","1,240","Sanctioned","ok"],
+    ["GitHub Copilot","Code","SSO · Entra ID","210","Sanctioned","ok"],
+    ["Notion AI","Docs","OAuth grant","460","Sanctioned","ok"],
+    ["Jasper","Content","API key","45","Sanctioned","ok"],
+    ["Claude (claude.ai)","Assistant","Gateway-proxied","380","Monitored","warn"],
+    ["Google Gemini","Assistant","Gateway-proxied","210","Monitored","warn"],
+    ["Grammarly","Writing","Browser extension","720","Coached","warn"],
+    ["Perplexity","Research","Personal account","95","Blocked","crit"],
+    ["DeepSeek","Assistant","Personal account","22","Blocked","crit"]
+  ];
+  var INV_DOMAINS=[
+    ["copilot.microsoft.com","M365 Copilot","Allow","312K","ok"],
+    ["api.githubcopilot.com","GitHub Copilot","Allow","1.1M","ok"],
+    ["chatgpt.com","ChatGPT","Coach → enterprise","486K","warn"],
+    ["api.openai.com","ChatGPT Enterprise","Allow · enterprise key","902K","ok"],
+    ["claude.ai","Claude","Allow","198K","ok"],
+    ["api.anthropic.com","Bedrock / API","Allow","1.4M","ok"],
+    ["gemini.google.com","Gemini","Coach","141K","warn"],
+    ["jasper.ai","Jasper","Allow · US flagged","61K","warn"],
+    ["perplexity.ai","Perplexity","Block","4.2K","crit"],
+    ["chat.deepseek.com","DeepSeek","Block","1.1K","crit"]
+  ];
+  var INV_MCP=[
+    ["github-mcp","stdio","Repo read / write","Engineering","Registered","ok"],
+    ["filesystem-mcp","stdio","Scoped: ~/work","Engineering","Registered","ok"],
+    ["slack-mcp","http","Channels read","Cross-org","Registered","ok"],
+    ["jira-mcp","http","Issues read / write","Eng / PM","Registered","ok"],
+    ["aws-mcp","http","Cloud read","Platform","Registered","ok"],
+    ["notion-mcp","http","Pages read / write","Cross-org","Registered","ok"],
+    ["postgres-mcp","stdio","DB read (prod)","LT-ENG-0441","Unregistered","crit"],
+    ["brave-search-mcp","stdio","Web search","LT-MKT-0117","Unregistered","crit"],
+    ["custom-crm-mcp","stdio","CRM read","LT-SAL-0223","Unregistered","crit"]
+  ];
+  function renderInline(kind){
+    if(kind==='mcp'){
+      var rows=INV_MCP.map(function(m){return '<tr><td class="ttl mono" style="font-size:12.5px">'+m[0]+'</td><td>'+m[1]+'</td><td class="muted">'+m[2]+'</td><td>'+m[3]+'</td><td><span class="pill '+m[5]+'">'+m[4]+'</span></td></tr>';}).join('');
+      return inlineTable('MCP servers', INV_MCP.length+' MCP servers detected · '+INV_MCP.filter(function(m){return m[4]==='Unregistered';}).length+' unregistered', [{t:'Server'},{t:'Transport'},{t:'Scope'},{t:'Host / team'},{t:'Status'}], rows);
+    }
+    if(kind==='apps'){
+      var rows=INV_APPS.map(function(a){return '<tr><td class="ttl">'+a[0]+'</td><td>'+a[1]+'</td><td class="muted">'+a[2]+'</td><td class="c">'+a[3]+'</td><td><span class="pill '+a[5]+'">'+a[4]+'</span></td></tr>';}).join('');
+      return inlineTable('Apps in use', INV_APPS.length+' AI applications discovered', [{t:'Application'},{t:'Category'},{t:'Access'},{t:'Users',c:1},{t:'Status'}], rows);
+    }
+    if(kind==='domains'){
+      var rows=INV_DOMAINS.map(function(d){return '<tr><td class="ttl mono" style="font-size:12.5px">'+d[0]+'</td><td>'+d[1]+'</td><td class="c">'+d[3]+'</td></tr>';}).join('');
+      return inlineTable('Domains in use', INV_DOMAINS.length+' AI domains seen (Q3 requests)', [{t:'Domain'},{t:'Service'},{t:'Requests',c:1}], rows);
+    }
+    if(kind==='models'){
+      var seen={}, items=[];
+      SYSTEMS.forEach(function(s){s.bom.forEach(function(c){if(c.kind==='model'&&!seen[c.name]){seen[c.name]=1;items.push(c);}});});
+      var rows=items.map(function(c){var ub=usedBy(c.name);
+        return '<tr><td class="ttl">'+c.name+'</td><td>'+(c.provider?PROVIDERS[c.provider].name:'In-house')+'</td><td>'+srcBadge(c.source)+'</td><td><span class="ver mono" style="font-size:11.5px">'+c.ver+'</span></td><td>'+c.host+'</td><td>'+ub.join(', ')+'</td></tr>';
+      }).join('');
+      return inlineTable('Models in use', items.length+' models', [{t:'Model'},{t:'Provider'},{t:'Source'},{t:'Version / ID'},{t:'Hosting'},{t:'Used by'}], rows);
+    }
+    if(kind==='vendors'){
+      var keys={}; SYSTEMS.forEach(function(s){s.bom.forEach(function(c){if(c.provider)keys[c.provider]=1;});});
+      var rows=Object.keys(keys).map(function(k){var p=PROVIDERS[k];var comps=[];SYSTEMS.forEach(function(s){s.bom.forEach(function(c){if(c.provider===k&&comps.indexOf(c.name)<0)comps.push(c.name);});});
+        return '<tr><td class="ttl">'+p.name+'</td><td>'+p.detail.Category+'</td><td>'+(p.detail["Data residency"]||'—')+'</td><td>'+(p.detail.Certifications||'—')+'</td><td>'+comps.join(', ')+'</td></tr>';
+      }).join('');
+      return inlineTable('External vendors', Object.keys(keys).length+' vendors', [{t:'Vendor'},{t:'Category'},{t:'Data residency'},{t:'Certifications'},{t:'Components'}], rows);
+    }
+    var all=[]; SYSTEMS.forEach(function(s){s.bom.forEach(function(c){all.push({c:c,sys:s.name});});});
+    var rows=all.map(function(o){
+      return '<tr><td class="ttl">'+o.c.name+'</td><td>'+o.sys+'</td><td>'+KIND[o.c.kind]+'</td><td>'+srcBadge(o.c.source)+'</td><td><span class="ver mono" style="font-size:11.5px">'+o.c.ver+'</span></td><td>'+o.c.host+'</td></tr>';
+    }).join('');
+    return inlineTable('AI-BOM components', all.length+' components across '+SYSTEMS.length+' systems', [{t:'Component'},{t:'System'},{t:'Type'},{t:'Source'},{t:'Version / ID'},{t:'Hosting'}], rows);
+  }
+
+  // delegation: system table rows → right panel (only the table's items use the drawer)
+  document.getElementById('sysTbody').addEventListener('click',function(e){
+    var tr=e.target.closest('[data-open]'); if(!tr)return;
+    var p=tr.getAttribute('data-open').split(':'); if(p[0]==='sys') openDrawer(systemFrame(+p[1]));
+  });
+  // tab counts
+  (function(){
+    var comps=0, models={}, provs={};
+    SYSTEMS.forEach(function(s){ s.bom.forEach(function(c){ comps++; if(c.kind==='model')models[c.name]=1; if(c.provider)provs[c.provider]=1; }); });
+    document.getElementById('cntSys').textContent=SYSTEMS.length;
+    document.getElementById('cntVend').textContent=Object.keys(provs).length;
+    document.getElementById('cntMod').textContent=Object.keys(models).length;
+    document.getElementById('cntApp').textContent=INV_APPS.length;
+    document.getElementById('cntDom').textContent=INV_DOMAINS.length;
+    document.getElementById('cntMcp').textContent=INV_MCP.length;
+  })();
+  // inventory tabs → independent sections (systems is default)
+  var inlineEl=document.getElementById('invInline'), sysEl=document.getElementById('invSystems');
+  document.querySelectorAll('#invTabs .fwtab').forEach(function(t){
+    t.addEventListener('click',function(){
+      var k=t.getAttribute('data-inv');
+      document.querySelectorAll('#invTabs .fwtab').forEach(function(x){x.classList.toggle('active', x===t);});
+      if(k==='systems'){ sysEl.hidden=false; inlineEl.hidden=true; return; }
+      sysEl.hidden=true; inlineEl.innerHTML=renderInline(k); inlineEl.hidden=false;
+    });
+  });
+  // delegation: inside drawer
+  dBody.addEventListener('click',function(e){
+    var el=e.target.closest('[data-open]'); if(!el)return;
+    var p=el.getAttribute('data-open').split(':');
+    if(p[0]==='sys') openDrawer(systemFrame(+p[1]));
+    else if(p[0]==='comp') openDrawer(compFrame(SYSTEMS[+p[1]].bom[+p[2]]));
+    else if(p[0]==='cname') openDrawer(compFrame(compByName(decodeURIComponent(p.slice(1).join(':')))));
+    else if(p[0]==='prov') openDrawer(providerFrame(p[1]));
+  });
+
+  /* ---------- Compliance: ISO/IEC 42001 Annex A ---------- */
+  var OWN = {
+    gov:["Órla Byrne","AI Governance Lead","orla.byrne@northcrestbank.ie"],
+    ciso:["Declan Harte","CISO","declan.harte@northcrestbank.ie"],
+    dpo:["Maeve Kennedy","Data Protection Officer","maeve.kennedy@northcrestbank.ie"],
+    data:["Ruairí Flynn","Head of Data Governance","ruairi.flynn@northcrestbank.ie"],
+    mlops:["Lena Fischer","MLOps Lead","lena.fischer@northcrestbank.ie"],
+    mlplat:["Dev Patel","ML Platform Lead","dev.patel@northcrestbank.ie"],
+    vendor:["Grace O'Sullivan","Head of Vendor Risk","grace.osullivan@northcrestbank.ie"],
+    hr:["Colm Doyle","HR Operations Lead","colm.doyle@northcrestbank.ie"],
+    sec:["Niall Brady","Security Engineering Lead","niall.brady@northcrestbank.ie"]
+  };
+  // evidence: [title, source, status(c=collected,s=stale,m=missing), date]
+  var DOMAINS = [
+    {id:"A.2", name:"AI policies", ctl:[
+      ["A.2.2","AI policy","gov","ok","The organization shall document an AI policy, approved by top management, setting its principles for developing and using AI.",[
+        ["AI Acceptable-Use Policy v4 — approved by CISO","TrismX policy module","c","12 Aug 2026"],
+        ["Policy-acknowledgement completion 95.6%","Workday Learning","c","24 Sep 2026"],
+        ["GenAI app-control policy (allow / block / coach)","Netskope","c","auto"]]],
+      ["A.2.3","Alignment with other policies","gov","ok","The AI policy shall be kept consistent with other organizational policies (infosec, privacy, HR, ethics).",[
+        ["Policy cross-reference map → ISO 27001 / Privacy / HR","TrismX","c","12 Aug 2026"],
+        ["AI processing reflected in RoPA","OneTrust","c","03 Sep 2026"]]],
+      ["A.2.4","Review of the AI policy","gov","partial","The AI policy shall be reviewed at planned intervals or when significant changes occur.",[
+        ["Last reviewed 12 Aug 2026 · next due 12 Feb 2027","TrismX","c","12 Aug 2026"],
+        ["Recurring policy-review task","Jira SEC-REV-42","s","overdue 9 d"]]]
+    ]},
+    {id:"A.3", name:"Internal organization", ctl:[
+      ["A.3.2","AI roles and responsibilities","gov","ok","Roles and responsibilities for the AI management system shall be defined and allocated.",[
+        ["'AI Governance' group — 9 named members provisioned","Okta","c","auto"],
+        ["RACI / control-ownership map + AI governance charter","TrismX","c","01 Sep 2026"]]],
+      ["A.3.3","Reporting of concerns","ciso","ok","A mechanism shall exist for people to report concerns about AI systems (misuse, harm, ethics).",[
+        ["AI-concern request type · 4 reports resolved","ServiceNow","c","auto"],
+        ["#report-ai-concern workflow configured","Microsoft Teams","c","auto"]]]
+    ]},
+    {id:"A.4", name:"Resources for AI systems", ctl:[
+      ["A.4.2","Resource documentation","gov","ok","Resources needed for AI systems (data, tooling, compute, people) shall be identified and documented.",[
+        ["AI-system inventory — 63 apps · 6 systems","TrismX discovery","c","auto"],
+        ["Deployed model endpoints + compute","AWS Bedrock / Azure OpenAI","c","auto"]]],
+      ["A.4.3","Data resources","data","ok","Information about the data resources used for AI systems shall be documented.",[
+        ["Datasets with classification & owners","Microsoft Purview","c","auto"],
+        ["RAG / knowledge-base sources per model","Bedrock KB","c","auto"]]],
+      ["A.4.4","Tooling resources","mlplat","ok","Information about the tooling resources used for AI systems shall be documented.",[
+        ["Registered frameworks & pipelines per model","SageMaker / MLflow","c","auto"],
+        ["SBOM + dependency manifests per repo","GitHub","c","auto"]]],
+      ["A.4.5","System & computing resources","mlplat","ok","Information about system and computing resources used for AI systems shall be documented.",[
+        ["Compute inventory tagged to AI workloads","AWS","c","auto"],
+        ["AI resource posture & configuration","Wiz","c","auto"]]],
+      ["A.4.6","Human resources","hr","partial","Human resources (competencies, roles) required for AI systems shall be documented.",[
+        ["Roles / skills mapped to AI systems","Workday","c","auto"],
+        ["AI-literacy training completion — 28 overdue","Workday Learning","s","95.6%"]]]
+    ]},
+    {id:"A.5", name:"Assessing impacts of AI systems", ctl:[
+      ["A.5.2","Impact assessment process","gov","ok","A process shall assess potential consequences of AI systems on individuals, groups, and society.",[
+        ["AISIA template + trigger criteria defined","TrismX","c","01 Aug 2026"],
+        ["Impact assessment gated in intake workflow","ServiceNow","c","auto"]]],
+      ["A.5.3","Documentation of impact assessments","gov","ok","Results of AI system impact assessments shall be documented and retained.",[
+        ["6 completed AISIA records with sign-off","TrismX","c","auto"],
+        ["Assessments retained & versioned","SharePoint","c","auto"]]],
+      ["A.5.4","Impacts on individuals & groups","dpo","partial","Potential impacts of AI systems on individuals and groups shall be assessed.",[
+        ["Bias / fairness tests by affected group","SageMaker Clarify","c","5 of 6 systems"],
+        ["Fairness test — Fraud Signal Scorer","SageMaker Clarify","m","not on record"]]],
+      ["A.5.5","Societal impacts","gov","ok","Potential broader societal impacts of AI systems shall be assessed.",[
+        ["Societal-impact section of each AISIA","TrismX","c","auto"]]]
+    ]},
+    {id:"A.6", name:"AI system life cycle", ctl:[
+      ["A.6.1.2","Objectives for responsible development","mlplat","ok","Objectives to guide the responsible development of AI systems shall be documented.",[
+        ["Responsible-development objectives approved","TrismX","c","01 Aug 2026"],
+        ["Model-card 'intended purpose' per model","SageMaker Model Registry","c","auto"]]],
+      ["A.6.1.3","Processes for responsible design","mlops","ok","Processes for responsible design and development of AI systems shall be defined.",[
+        ["Gated pipeline stages enforced","MLflow","c","auto"],
+        ["Branch protection + required PR review","GitHub","c","auto"]]],
+      ["A.6.2.2","Requirements & specification","mlplat","ok","Requirements for new AI systems or material enhancements shall be specified.",[
+        ["Requirement epics linked per system","Jira","c","auto"],
+        ["Model-card requirement & constraint fields","SageMaker","c","auto"]]],
+      ["A.6.2.3","Design & development documentation","mlplat","ok","The design and development of AI systems shall be documented.",[
+        ["Model cards + experiment lineage","MLflow","c","auto"],
+        ["Architecture decision records + commit history","GitHub","c","auto"]]],
+      ["A.6.2.4","Verification & validation","mlops","gap","V&V measures for AI systems shall be defined, used, and their results retained.",[
+        ["Eval results / benchmarks per version","Bedrock Evaluations","c","4 of 6 systems"],
+        ["Red-team / adversarial test — Fraud Signal Scorer","Lakera","m","not on record"]]],
+      ["A.6.2.5","Deployment","mlops","ok","Requirements and controls for deploying AI systems into use shall be applied.",[
+        ["Deployment approvals + release history","GitHub Actions","c","auto"],
+        ["Model-promotion approvals (staging → prod)","SageMaker","c","auto"]]],
+      ["A.6.2.6","Operation & monitoring","mlops","partial","Controls needed to operate and monitor AI systems in production shall be applied.",[
+        ["Drift / performance monitors configured","Fiddler","c","2 open drift alerts"],
+        ["Runtime policy-violation events","TrismX Gateway","c","auto"]]],
+      ["A.6.2.7","Technical documentation","mlplat","partial","Technical documentation appropriate to its audience shall be maintained per AI system.",[
+        ["Model cards / technical docs per version","MLflow","c","auto"],
+        ["Annex-IV technical file — Credit Limit Recommender","Confluence","m","not compiled"]]],
+      ["A.6.2.8","Event logging","sec","ok","Events AI systems record during operation shall be determined and the logs maintained.",[
+        ["AI event logs retained 12 months","Splunk","c","auto"],
+        ["Prompt / response + decision logging enabled","TrismX Gateway","c","auto"]]]
+    ]},
+    {id:"A.7", name:"Data for AI systems", ctl:[
+      ["A.7.2","Data for development & enhancement","data","ok","Data-management requirements for development and enhancement of AI systems shall be documented.",[
+        ["Training / enhancement datasets with owners","Microsoft Purview","c","auto"],
+        ["Feature-store versions per model","SageMaker Feature Store","c","auto"]]],
+      ["A.7.3","Acquisition of data","data","ok","How data is acquired and selected for AI systems shall be documented.",[
+        ["Source records per dataset","Collibra","c","auto"],
+        ["Data-licensing terms — Experian bureau feed","Ironclad","c","01 Jan 2026"]]],
+      ["A.7.4","Quality of data","data","ok","The quality of data used in AI systems shall be defined and managed.",[
+        ["Data-quality test results & rules","Great Expectations","c","auto"],
+        ["Validation-step outputs in training pipeline","SageMaker","c","auto"]]],
+      ["A.7.5","Data provenance","data","ok","Provenance (origin and history) of data used in AI systems shall be recorded.",[
+        ["Lineage graphs source → transformation","Purview / Unity Catalog","c","auto"],
+        ["Dataset-version linkage per model run","MLflow","c","auto"]]],
+      ["A.7.6","Data preparation","data","ok","Data-preparation methods (cleaning, labeling, transformation) shall be documented.",[
+        ["Transformation pipeline definitions & runs","dbt","c","auto"],
+        ["Labeling job config + quality audit","SageMaker Ground Truth","c","auto"]]]
+    ]},
+    {id:"A.8", name:"Information for interested parties", ctl:[
+      ["A.8.2","System documentation for users","gov","ok","Information shall be provided to users to understand and appropriately use the AI system.",[
+        ["Published user-facing documentation","Confluence","c","auto"],
+        ["AI disclosure published","TrismX Trust Centre","c","auto"]]],
+      ["A.8.3","External reporting","gov","ok","A means shall exist for interested parties to receive information and report matters.",[
+        ["Public reporting / contact channel configured","SafeBase","c","auto"],
+        ["External AI request queue","ServiceNow","c","auto"]]],
+      ["A.8.4","Communication of incidents","ciso","ok","A process shall communicate AI system incidents to relevant interested parties.",[
+        ["AI-tagged incident records + timeline","PagerDuty","c","auto"],
+        ["Published incident-communication history","Atlassian Statuspage","c","auto"]]],
+      ["A.8.5","Information for interested parties","dpo","partial","Information needed by interested parties (regulators, affected individuals) shall be provided.",[
+        ["Published transparency information","TrismX Trust Centre","c","auto"],
+        ["Regulator information package","SharePoint","s","draft pending"]]]
+    ]},
+    {id:"A.9", name:"Use of AI systems", ctl:[
+      ["A.9.2","Processes for responsible use","gov","ok","Processes for the responsible use of AI systems shall be established.",[
+        ["Active guardrail / acceptable-use enforcement","TrismX Gateway","c","auto"],
+        ["GenAI allow / block / coach + DLP rules","Netskope","c","auto"]]],
+      ["A.9.3","Objectives for responsible use","gov","ok","Objectives for the responsible use of AI systems shall be documented.",[
+        ["Responsible-use objectives in AUP","Vanta","c","auto"],
+        ["Enforcement metrics evidencing objectives","TrismX","c","auto"]]],
+      ["A.9.4","Intended use","gov","ok","AI systems shall be used in accordance with their intended use.",[
+        ["Usage telemetry + off-label flags per app","TrismX","c","auto"],
+        ["Declared intended-use vs actual use","SageMaker","c","auto"]]]
+    ]},
+    {id:"A.10", name:"Third-party & customer relationships", ctl:[
+      ["A.10.2","Allocating responsibilities","vendor","ok","Responsibilities for the AI life cycle shall be allocated among internal parties, suppliers, and customers.",[
+        ["RACI matrix across the value chain","TrismX","c","auto"],
+        ["Supplier responsibility clauses","Ironclad","c","auto"]]],
+      ["A.10.3","Suppliers","vendor","partial","Suppliers of AI systems, data, or services shall align with the responsible-AI approach.",[
+        ["Supplier AI due-diligence assessments","OneTrust","c","auto"],
+        ["Jasper AI — US data-transfer review","OneTrust","s","open"]]],
+      ["A.10.4","Customers","vendor","ok","Relevant information shall be made available to customers to meet their responsibilities.",[
+        ["Customer terms + AI addendum","Ironclad","c","auto"],
+        ["Published customer usage guidance","TrismX Trust Centre","c","auto"]]]
+    ]}
+  ];
+
+  var STMAP = {ok:{p:"ok",l:"Ready",w:1}, partial:{p:"warn",l:"Partial",w:.5}, gap:{p:"crit",l:"Gap",w:0}};
+  var EVMAP = {c:{cls:"collected",mk:"✓",p:"ok",l:"Collected"}, s:{cls:"stale",mk:"!",p:"warn",l:"Stale"}, m:{cls:"missing",mk:"✕",p:"crit",l:"Missing"}};
+  var DNAME={}; DOMAINS.forEach(function(d){DNAME[d.id]=d.name;});
+
+  function evRow(e){
+    var m=EVMAP[e[2]];
+    return '<div class="ev '+m.cls+'"><span class="evmk">'+m.mk+'</span>'+
+      '<div><div class="evt">'+e[0]+'</div><div class="evs">'+e[1]+' · '+e[3]+'</div></div>'+
+      '<span class="evp pill '+m.p+'">'+m.l+'</span></div>';
+  }
+  function missSummary(c){
+    var t=c[5].filter(function(e){return e[2]!=='c';}).map(function(e){return e[0];});
+    return t.length? t.join(' · ') : 'Evidence incomplete';
+  }
+  // control detail opens in the right drawer
+  function controlFrame(di,ci){
+    var d=DOMAINS[di], c=d.ctl[ci], st=STMAP[c[3]], o=OWN[c[2]];
+    return { title:c[0]+' · '+c[1], sub:d.id+' '+d.name,
+      html:function(){
+        return '<div class="badgerow"><span class="pill '+st.p+'">'+st.l+'</span></div>'+
+          '<div class="blab">Requirement</div><p style="margin:0;font-size:13px;color:var(--ink-2);max-width:76ch">'+c[4]+'</p>'+
+          '<div class="blab">Owner</div><div class="own" style="max-width:340px"><div class="n">'+o[0]+'</div><div class="role">'+o[1]+'</div><div class="e">'+o[2]+'</div></div>'+
+          '<div class="blab">Evidence collected<span class="rt">'+c[5].length+' records</span></div>'+
+          '<div class="evlist">'+c[5].map(evRow).join('')+'</div>';
+      }};
+  }
+  function domainPct(d){ var t=0; d.ctl.forEach(function(c){ t+=STMAP[c[3]].w; }); return Math.round(t/d.ctl.length*100); }
+
+  (function renderIso(){
+    var ok=0,pa=0,gp=0,tot=0,pts=0, attention=[];
+    DOMAINS.forEach(function(d,di){ d.ctl.forEach(function(c,ci){ tot++; pts+=STMAP[c[3]].w;
+      if(c[3]==='ok')ok++; else { if(c[3]==='partial')pa++; else gp++; attention.push({di:di,ci:ci,c:c}); }
+    }); });
+    var overall=Math.round(pts/tot*100);
+    document.getElementById('isoPct').textContent=overall+'%';
+    document.getElementById('isoBar').style.width=overall+'%';
+    document.getElementById('isoCounts').innerHTML=
+      '<div class="cchip ok"><div class="cv">'+ok+'</div><div class="cl">Ready</div></div>'+
+      '<div class="cchip warn"><div class="cv">'+pa+'</div><div class="cl">Partial</div></div>'+
+      '<div class="cchip crit"><div class="cv">'+gp+'</div><div class="cl">Gap</div></div>';
+
+    // needs attention — gaps first, then partials
+    attention.sort(function(a,b){ return (a.c[3]==='gap'?0:1)-(b.c[3]==='gap'?0:1); });
+    document.getElementById('isoAttention').innerHTML = attention.map(function(a){
+      var c=a.c, st=STMAP[c[3]], o=OWN[c[2]];
+      return '<div class="att '+c[3]+'" data-open="ctl:'+a.di+':'+a.ci+'">'+
+        '<span class="aid">'+c[0]+'</span>'+
+        '<span class="amn"><span class="anm">'+c[1]+'</span><span class="amiss">Missing: '+missSummary(c)+'</span><span class="aown">'+o[0]+' · '+o[1]+'</span></span>'+
+        '<span class="pill '+st.p+'">'+st.l+'</span>'+
+        '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>'+
+      '</div>';
+    }).join('');
+
+    // readiness by domain
+    document.getElementById('isoDomainBars').innerHTML = DOMAINS.map(function(d){
+      var p=domainPct(d);
+      return '<div class="dbari"><div class="t"><b>'+d.id+' '+d.name+'</b><span class="p">'+p+'%</span></div><div class="bar"><i style="width:'+p+'%"></i></div></div>';
+    }).join('');
+
+    // all controls — compact clickable rows grouped by domain
+    document.getElementById('isoDomains').innerHTML = DOMAINS.map(function(d,di){
+      var p=domainPct(d);
+      var rows=d.ctl.map(function(c,ci){ var st=STMAP[c[3]], o=OWN[c[2]];
+        return '<div class="ctlrow" data-open="ctl:'+di+':'+ci+'"><button class="ctlhead">'+
+          '<span class="ctlid">'+c[0]+'</span>'+
+          '<span class="mn"><span class="nm">'+c[1]+'</span><span class="sub">Owner: '+o[0]+' · '+o[1]+'</span></span>'+
+          '<span class="pill '+st.p+'">'+st.l+'</span>'+
+          '<svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>'+
+        '</button></div>';
+      }).join('');
+      return '<div class="dgroup">'+
+        '<div class="dhead">'+
+          '<span class="did">'+d.id+'</span><span class="dnm">'+d.name+'</span>'+
+          '<span class="dcount">'+d.ctl.length+' controls</span>'+
+          '<span class="dbar"><i style="width:'+p+'%"></i></span><span class="dpct">'+p+'%</span>'+
+          '<svg class="dchev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>'+
+        '</div>'+
+        '<div class="dlist">'+rows+'</div>'+
+      '</div>';
+    }).join('');
+  })();
+
+  // open control detail from attention list or all-controls list
+  function ctlDelegate(e){ var el=e.target.closest('[data-open^="ctl:"]'); if(!el)return; var p=el.getAttribute('data-open').split(':'); openDrawer(controlFrame(+p[1],+p[2])); }
+  document.getElementById('isoAttention').addEventListener('click', ctlDelegate);
+  document.getElementById('isoDomains').addEventListener('click', function(e){
+    if(e.target.closest('[data-open^="ctl:"]')){ ctlDelegate(e); return; }
+    var h=e.target.closest('.dhead'); if(h) h.parentElement.classList.toggle('collapsed');
+  });
+  // overview / all controls toggle
+  document.querySelectorAll('#isoSeg .seg').forEach(function(s){
+    s.addEventListener('click', function(){
+      document.querySelectorAll('#isoSeg .seg').forEach(function(x){x.classList.remove('active');});
+      s.classList.add('active');
+      var ov=s.dataset.seg==='overview';
+      document.getElementById('isoOverview').hidden=!ov;
+      document.getElementById('isoAll').hidden=ov;
+    });
+  });
+  // framework tabs
+  var FWNAME={nist:"NIST AI RMF", eu:"EU AI Act", admt:"ADMT / US state privacy"};
+  document.querySelectorAll('#fwTabs .fwtab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('#fwTabs .fwtab').forEach(function(x){x.classList.remove('active');});
+      t.classList.add('active');
+      var iso=t.dataset.fw==='iso';
+      document.getElementById('fwIso').hidden=!iso;
+      document.getElementById('fwOther').hidden=iso;
+      if(!iso) document.getElementById('otherName').textContent=FWNAME[t.dataset.fw];
+    });
+  });
+
+  /* ---------- People ---------- */
+  var FN=["Aoife","Cian","Niamh","Conor","Saoirse","Liam","Emma","Sean","Ciara","Darragh","Róisín","Eoin","Aisling","Cormac","Orla","Fionn","Maeve","Pádraig","Sinéad","Oisín","Priya","Dev","Lena","Marco","Sofia","Ahmed","Yuki","Chen","Omar","Hannah"];
+  var LN=["Byrne","Murphy","O'Brien","Kelly","Walsh","Doyle","Ryan","Nolan","Kennedy","Flynn","Fischer","Patel","Nair","Menon","Brennan","Sullivan","Reilly","Gallagher","Lynch","Healy","Moran","Duffy","Quinn","Casey","Barrett","Rossi","Novak","Haas","Silva","Khan"];
+  var DEPTS=["Retail Banking","Financial Crime","Talent Acquisition","Retail Credit","Customer Operations","Marketing","Engineering","Legal","Finance","Data Governance","Risk","Compliance","IT","Human Resources","Treasury"];
+  var TITLES=["Analyst","Associate","Manager","Specialist","Team Lead","Officer","Director","Coordinator","Engineer","Advisor"];
+  function initials(n){ return n.split(' ').map(function(w){return w[0];}).slice(0,2).join(''); }
+  function emailOf(n){ return n.toLowerCase().replace(/[^a-z ]/g,'').replace(/ +/g,'.')+'@northcrestbank.ie'; }
+  var LAST=["2m ago","18m ago","1h ago","3h ago","today","today","yesterday","2d ago"];
+  var PEOPLE=[]; for(var pi=0; pi<50; pi++){
+    var nm=FN[pi%FN.length]+' '+LN[(pi*7)%LN.length];
+    PEOPLE.push({name:nm, dept:DEPTS[pi%DEPTS.length], title:TITLES[pi%TITLES.length], email:emailOf(nm),
+      apps:5+(pi%4), agents:pi%3, mcp:2+(pi%5), flagged:(pi%4===0), last:LAST[pi%LAST.length]});
+  }
+  // shared connectivity (same detail for every person)
+  var P_APPS=[
+    ["Microsoft 365 Copilot","Productivity assistant","SSO · Entra ID","Sanctioned","ok"],
+    ["GitHub Copilot","Code assistant","SSO · Entra ID","Sanctioned","ok"],
+    ["ChatGPT Enterprise","General assistant","SSO · SCIM","Sanctioned","ok"],
+    ["Claude (claude.ai)","General assistant","Gateway-proxied","Monitored","warn"],
+    ["Google Gemini","General assistant","Gateway-proxied","Monitored","warn"],
+    ["Notion AI","Docs assistant","OAuth grant","Sanctioned","ok"],
+    ["Grammarly","Writing assistant","Browser extension","Coached","warn"],
+    ["Perplexity","Research assistant","Personal account","Blocked","crit"]
+  ];
+  var P_DOMAINS=[
+    ["copilot.microsoft.com","Allow","ok","2h ago"],
+    ["api.githubcopilot.com","Allow","ok","1h ago"],
+    ["chatgpt.com","Coach → enterprise","warn","3h ago"],
+    ["claude.ai","Allow","ok","today"],
+    ["api.anthropic.com","Allow","ok","today"],
+    ["gemini.google.com","Coach","warn","yesterday"],
+    ["api.openai.com","Allow · enterprise key","ok","today"],
+    ["perplexity.ai","Block","crit","5d ago"]
+  ];
+  var P_AGENTS=[
+    ["InvoiceTriage (Copilot Studio)","M365 tenant","Write: Planner tasks","Running","ok"],
+    ["Personal workflow agent","Power Automate","Read: mailbox","Connected","ok"]
+  ];
+  var P_MCP=[
+    ["github-mcp","stdio","repo read / write","Registered","ok"],
+    ["filesystem-mcp","stdio","scoped: ~/work","Registered","ok"],
+    ["slack-mcp","http","channels read","Registered","ok"],
+    ["jira-mcp","http","issues read / write","Registered","ok"],
+    ["postgres-mcp","stdio","flagged for review","Unregistered","crit"]
+  ];
+  function pill(st,l){ return '<span class="pill '+st+'">'+l+'</span>'; }
+  function miniTable(head, rows){ return '<table class="t"><thead><tr>'+head.map(function(h){return '<th'+(h.c?' class="c"':'')+'>'+h.t+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table>'; }
+
+  var pQ='', pF='all';
+  function renderPeople(){
+    var q=pQ.toLowerCase();
+    var list=PEOPLE.map(function(p,i){return {p:p,i:i};}).filter(function(o){
+      var p=o.p;
+      if(pF==='flagged' && !p.flagged) return false;
+      if(pF==='agents' && p.agents<1) return false;
+      if(q && (p.name+' '+p.email+' '+p.dept).toLowerCase().indexOf(q)<0) return false;
+      return true;
+    });
+    document.getElementById('peopleCount').textContent = list.length+' of 4,812 users';
+    document.getElementById('peopleTbody').innerHTML = list.map(function(o){ var p=o.p, i=o.i;
+      return '<tr class="clk" data-person="'+i+'">'+
+        '<td><div style="display:flex;align-items:center;gap:10px"><span class="avem">'+initials(p.name)+'</span><div><div class="ttl">'+p.name+'</div><div class="tsub">'+p.title+' · '+p.email+'</div></div></div></td>'+
+        '<td>'+p.dept+'</td>'+
+        '<td class="c">'+p.apps+'</td><td class="c">'+p.agents+'</td><td class="c">'+p.mcp+'</td>'+
+        '<td class="muted">'+p.last+'</td>'+
+        '<td style="text-align:right;color:var(--muted)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></td>'+
+      '</tr>';
+    }).join('') || '<tr><td colspan="7" class="muted" style="padding:22px;text-align:center">No people match.</td></tr>';
+  }
+  function personDetail(i){
+    var p=PEOPLE[i];
+    var apps=miniTable([{t:'Application'},{t:'Purpose'},{t:'Access'}],
+      P_APPS.map(function(a){return '<tr><td class="ttl">'+a[0]+'</td><td>'+a[1]+'</td><td class="muted">'+a[2]+'</td></tr>';}).join(''));
+    var doms=miniTable([{t:'Domain'},{t:'Last seen'}],
+      P_DOMAINS.map(function(d){return '<tr><td class="ttl mono" style="font-size:12.5px">'+d[0]+'</td><td class="muted">'+d[3]+'</td></tr>';}).join(''));
+    var ag=miniTable([{t:'Agent'},{t:'Host'},{t:'Scope'}],
+      P_AGENTS.map(function(a){return '<tr><td class="ttl">'+a[0]+'</td><td class="muted">'+a[1]+'</td><td class="muted">'+a[2]+'</td></tr>';}).join(''));
+    var mcp=miniTable([{t:'MCP server'},{t:'Transport'},{t:'Scope'}],
+      P_MCP.map(function(m){return '<tr><td class="ttl mono" style="font-size:12.5px">'+m[0]+'</td><td>'+m[1]+'</td><td class="muted">'+m[2]+'</td></tr>';}).join(''));
+    return '<button class="backlink" id="personBack"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg> All people</button>'+
+      '<div class="pdhead"><span class="pav">'+initials(p.name)+'</span>'+
+        '<div><div class="pn">'+p.name+'</div><div class="pm">'+p.title+' · '+p.email+'</div></div>'+
+        '<div class="pmeta"><span class="tag">Device: LT-'+p.dept.slice(0,3).toUpperCase()+'-'+(1000+i)+'</span><span class="tag">Entra ID · active</span></div>'+
+      '</div>'+
+      '<div class="blab">Applications connected<span class="rt">'+P_APPS.length+'</span></div>'+apps+
+      '<div class="blab">Domains accessed<span class="rt">'+P_DOMAINS.length+'</span></div>'+doms+
+      '<div class="blab">Agents connected / running<span class="rt">'+P_AGENTS.length+'</span></div>'+ag+
+      '<div class="blab">MCP servers<span class="rt">'+P_MCP.length+'</span></div>'+mcp;
+  }
+  function showPeopleList(){ document.getElementById('peopleList').hidden=false; document.getElementById('personDetail').hidden=true; }
+  function openPerson(i){ document.getElementById('personDetail').innerHTML=personDetail(i); document.getElementById('peopleList').hidden=true; document.getElementById('personDetail').hidden=false;
+    document.getElementById('personBack').addEventListener('click', showPeopleList); document.querySelector('.content').scrollTop=0; }
+  renderPeople();
+  document.getElementById('peopleTbody').addEventListener('click',function(e){ var tr=e.target.closest('[data-person]'); if(tr) openPerson(+tr.getAttribute('data-person')); });
+  document.getElementById('peopleSearch').addEventListener('input',function(){ pQ=this.value; renderPeople(); });
+  document.getElementById('peopleFilters').addEventListener('click',function(e){ var b=e.target.closest('[data-pf]'); if(!b)return;
+    pF=b.getAttribute('data-pf'); document.querySelectorAll('#peopleFilters .qchip').forEach(function(x){x.classList.toggle('on', x===b);}); renderPeople(); });
+
+  /* ---------- Trust Centre ---------- */
+  function renderTrust(){
+    document.getElementById('trustCount').textContent='Public register · '+SYSTEMS.length+' agents · updated 29 Sep 2026';
+    document.getElementById('trustList').innerHTML = SYSTEMS.map(function(s){
+      var models=s.bom.filter(function(c){return c.kind==='model';}).map(function(c){return c.name;});
+      var tools=s.bom.filter(function(c){return c.kind==='tool'||c.kind==='data';}).map(function(c){return c.name;});
+      var ob=s.origin==='ext'?'<span class="pill blue">External</span>':'<span class="pill accent">Internal</span>';
+      var handling = s.origin==='ext' ? 'No training on our data (contractual). Vendor-processed under DPA.' : 'Processed in-house. No third-party model training on customer data.';
+      return '<div class="trust-card">'+
+        '<div class="tc-h"><h3>'+s.name+'</h3>'+ob+'</div>'+
+        '<p class="tc-p">'+s.purpose+'</p>'+
+        '<div class="tc-grid">'+
+          '<div><div class="lab">Models accessed</div><div class="chips">'+(models.length?models.map(function(m){return '<span class="chip">'+m+'</span>';}).join(''):'<span class="muted" style="font-size:12px">—</span>')+'</div></div>'+
+          '<div><div class="lab">Tools &amp; data accessed</div><div class="chips">'+(tools.length?tools.map(function(t){return '<span class="chip">'+t+'</span>';}).join(''):'<span class="muted" style="font-size:12px">None</span>')+'</div></div>'+
+          '<div><div class="lab">Hosting &amp; residency</div><div style="font-size:12.5px;color:var(--ink-2)">'+s.id.Deployment+'</div></div>'+
+          '<div><div class="lab">Data handling</div><div style="font-size:12.5px;color:var(--ink-2)">'+handling+'</div></div>'+
+        '</div>'+
+        '<div style="margin-top:14px"><div class="lab" style="font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:700;margin-bottom:6px">Human oversight</div><div style="font-size:12.5px;color:var(--ink-2)">Human review before consequential action · full request logging via AI gateway · owner accountable: '+s.owner.role+'.</div></div>'+
+      '</div>';
+    }).join('');
+  }
+  renderTrust();
+
+  /* ---------- Shadow AI ---------- */
+  var SH_DOMAINS=[
+    ["perplexity.ai","Research","Block","95 users · 4.2K req","crit"],
+    ["chat.deepseek.com","Assistant","Block","22 users · 1.1K req","crit"],
+    ["poe.com","Aggregator","Block","14 users","crit"],
+    ["character.ai","Companion","Block","8 users","crit"],
+    ["chatgpt.com","Assistant (personal)","Coach → enterprise","486K req","warn"],
+    ["gemini.google.com","Assistant (personal)","Coach","141K req","warn"]
+  ];
+  var SH_MCP=[
+    ["postgres-mcp","stdio","DB read (prod)","LT-ENG-0441","Unregistered","crit"],
+    ["brave-search-mcp","stdio","Web search","LT-MKT-0117","Unregistered","crit"],
+    ["custom-crm-mcp","stdio","CRM read","LT-SAL-0223","Unregistered","crit"]
+  ];
+  var SH_ACCOUNTS=[
+    ["Gemini (personal)","gemini.google.com","210 users","Coached","warn"],
+    ["ChatGPT (personal)","chatgpt.com","61 users","Redirected to enterprise","warn"],
+    ["Perplexity","perplexity.ai","95 users","Blocked","crit"],
+    ["DeepSeek","chat.deepseek.com","22 users","Blocked","crit"],
+    ["Claude (personal)","claude.ai","18 users","Redirected to enterprise","warn"]
+  ];
+  (function renderShadow(){
+    document.getElementById('shDomains').innerHTML = miniTable([{t:'Domain'},{t:'Category'},{t:'Exposure'}],
+      SH_DOMAINS.map(function(x){return '<tr><td class="ttl mono" style="font-size:12.5px">'+x[0]+'</td><td>'+x[1]+'</td><td class="muted">'+x[3]+'</td></tr>';}).join(''));
+    document.getElementById('shMcp').innerHTML = miniTable([{t:'MCP server'},{t:'Transport'},{t:'Scope'},{t:'Host'}],
+      SH_MCP.map(function(x){return '<tr><td class="ttl mono" style="font-size:12.5px">'+x[0]+'</td><td>'+x[1]+'</td><td class="muted">'+x[2]+'</td><td class="mono" style="font-size:12px">'+x[3]+'</td></tr>';}).join(''));
+    document.getElementById('shAccounts').innerHTML = miniTable([{t:'Service'},{t:'Domain'},{t:'Users'},{t:'Action'}],
+      SH_ACCOUNTS.map(function(x){return '<tr><td class="ttl">'+x[0]+'</td><td class="mono" style="font-size:12px">'+x[1]+'</td><td>'+x[2]+'</td><td>'+pill(x[4],x[3])+'</td></tr>';}).join(''));
+  })();
+
+  /* ---------- Connect infrastructure ---------- */
+  var CATS=[
+    {c:"CASB / SASE", v:["Netskope","Zscaler","Palo Alto Prisma Access","Microsoft Defender for Cloud Apps"]},
+    {c:"Identity provider", v:["Okta","Microsoft Entra ID","Google Workspace"]},
+    {c:"Endpoint / MDM", v:["Jamf Pro","Microsoft Intune","Kandji","VMware Workspace ONE","CrowdStrike","SentinelOne"]},
+    {c:"Cloud posture (CSPM)", v:["Wiz","Prisma Cloud","Microsoft Defender for Cloud"]},
+    {c:"SIEM / logging", v:["Splunk","Microsoft Sentinel","Elastic","Datadog"]},
+    {c:"AI / SaaS discovery", v:["Nudge Security","Harmonic","Torii"]},
+    {c:"AI runtime security", v:["Prompt Security","Lasso","Witness AI"]},
+    {c:"AI gateway", v:["LiteLLM","Cloudflare AI Gateway"]},
+    {c:"AI red-teaming", v:["Lakera","Garak","HiddenLayer","Robust Intelligence"]},
+    {c:"ML platform / MLOps", v:["Databricks","Amazon SageMaker","Google Vertex AI","MLflow","Weights & Biases","Hugging Face"]},
+    {c:"Model / LLM platforms", v:["AWS Bedrock","Azure OpenAI"]},
+    {c:"Model evaluation", v:["Fiddler","Arthur","Bedrock Evaluations","SageMaker Clarify"]},
+    {c:"AI observability", v:["Arize","WhyLabs","Datadog LLM Observability"]},
+    {c:"Data catalog / lineage", v:["Microsoft Purview","Collibra","Alation","BigID","Databricks Unity Catalog"]},
+    {c:"Data quality", v:["Monte Carlo","Great Expectations","Soda"]},
+    {c:"Data labeling / prep", v:["Labelbox","Scale AI","SageMaker Ground Truth","dbt","Azure Data Factory"]},
+    {c:"Cloud infrastructure", v:["AWS","Azure","GCP","Snowflake","Kubernetes","AWS EKS"]},
+    {c:"CI/CD & code", v:["GitHub","GitLab","GitHub Actions","Jenkins","ArgoCD","Jira","Azure DevOps"]},
+    {c:"GRC / AI governance", v:["Vanta","Drata","Credo AI","Holistic AI","IBM watsonx.governance","ISMS.online"]},
+    {c:"Privacy", v:["OneTrust","Securiti","BigID"]},
+    {c:"Vendor risk (TPRM)", v:["Whistic","SecurityScorecard","Vanta Vendor Risk"]},
+    {c:"Contract management", v:["Ironclad","DocuSign CLM","SAP Ariba"]},
+    {c:"Doc management", v:["SharePoint","Confluence","Google Drive","Document360"]},
+    {c:"LMS / awareness", v:["KnowBe4","Workday Learning","Coursera for Business"]},
+    {c:"HRIS", v:["Workday","BambooHR","HiBob"]},
+    {c:"CMDB", v:["ServiceNow","Device42"]},
+    {c:"ITSM / workflow", v:["Jira Service Management","Zendesk","Asana"]},
+    {c:"Incident & status", v:["PagerDuty","Opsgenie","Atlassian Statuspage","Instatus"]},
+    {c:"Trust center", v:["SafeBase","Vanta Trust"]},
+    {c:"Collaboration", v:["Slack","Microsoft Teams"]}
+  ];
+  var CONNECTED={"Okta":1,"Microsoft Entra ID":1,"Netskope":1,"Palo Alto Prisma Access":1,"Jamf Pro":1,"Wiz":1,"Splunk":1,"AWS Bedrock":1,"Azure OpenAI":1,"Amazon SageMaker":1,"GitHub":1,"ServiceNow":1,"Workday":1,"OneTrust":1,"Microsoft Purview":1};
+  function vlogo(n){ var p=n.replace(/[^A-Za-z0-9 ]/g,'').split(' ').filter(Boolean); return ((p[0]?p[0][0]:'')+(p[1]?p[1][0]:(p[0]?p[0][1]||'':''))).toUpperCase(); }
+  function vcardHtml(v, cat, showCat){
+    return '<div class="vcard"><span class="vlogo">'+vlogo(v)+'</span><span class="vn">'+v+(showCat?'<span style="display:block;font-size:10.5px;color:var(--muted);font-weight:500">'+cat+'</span>':'')+'</span>'+
+      '<span class="va">'+(CONNECTED[v]?'<span class="connected">Connected</span>':'<button class="btn xs">Connect</button>')+'</span></div>';
+  }
+  function renderVendors(q){
+    q=(q||'').toLowerCase();
+    var match=function(v,c){ return !q || v.toLowerCase().indexOf(q)>=0 || c.toLowerCase().indexOf(q)>=0; };
+    // connected first
+    var conn=[]; CATS.forEach(function(cat){ cat.v.forEach(function(v){ if(CONNECTED[v] && match(v,cat.c)) conn.push([v,cat.c]); }); });
+    var top = conn.length ? '<div class="catsec"><div class="ch" style="color:var(--ok)">Connected <span class="n">· '+conn.length+'</span></div><div class="vgrid">'+
+      conn.map(function(x){return vcardHtml(x[0],x[1],true);}).join('')+'</div></div>' : '';
+    // remaining, grouped by category
+    var rest=CATS.map(function(cat){
+      var vs=cat.v.filter(function(v){ return !CONNECTED[v] && match(v,cat.c); });
+      if(!vs.length) return '';
+      return '<div class="catsec"><div class="ch">'+cat.c+' <span class="n">· '+vs.length+'</span></div>'+
+        '<div class="vgrid">'+vs.map(function(v){return vcardHtml(v,cat.c,false);}).join('')+'</div></div>';
+    }).join('');
+    var mid = (top&&rest) ? '<div class="sechead" style="margin:6px 0 12px"><h2>Available integrations</h2></div>' : '';
+    document.getElementById('vendorCats').innerHTML = (top+mid+rest) || '<div class="muted" style="padding:20px 0">No integrations match your search.</div>';
+  }
+  renderVendors('');
+  document.getElementById('vendSearch').addEventListener('input',function(){ renderVendors(this.value); });
+  document.querySelectorAll('#connSeg .seg').forEach(function(s){
+    s.addEventListener('click',function(){
+      document.querySelectorAll('#connSeg .seg').forEach(function(x){x.classList.remove('active');});
+      s.classList.add('active');
+      var tools=s.dataset.cseg==='tools';
+      document.getElementById('connTools').hidden=!tools;
+      document.getElementById('connDeploy').hidden=tools;
+    });
+  });
+
+  /* ---------- Dashboard ---------- */
+  var QA=[
+    {q:"What's our overall compliance posture?", a:"<b>ISO/IEC 42001</b> readiness is <b>88%</b> — 30 of 38 controls Ready, 7 Partial, 1 Gap. <b>NIST AI RMF</b> sits at 68% and <b>EU AI Act</b> deployer readiness at 72%. The single gap is <b>A.6.2.4 Verification &amp; validation</b> on the Fraud Signal Scorer — no red-team evidence on record."},
+    {q:"Where is shadow AI highest?", a:"<b>642 users</b> are flagged for shadow-AI use. The largest sources are <b>Grammarly</b> (720 users, coached), <b>Gemini personal</b> (210, coached) and <b>Perplexity</b> (95, blocked). <b>1,942 upload attempts</b> to unsanctioned tools were blocked in the last 90 days."},
+    {q:"Which controls need attention?", a:"8 controls need attention. The one <b>Gap</b> is A.6.2.4 (V&amp;V, Fraud Signal Scorer). <b>Partials</b>: A.2.4 policy review (overdue), A.4.6 AI literacy (28 overdue), A.5.4 fairness testing, A.6.2.6 drift monitoring, A.6.2.7 technical docs, A.8.5 regulator pack, and A.10.3 Jasper US-transfer review."},
+    {q:"How many external vendors process our data?", a:"<b>9 external vendors</b> across 6 AI systems, all under DPA. <b>Jasper</b> (US-hosted) has an open data-transfer review; every other vendor processes within the EU."}
+  ];
+  document.getElementById('askChips').innerHTML = QA.map(function(x,i){ return '<button class="qchip" data-q="'+i+'">'+x.q+'</button>'; }).join('');
+  document.getElementById('askChips').addEventListener('click',function(e){
+    var b=e.target.closest('[data-q]'); if(!b)return; var x=QA[+b.getAttribute('data-q')];
+    document.getElementById('askInput').value=x.q;
+    var an=document.getElementById('askAnswer');
+    an.innerHTML='<div class="aq"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2" style="flex:none;margin-top:2px"><path d="M12 3a9 9 0 00-9 9 9 9 0 001.5 5L3 21l4-1.5A9 9 0 1012 3z"/></svg><span>'+x.q+'</span></div>'+x.a;
+    an.classList.add('show');
+  });
+  var SHADOW=[["Grammarly (personal)",720,"warn"],["Gemini (personal)",210,"warn"],["Perplexity",95,"crit"],["Otter.ai",40,"crit"],["DeepSeek",22,"crit"]];
+  var smax=720;
+  document.getElementById('shadowBars').innerHTML = SHADOW.map(function(b){
+    return '<div class="bar2"><span>'+b[0]+'</span><span class="track"><i class="'+b[2]+'" style="width:'+Math.round(b[1]/smax*100)+'%"></i></span><span class="bv">'+b[1]+'</span></div>';
+  }).join('');
+
+  /* ---------- Questionnaire Assistant ---------- */
+  function mBot(h){ return '<div class="msg bot"><span class="mav">TX</span><div class="bubble">'+h+'</div></div>'; }
+  function mUser(h){ return '<div class="msg user"><span class="mav">SR</span><div class="bubble">'+h+'</div></div>'; }
+  function evRowA(id,q,ans,ev){ return '<tr><td class="qid">'+id+'</td><td>'+q+'</td><td><span class="ans-v">'+ans+'</span><span class="ans-ev">◦ '+ev+'</span></td></tr>'; }
+  function manRow(id,q,why){ return '<tr class="man"><td class="qid">'+id+'</td><td>'+q+'</td><td><span class="manu">[Fill manually]</span><span class="ans-ev">'+why+'</span></td></tr>'; }
+
+  var ansTable='<table class="q"><thead><tr><th>#</th><th>Question</th><th>Answer · evidence</th></tr></thead><tbody>'+
+    evRowA('1.1','Does your organization leverage GenAI?','Yes — for product/service','Gateway observed model calls from Trust Analyser')+
+    evRowA('3.1','What foundational model is used?','Licensed Proprietary','Model fingerprint on egress')+
+    evRowA('3.2','Common name of the model','Claude 3.5 Sonnet (AWS Bedrock)','Gateway fingerprint')+
+    evRowA('2.17','Where will our data reside?','Directly with vendor · AWS ap-southeast-2','Endpoint geo / ASN')+
+    evRowA('2.19','Will data traverse international boundaries?','No — stays in AU','No cross-region egress observed')+
+    evRowA('5.1','Can it be integrated via an API?','Yes','Observed REST API traffic')+
+    evRowA('6.6','Which cloud provider?','Amazon Web Services (AWS)','Endpoint ASN')+
+    evRowA('6.1','Do you use subcontractors?','Yes — Amazon Textract (4th party)','Nth-party call detected')+
+    '</tbody></table>';
+
+  var manTable='<table class="q"><thead><tr><th>#</th><th>Question</th><th>Why not auto-filled</th></tr></thead><tbody>'+
+    manRow('1–11','Internal stakeholder questions','Internal business context — Risk / Legal')+
+    manRow('2.6','Will our data train the model?','Vendor contractual claim — not observable')+
+    manRow('3.5–3.12','Training controls & model audits','Vendor attestation')+
+    manRow('4.1–4.13','Pen-tests, security evidence','Vendor documentation')+
+    manRow('7.1–7.19','DPA, indemnification, SLA, ownership','Legal & contract')+
+    '</tbody></table>';
+
+  var QA_TURNS=[
+    [ mBot('<p>Hi Srejith — I\'m the <b>TrismX Questionnaire Assistant</b>. Upload a vendor security or AI questionnaire (Excel, CSV or Word) and I\'ll pre-fill every answer I can evidence from your TrismX environment, and flag the rest for you.</p><div class="dropzone"><div class="big">Drop a questionnaire here</div>or choose a file · .xlsx .csv .docx</div>') ],
+    [ mUser('<div class="filechip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5a2 2 0 012-2h9l5 5v13a1 1 0 01-1 1H6a2 2 0 01-2-2z"/><path d="M14 3v5h5"/></svg> AI_Questionnaire.xlsx · 48 KB</div><p style="margin-top:8px">Please fill this in for us.</p>') ],
+    [ mBot('<p>Analysing the workbook…</p><p>Detected: <b>BNK\'s Generative AI — Vendor Evaluation &amp; Qualitative Risk Assessment</b>.</p><div class="filechip" style="margin-bottom:4px">Vendor: Trust Analyser · frankieone.com</div><p style="margin-top:8px">4 sheets · <b>91 questions</b> (11 internal stakeholder + 80 vendor) · risk tier assessed <b>Level 3 (High)</b>. I matched this vendor to a system already in your AI Inventory.</p>') ],
+    [ mBot('<p>Here\'s what I could answer from TrismX telemetry, and what I can\'t.</p>'+
+        '<div class="cov"><div><div class="big">34%</div></div><div class="cbar"><i style="width:31%"></i></div><span class="cpill ans">28 answered</span><span class="cpill man">63 to fill manually</span></div>'+
+        '<table class="q" style="margin-top:12px"><thead><tr><th>Section</th><th>Answered</th><th>Manual</th></tr></thead><tbody>'+
+        '<tr><td>Internal stakeholder</td><td>0</td><td class="manu">11</td></tr>'+
+        '<tr><td>1.0 General (discovery)</td><td>4</td><td>0</td></tr>'+
+        '<tr><td>2.0 Data privacy</td><td>6</td><td class="manu">15</td></tr>'+
+        '<tr><td>3.0 Model training</td><td>6</td><td class="manu">6</td></tr>'+
+        '<tr><td>4.0 Information security</td><td>2</td><td class="manu">11</td></tr>'+
+        '<tr><td>5.0 Technology integration</td><td>4</td><td>1</td></tr>'+
+        '<tr><td>6.0 Nth-party risk</td><td>5</td><td>3</td></tr>'+
+        '<tr><td>7.0 Legal &amp; compliance</td><td>1</td><td class="manu">16</td></tr>'+
+        '</tbody></table>') ],
+    [ mBot('<p><b>Answered from evidence.</b> Everything here is what TrismX directly observed about Trust Analyser in your network — no guessing.</p>'+ansTable) ],
+    [ mBot('<p><b>These need you.</b> I can\'t see a vendor\'s policies, attestations, contracts or your internal business context — those are marked <span class="manu">[Fill manually]</span>.</p>'+manTable+'<p style="margin-top:10px">To start closing these: is a signed <b>DPA</b> in place with FrankieOne (7.7), and does Trust Analyser process any <b>customer PII</b> (2.21)?</p>') ],
+    [ mUser('<p>Yes — DPA signed 12 Mar 2026, owner Risk Ops (Maeve Kennedy). No customer PII is sent, only trust-deed documents. Business justification: faster trust-deed onboarding for lending.</p>') ],
+    [ mBot('<p>Thanks — I filled <b>6 more</b> from that: 7.7 (DPA = Yes), 2.21 (PII = N/A), 7.8/7.9 (ownership, per DPA), and stakeholder Q1 (business justification).</p>'+
+        '<div class="cov"><div><div class="big">37%</div></div><div class="cbar"><i style="width:37%"></i></div><span class="cpill ans">34 answered</span><span class="cpill man">57 to fill manually</span></div>'+
+        '<p style="margin-top:10px">The remaining 57 are vendor attestations and legal terms. I\'ve routed them: <b>36 to FrankieOne</b> as a vendor questionnaire, and <b>21 to internal owners</b> (Legal, Risk). The prefilled workbook keeps every <span class="manu">[Fill manually]</span> cell highlighted.</p>'+
+        '<div style="margin-top:12px"><button class="btn primary sm">⬇ Download prefilled workbook</button> <button class="btn sm">Send vendor questionnaire</button></div>') ]
+  ];
+  var qaTurn=0;
+  function renderQA(){
+    document.getElementById('qaInner').innerHTML = QA_TURNS.slice(0,qaTurn+1).map(function(t){return t.join('');}).join('');
+    document.getElementById('qaStep').textContent='Step '+(qaTurn+1)+' / '+QA_TURNS.length;
+    var nb=document.getElementById('qaNext'); nb.disabled = qaTurn>=QA_TURNS.length-1;
+    nb.textContent = qaTurn>=QA_TURNS.length-1 ? 'Done' : 'Next ▶';
+    var sc=document.getElementById('qaScroll'); sc.scrollTop=sc.scrollHeight;
+  }
+  document.getElementById('qaNext').addEventListener('click',function(){ if(qaTurn<QA_TURNS.length-1){qaTurn++;renderQA();} });
+  document.getElementById('qaRestart').addEventListener('click',function(){ qaTurn=0;renderQA(); });
+  renderQA();
+
+  /* ---------- Navigation ---------- */
+  var META = {
+    dashboard:{t:"AI Posture", c:"Agents, compliance & shadow AI at a glance"},
+    questionnaire:{t:"Questionnaire Assistant", c:"Auto-fill security questionnaires from TrismX evidence"},
+    inventory:{t:"AI Inventory", c:"AI agents, models & connections"},
+    compliance:{t:"Compliance", c:"Framework controls, owners & evidence"},
+    people:{t:"People", c:"User accounts & connected AI"},
+    shadow:{t:"Shadow AI", c:"Unsanctioned domains, MCP servers & personal accounts"},
+    trust:{t:"Trust Centre", c:"Public AI systems, tools & models"},
+    connect:{t:"Connect Infrastructure", c:"Vendors & endpoint deployment"}
+  };
+  var views = document.querySelectorAll('.view');
+  var navBtns = document.querySelectorAll('.nav-btn');
+  function show(v){
+    views.forEach(function(s){ s.classList.toggle('active', s.dataset.view===v); });
+    navBtns.forEach(function(b){ b.classList.toggle('active', b.dataset.view===v); });
+    document.getElementById('pageTitle').textContent = META[v].t;
+    document.getElementById('pageCrumb').textContent = META[v].c;
+    if(v==='people') showPeopleList();
+    document.querySelector('.content').classList.toggle('flush', v==='questionnaire');
+    document.querySelector('.content').scrollTop = 0;
+  }
+  navBtns.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.view); }); });
+
+  /* Accordions */
+  document.querySelectorAll('.acc').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var head = e.target.closest('.ahead'); if(!head) return;
+      head.parentElement.classList.toggle('open');
+    });
+  });
+
+  show('inventory');
+})();
+</script>
+</body>
+</html>
