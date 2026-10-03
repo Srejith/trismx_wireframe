@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TrismX</title>
+<title>TrismX · Governance wireframe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -176,6 +176,15 @@
   .stat.clickable.on{border-color:var(--accent);background:var(--accent-tint)}
   .stat.clickable .l{display:flex;align-items:center;gap:5px}
   .stat.clickable .l svg{width:12px;height:12px;color:var(--muted)}
+
+  .content table.t{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;font-size:13px}
+  .content table.t th{font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-align:left;font-weight:600;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+  .content table.t th.c,.content table.t td.c{text-align:center}
+  .content table.t td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+  .content table.t tr:last-child td{border-bottom:0}
+  .ubx{margin:0 0 4px;overflow-x:auto}
+  .ubx table.bt td,.ubx table.bt th{white-space:nowrap}
+  .ubx table.bt td.wrap{white-space:normal}
   table.t tr.clk{cursor:pointer}
   table.t tr.clk:hover td{background:var(--surface-2)}
   table.t td .ttl{font-weight:600;color:var(--ink)}
@@ -185,7 +194,7 @@
 
   .drawer-back{position:fixed;inset:0;background:rgba(10,16,22,.38);opacity:0;visibility:hidden;transition:.2s;z-index:60}
   .drawer-back.open{opacity:1;visibility:visible}
-  .drawer{position:fixed;top:0;right:0;height:100%;width:480px;max-width:94vw;background:var(--surface);border-left:1px solid var(--border);box-shadow:-10px 0 34px rgba(0,0,0,.16);transform:translateX(100%);transition:transform .22s ease;z-index:70;display:flex;flex-direction:column}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:960px;max-width:94vw;background:var(--surface);border-left:1px solid var(--border);box-shadow:-10px 0 34px rgba(0,0,0,.16);transform:translateX(100%);transition:transform .22s ease;z-index:70;display:flex;flex-direction:column}
   .drawer.open{transform:none}
   .drawer-head{display:flex;align-items:center;gap:11px;padding:15px 18px;border-bottom:1px solid var(--border)}
   .drawer-head .dtt{flex:1;min-width:0}
@@ -402,6 +411,192 @@
   .ev .evs{font-size:11px;color:var(--muted);margin-top:1px}
   .ev .evp{margin-left:auto}
 
+
+  /* ===== Governance ===== */
+  .nav-btn.sub{padding:7px 11px 7px 38px;font-size:12.5px;position:relative}
+  .nav-btn.sub::before{content:"";position:absolute;left:25px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:var(--border-strong)}
+  .nav-btn.sub.active::before{background:var(--accent)}
+  .nav-btn.grp.active{background:none;font-weight:700;color:var(--ink)}
+  .gv{display:grid;grid-template-columns:minmax(0,1fr) 392px;height:100%;min-height:0}
+  .gv-main{overflow-y:auto;padding:22px 26px 40px;min-width:0}
+  .gv-chat{border-left:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;min-height:0}
+  .gv-head{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px}
+  .gv-head h2{font-size:17px;font-weight:700}
+  .gv-head select{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--border-strong);background:var(--surface);color:var(--ink);border-radius:8px;padding:5px 9px;margin-top:6px}
+  .gv-tot{margin-left:auto;min-width:210px}
+  .gv-tot .big{font-size:24px;font-weight:700}
+  .gv-tot .cbar{height:8px;border-radius:999px;background:var(--surface-3);overflow:hidden;margin-top:6px}
+  .gv-tot .cbar i{display:block;height:100%;background:var(--accent)}
+  .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+  .stp{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;cursor:pointer;text-align:left;font:inherit;color:var(--ink)}
+  .stp:hover{border-color:var(--muted)}
+  .stp .sn{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .stp .st{font-weight:700;font-size:13.5px;margin:2px 0 6px}
+  .stp .ss{font-size:12px;color:var(--ink-2);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .tsec{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+  .gv[hidden]{display:none}
+  .gv-onb{height:100%;display:grid;place-items:center;padding:24px;overflow:auto}
+  .gv-onb[hidden]{display:none}
+  .ob{max-width:560px;width:100%;text-align:center}
+  .ob h3{font-size:17px;font-weight:700;margin-bottom:6px}
+  .ob p{color:var(--ink-2);font-size:13.5px;margin:0 auto 18px;max-width:460px}
+  .ob-rows{display:grid;gap:10px;text-align:left}
+  .ob-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;display:flex;gap:14px;align-items:center}
+  .ob-row .vlogo{width:38px;height:38px;border-radius:9px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ink-2);flex:none}
+  .ob-row .t{font-weight:700;font-size:14px}
+  .ob-row .s{font-size:12.5px;color:var(--muted)}
+  .ob-row .a{margin-left:auto}
+  .ob-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left}
+  .ob-opt{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;cursor:pointer;font:inherit;color:var(--ink);text-align:left}
+  .ob-opt:hover{border-color:var(--accent)}
+  .ob-opt b{display:block;font-size:14px;margin-bottom:4px}
+  .ob-opt span{font-size:12.5px;color:var(--ink-2)}
+  .tsec-h{padding:15px 18px;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;border-left:4px solid var(--accent)}
+  .tsec.assisted .tsec-h{border-left-color:var(--blue)}
+  .tsec.attest .tsec-h{border-left-color:var(--warn)}
+  .tsec-h h3{font-size:15px;font-weight:700}
+  .tsec-h .d{font-size:12.5px;color:var(--ink-2);margin-top:2px;max-width:520px}
+  .tsec-h .cta{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .req{display:flex;gap:8px;flex-wrap:wrap;padding:10px 18px;background:var(--surface-2);border-bottom:1px solid var(--border);font-size:12px;align-items:center}
+  .req .rq{display:inline-flex;gap:6px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:3px 10px;font-weight:600}
+  .req .rq.on{color:var(--ok);border-color:var(--ok)}
+  .req .rq.off{color:var(--ink-2)}
+  .req .pg{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--muted)}
+  .req .pg .cbar{width:110px;height:6px;border-radius:999px;background:var(--surface-3);overflow:hidden}
+  .req .pg .cbar i{display:block;height:100%;background:var(--accent)}
+  table.gt{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.gt th{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-align:left;font-weight:600;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--surface)}
+  table.gt td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+  table.gt tr:last-child td{border-bottom:0}
+  table.gt td.id{font-family:"IBM Plex Mono",monospace;color:var(--muted);white-space:nowrap}
+  table.gt td.qq{max-width:330px}
+  table.gt .qt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  table.gt tr.locked td.qq,table.gt tr.locked td.id{opacity:.6}
+  table.gt tr.grp td{background:var(--surface-2);font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2)}
+  .gt .av{font-weight:600}
+  .gt .as{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  .gt .lk{display:inline-flex;gap:6px;align-items:center;color:var(--muted);font-size:12px}
+  .gt .lk svg{width:13px;height:13px}
+  .gt .ain{display:flex;gap:6px}
+  .gt .ain input{flex:1;min-width:120px;font:inherit;font-size:12px;border:1px solid var(--border-strong);border-radius:7px;padding:5px 8px;background:var(--surface);color:var(--ink)}
+  .lnk{background:none;border:0;padding:0;font:inherit;font-size:11.5px;color:var(--accent-2);cursor:pointer;text-decoration:underline}
+  .basis{font-size:10px;font-weight:700;border-radius:5px;padding:1px 6px;margin-left:6px}
+  .basis.obs{background:var(--accent-tint);color:var(--accent-2)} .basis.ret{background:var(--blue-tint);color:var(--blue)} .basis.att{background:var(--warn-tint);color:var(--warn)}
+  .fold{padding:11px 18px;font-size:12.5px;color:var(--ink-2);background:var(--surface-2);border-top:1px solid var(--border)}
+  .gv-chat-h{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center}
+  .gv-chat-h b{font-size:13.5px}
+  .gv-chat-h small{color:var(--muted);display:block;font-size:11.5px}
+  .gc-scroll{flex:1;min-height:0;overflow-y:auto;padding:16px}
+  .gc-scroll .bubble{max-width:92%;font-size:13px}
+  .gv-chips{display:flex;gap:6px;flex-wrap:wrap;padding:8px 14px;border-top:1px solid var(--border)}
+  .gv-chips button{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--ink-2);border-radius:999px;padding:5px 11px;cursor:pointer}
+  .gv-chips button:hover{border-color:var(--accent);color:var(--accent-2)}
+  .gv-chat-in{display:flex;gap:8px;padding:10px 14px 14px}
+  .gv-chat-in input{flex:1;font:inherit;font-size:13px;border:1px solid var(--border-strong);border-radius:9px;padding:9px 11px;background:var(--surface-2);color:var(--ink);outline:none}
+  .conn-banner{background:var(--accent-tint);border:1px solid var(--accent);border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;display:flex;gap:14px;align-items:center;font-size:13px}
+  .conn-banner .btn{margin-left:auto;flex:none}
+  .ccards{display:grid;gap:12px}
+  .ccard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .ccard.need{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-tint)}
+  .ccard .vlogo{width:42px;height:42px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--ink-2);flex:none}
+  .ccard .cn{font-weight:700;font-size:14.5px}
+  .ccard .cd{font-size:12.5px;color:var(--ink-2);margin-top:1px}
+  .ccard select{font:inherit;font-size:12.5px;border:1px solid var(--border-strong);background:var(--surface);color:var(--ink);border-radius:7px;padding:4px 8px;margin-top:6px}
+  .ccard .ul{font-size:12px;color:var(--muted);margin-top:8px;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+  .ccard .cact{margin-left:auto;display:flex;gap:8px;align-items:center}
+  .shsum{font-size:13px;margin-bottom:12px}
+  .shpanel[hidden]{display:none}
+  .shsplit{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:16px;align-items:start}
+  .shdet{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:sticky;top:0}
+  .shdh{display:flex;gap:12px;align-items:center;margin-bottom:4px}
+  .shph{color:var(--muted);font-size:13px;padding:14px 0;text-align:center}
+  .shitems{display:grid;gap:6px}
+  .shit{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px 11px;font-size:13px}
+  .shit .muted{font-size:12px}
+  #rkTbl table.t{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;font-size:13px}
+  #rkTbl table.t th{font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-align:left;font-weight:600;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+  #rkTbl table.t td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+  #rkTbl table.t tr:last-child td{border-bottom:0}
+  #rkTbl table.t tr.sel td{background:var(--accent-tint)}
+  .shpanel table.t tr.sel td{background:var(--accent-tint)}
+  .shpanel table.t tr.clk td{cursor:pointer}
+  @media (max-width:1100px){.shsplit{grid-template-columns:1fr}}
+  .shpanel table.t{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;font-size:13px}
+  .shpanel table.t th{font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-align:left;font-weight:600;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+  .shpanel table.t td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+  .shpanel table.t tr:last-child td{border-bottom:0}
+  #shSeg{flex-wrap:wrap}
+  .rk-center{display:grid;place-items:center;min-height:56vh;text-align:center}
+  .rk-center h3{font-size:16px;font-weight:700;margin-bottom:6px}
+  .rk-center p{color:var(--ink-2);max-width:460px;margin:0 auto 16px;font-size:13.5px}
+  .rk-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 26px;display:flex;gap:16px;align-items:center;text-align:left;max-width:520px;margin:0 auto}
+  .rk-card .vlogo{width:42px;height:42px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--ink-2);flex:none}
+  .rk-spin{width:38px;height:38px;border-radius:50%;border:3px solid var(--surface-3);border-top-color:var(--accent);margin:0 auto 14px;animation:rkspin .8s linear infinite}
+  @keyframes rkspin{to{transform:rotate(360deg)}}
+  .rk-ov{position:fixed;inset:0;background:rgba(16,24,40,.45);display:grid;place-items:center;z-index:50}
+  .rk-ov[hidden]{display:none}
+  .rk-modal{background:var(--surface);border:1px solid var(--border);border-radius:12px;width:min(460px,92vw);box-shadow:0 20px 50px rgba(0,0,0,.25)}
+  .rk-mh{padding:16px 20px;border-bottom:1px solid var(--border)}
+  .rk-folders{padding:10px;display:grid;gap:4px;max-height:50vh;overflow:auto}
+  .rk-f{display:flex;gap:11px;align-items:center;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:8px;padding:10px 12px;cursor:pointer;font:inherit;font-size:13.5px;color:var(--ink)}
+  .rk-f:hover{background:var(--surface-2)}
+  .rk-f.sel{background:var(--accent-tint);border-color:var(--accent);font-weight:600}
+  .rk-cb{width:16px;height:16px;border:1.5px solid var(--border-strong);border-radius:4px;flex:none;display:grid;place-items:center}
+  .rk-f.sel .rk-cb{background:var(--accent);border-color:var(--accent)}
+  .rk-f.sel .rk-cb::after{content:'';width:8px;height:4px;border-left:2px solid var(--on-accent);border-bottom:2px solid var(--on-accent);transform:rotate(-45deg) translate(1px,-1px)}
+  .rk-f svg{width:18px;height:18px;color:var(--muted);flex:none}
+  .rk-f.sel svg{color:var(--accent)}
+  .ev-modal{width:min(520px,94vw)}
+  .ev-body{padding:16px 20px;max-height:56vh;overflow:auto}
+  .ev-drop{border:1.5px dashed var(--border-strong);border-radius:11px;padding:30px 18px;text-align:center;background:var(--surface-2);color:var(--ink-2);font-size:13.5px}
+  .ev-file{display:flex;gap:10px;align-items:center;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:12px;font-size:13px;font-weight:600}
+  .ev-file svg{width:16px;height:16px;color:var(--accent-2);flex:none}
+  .ev-fold{border:1px solid var(--border);border-radius:9px;margin-bottom:8px;overflow:hidden}
+  .ev-fh{display:flex;gap:10px;align-items:center;width:100%;background:var(--surface-2);border:0;padding:10px 12px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--ink);text-align:left}
+  .ev-fh svg{width:17px;height:17px;color:var(--muted);flex:none}
+  .ev-fh .chev{margin-left:auto;transition:transform .15s}
+  .ev-fold.open .ev-fh .chev{transform:rotate(90deg)}
+  .ev-files{display:none}
+  .ev-fold.open .ev-files{display:block}
+  .ev-fi{display:flex;gap:10px;align-items:center;width:100%;background:none;border:0;border-top:1px solid var(--border);padding:9px 12px 9px 38px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink);text-align:left}
+  .ev-fi:hover{background:var(--surface-2)}
+  .ev-fi.sel{background:var(--accent-tint);font-weight:600}
+  .ev-rad{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--border-strong);flex:none}
+  .ev-fi.sel .ev-rad{border:4px solid var(--accent)}
+  .ua-btns{display:flex;gap:6px;flex-wrap:nowrap}
+  .ua-btns .btn{padding:5px 9px;font-size:11.5px;white-space:nowrap}
+  .rk-mf{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+  .rk-mf .btn:disabled{opacity:.5;cursor:not-allowed}
+  .rkp{font-size:12.5px;color:var(--ink-2);margin:2px 0 8px;line-height:1.55}
+  .rkdoc td{cursor:pointer}
+  /* Tokens */
+  .tk{--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#9aa3ad;--tk-grid:#E2E7EE}
+  :root[data-theme="dark"] .tk{--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#7E8C9C;--tk-grid:#28323D}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tk{--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#7E8C9C;--tk-grid:#28323D}}
+  .tk-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .tk-top .segmented{margin-bottom:0}
+  .tk-note{margin-left:auto;font-size:12px;color:var(--muted)}
+  .tk-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:18px;position:relative}
+  .tk-ch{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+  .tk-ch h2{font-size:13px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-2)}
+  .tk-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2)}
+  .tk-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .tk-ch .segmented{margin:0 0 0 auto;padding:2px}
+  .tk-tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;padding:8px 11px;font-size:12px;box-shadow:0 6px 18px rgba(0,0,0,.14);z-index:5;min-width:150px}
+  .tk-tip[hidden]{display:none}
+  .tk-tip b{display:block;margin-bottom:4px}
+  .tk-tip div{display:flex;gap:8px;justify-content:space-between}
+  .tk-tip i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+  .tk-svg{width:100%;height:auto;display:block}
+  .tk-svg text{font-family:inherit;font-size:11px;fill:var(--muted)}
+  .tk-bar{display:inline-block;height:6px;border-radius:3px;background:var(--s1);vertical-align:middle}
+  .tk-tbl{width:100%;border-collapse:collapse;font-size:13px}
+  .tk-tbl th{font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-align:left;font-weight:600;padding:9px 12px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+  .tk-tbl th.r,.tk-tbl td.r{text-align:right}
+  .tk-tbl td{padding:10px 12px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+  .tk-tbl tr:last-child td{border-bottom:0}
+  .tk-tw{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;max-height:420px;overflow-y:auto}
+  @media (max-width:1100px){.gv{grid-template-columns:1fr}.gv-chat{display:none}}
   @media (max-width:860px){
     .app{grid-template-columns:1fr}
     .rail{display:none}
@@ -419,12 +614,13 @@
   <aside class="rail">
     <div class="brand"><div class="logo"></div><b>TrismX</b></div>
     <ul class="nav" id="nav">
-      <li><button class="nav-btn" data-view="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg> AI Posture</button></li>
-      <li><button class="nav-btn" data-view="questionnaire"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5a2 2 0 012-2h9l5 5v6a2 2 0 01-2 2h-1M14 3v5h5"/><path d="M3 15l-1 6 6-1 9.5-9.5a2.1 2.1 0 00-3-3L5 12z"/></svg> Questionnaire Assistant</button></li>
+      <li><button class="nav-btn grp" data-open="gov-controls" data-group="gov-"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5a2 2 0 012-2h9l5 5v6a2 2 0 01-2 2h-1M14 3v5h5"/><path d="M3 15l-1 6 6-1 9.5-9.5a2.1 2.1 0 00-3-3L5 12z"/></svg> Governance</button></li>
+      <li><button class="nav-btn sub" data-view="gov-controls">Controls</button></li>
+      <li><button class="nav-btn sub" data-view="gov-shadow">Shadow AI</button></li>
+      <li><button class="nav-btn sub" data-view="gov-risk">Risk Management</button></li>
+      <li><button class="nav-btn sub" data-view="gov-tokens">Tokens</button></li>
       <li><button class="nav-btn" data-view="inventory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg> AI Inventory</button></li>
-      <li><button class="nav-btn" data-view="compliance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg> Compliance</button></li>
       <li><button class="nav-btn" data-view="people"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3 2.6-5 5.5-5s5.5 2 5.5 5"/><path d="M16 5.2a3 3 0 010 5.6M18 20c0-2.4-1-4.2-2.6-5"/></svg> People</button></li>
-      <li><button class="nav-btn" data-view="shadow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M12 8v4M12 15.5v.5"/></svg> Shadow AI</button></li>
       <li><button class="nav-btn" data-view="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3z"/></svg> Trust Centre</button></li>
       <li><button class="nav-btn" data-view="connect"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 7V3M15 7V3M8 7h8v4a4 4 0 01-4 4 4 4 0 01-4-4V7zM12 15v6"/></svg> Connect Infrastructure</button></li>
     </ul>
@@ -456,47 +652,40 @@
             <div class="answer" id="askAnswer"></div>
           </div>
 
-          <div class="sechead"><h2>Agent governance</h2></div>
-          <div class="stats" style="margin-bottom:22px">
-            <div class="stat"><div class="v num">6</div><div class="l">AI agents</div></div>
-            <div class="stat"><div class="v num">8</div><div class="l">Models in use</div></div>
-            <div class="stat"><div class="v num">9</div><div class="l">MCP servers</div></div>
-            <div class="stat"><div class="v num">9</div><div class="l">External vendors</div></div>
-          </div>
+        </section>
 
-          <div class="sechead"><h2>Compliance posture</h2></div>
-          <div class="rings">
-            <div class="ring"><div class="rc" style="--p:88"><b>88%</b></div><div><div class="rt">ISO/IEC 42001</div><div class="rs">30 Ready · 7 Partial · 1 Gap</div></div></div>
-            <div class="ring"><div class="rc" style="--p:68"><b>68%</b></div><div><div class="rt">NIST AI RMF</div><div class="rs">Govern · Map · Measure · Manage</div></div></div>
-            <div class="ring"><div class="rc" style="--p:72"><b>72%</b></div><div><div class="rt">EU AI Act</div><div class="rs">Deployer readiness · 2 exceptions</div></div></div>
-          </div>
-
-          <div class="sechead"><h2>Shadow AI usage</h2><span class="r muted" style="font-size:12px">Last 90 days</span></div>
-          <div class="stats" style="margin-bottom:18px">
-            <div class="stat"><div class="v num">10</div><div class="l">Sanctioned AI apps</div></div>
-            <div class="stat"><div class="v num" style="color:var(--warn)">642</div><div class="l">Shadow-AI users flagged</div></div>
-            <div class="stat"><div class="v num" style="color:var(--crit)">23</div><div class="l">Unsanctioned tools</div></div>
-            <div class="stat"><div class="v num">1,942</div><div class="l">Upload attempts blocked</div></div>
-          </div>
-          <div class="card" style="padding:16px 18px">
-            <div class="blab" style="margin-top:0">Top shadow-AI tools by users</div>
-            <div class="bars2" id="shadowBars"></div>
+        <!-- GOVERNANCE · CONTROLS -->
+        <section class="view" data-view="gov-controls">
+          <div id="gvOnb" class="gv-onb"></div>
+          <div class="gv" id="gvApp" hidden>
+            <div class="gv-main" id="gvMain">
+              <div class="gv-head">
+                <div>
+                  <h2>Questionnaire blueprint</h2>
+                  <select id="tplSel"></select>
+                  <div class="muted" id="tplMeta" style="font-size:12px;margin-top:5px"></div>
+                </div>
+                <div class="gv-tot"><div class="big num" id="totBig"></div><div class="muted" style="font-size:12px">controls answered</div><div class="cbar"><i id="totBar"></i></div></div>
+              </div>
+              <div id="gvSections"></div>
+            </div>
+            <aside class="gv-chat">
+              <div class="gv-chat-h"><span class="mav" style="width:30px;height:30px;border-radius:8px;background:var(--accent-tint);color:var(--accent-2);display:grid;place-items:center;font-size:11px;font-weight:700">TX</span><div><b>TrismX assistant</b><small>Upload, clone or define policy</small></div></div>
+              <div class="gc-scroll" id="gcScroll"><div id="gcInner"></div></div>
+              <div class="gv-chips" id="gcChips"></div>
+              <div class="gv-chat-in"><input id="gcInput" placeholder="Message TrismX… (simulated)"><button class="btn primary sm" id="gcSend">Send</button></div>
+            </aside>
           </div>
         </section>
 
-        <!-- QUESTIONNAIRE ASSISTANT -->
-        <section class="view" data-view="questionnaire">
-          <div class="qa-view">
-            <div class="qa-bar">
-              <span class="step" id="qaStep">Step 1 / 8</span>
-              <div class="sp2">
-                <button class="btn sm" id="qaRestart">Restart</button>
-                <button class="btn primary sm" id="qaNext">Next&nbsp;▶</button>
-              </div>
-            </div>
-            <div class="qa-scroll" id="qaScroll"><div class="qa-inner" id="qaInner"></div></div>
-            <div class="qa-input"><div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.4 11.6L12 21a5 5 0 01-7-7l9-9a3.5 3.5 0 015 5l-8.5 8.5a1.9 1.9 0 01-2.7-2.7L15 11"/></svg> Message TrismX… (simulated — use Next to advance)</div><button class="btn sm" disabled>Send</button></div>
-          </div>
+        <!-- GOVERNANCE · RISK MANAGEMENT -->
+        <section class="view" data-view="gov-risk">
+          <div id="rkRoot"></div>
+        </section>
+
+        <!-- GOVERNANCE · TOKENS -->
+        <section class="view" data-view="gov-tokens">
+          <div id="tkRoot" class="tk"></div>
         </section>
 
         <!-- AI INVENTORY -->
@@ -517,43 +706,6 @@
             </table>
           </div>
           <div id="invInline" hidden></div>
-        </section>
-
-        <!-- COMPLIANCE -->
-        <section class="view" data-view="compliance">
-          <div class="fwtabs" id="fwTabs">
-            <button class="fwtab active" data-fw="iso">ISO/IEC 42001 <span class="cnt">38</span></button>
-            <button class="fwtab" data-fw="nist">NIST AI RMF <span class="cnt">soon</span></button>
-            <button class="fwtab" data-fw="eu">EU AI Act <span class="cnt">soon</span></button>
-            <button class="fwtab" data-fw="admt">ADMT / US state <span class="cnt">soon</span></button>
-          </div>
-          <div id="fwIso">
-            <div class="csum">
-              <div><div class="big" id="isoPct">—</div><div class="biglab">ISO/IEC 42001 readiness</div></div>
-              <div class="cbar"><i id="isoBar" style="width:0"></i></div>
-              <div class="counts" id="isoCounts"></div>
-            </div>
-            <div class="segmented" id="isoSeg">
-              <button class="seg active" data-seg="overview">Overview</button>
-              <button class="seg" data-seg="all">All controls</button>
-            </div>
-            <div id="isoOverview">
-              <div class="attsec">
-                <div class="sechead"><h2>Needs attention</h2><span class="r muted" style="font-size:12px">Gaps and partials first</span></div>
-                <div id="isoAttention"></div>
-              </div>
-              <div class="barsec">
-                <div class="sechead"><h2>Readiness by domain</h2></div>
-                <div class="dbars" id="isoDomainBars"></div>
-              </div>
-            </div>
-            <div id="isoAll" hidden>
-              <div id="isoDomains"></div>
-            </div>
-          </div>
-          <div id="fwOther" hidden>
-            <div class="empty"><div><div class="ei"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3 id="otherName">NIST AI RMF</h3><div>Crosswalked from the ISO evidence base — populated after ISO sign-off.</div></div></div>
-          </div>
         </section>
 
         <!-- PEOPLE -->
@@ -581,19 +733,19 @@
         </section>
 
         <!-- SHADOW AI -->
-        <section class="view" data-view="shadow">
-          <div class="stats">
-            <div class="stat"><div class="v num" style="color:var(--warn)">642</div><div class="l">Shadow-AI users</div></div>
-            <div class="stat"><div class="v num" style="color:var(--crit)">23</div><div class="l">Unsanctioned tools</div></div>
-            <div class="stat"><div class="v num">406</div><div class="l">Personal accounts</div></div>
-            <div class="stat"><div class="v num">1,942</div><div class="l">Blocked attempts (90d)</div></div>
+        <section class="view" data-view="gov-shadow">
+          <div class="segmented" id="shSeg">
+            <button class="seg active" data-sh="users">Shadow AI users</button>
+            <button class="seg" data-sh="apps">Unsanctioned applications</button>
+            <button class="seg" data-sh="domains">Unsanctioned domains</button>
+            <button class="seg" data-sh="mcp">Unregistered MCP servers</button>
+            <button class="seg" data-sh="accounts">Personal accounts</button>
           </div>
-          <div class="sechead"><h2>Unsanctioned domains</h2></div>
-          <div id="shDomains"></div>
-          <div class="sechead" style="margin-top:22px"><h2>Unregistered MCP servers</h2></div>
-          <div id="shMcp"></div>
-          <div class="sechead" style="margin-top:22px"><h2>Personal accounts</h2></div>
-          <div id="shAccounts"></div>
+          <div class="shpanel" data-shp="users"><div class="muted shsum" id="shSumUsers"></div><div class="shsplit"><div id="shUsers"></div><aside class="shdet" id="shDet"></aside></div></div>
+          <div class="shpanel" data-shp="apps" hidden><div class="muted shsum" id="shSumApps"></div><div id="shApps"></div></div>
+          <div class="shpanel" data-shp="domains" hidden><div class="muted shsum" id="shSumDomains"></div><div id="shDomains"></div></div>
+          <div class="shpanel" data-shp="mcp" hidden><div class="muted shsum" id="shSumMcp"></div><div id="shMcp"></div></div>
+          <div class="shpanel" data-shp="accounts" hidden><div class="muted shsum" id="shSumAccounts"></div><div id="shAccounts"></div></div>
         </section>
 
         <!-- TRUST -->
@@ -615,13 +767,15 @@
 
         <!-- CONNECT -->
         <section class="view" data-view="connect">
+          <div id="connBanner"></div>
           <div class="segmented" id="connSeg">
             <button class="seg active" data-cseg="tools">Connect tools</button>
             <button class="seg" data-cseg="deploy">Deploy endpoint agent</button>
           </div>
           <div id="connTools">
-            <div class="searchbar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input id="vendSearch" placeholder="Search integrations by name or category…"></div>
-            <div id="vendorCats"></div>
+            <div class="muted" style="margin-bottom:14px;font-size:13px">Connect these three systems to unlock Assisted controls in Governance. Microsoft 365 feeds most of them.</div>
+            <div class="ccards" id="connCards"></div>
+            
           </div>
           <div id="connDeploy" hidden>
             <div class="deploy-card">
@@ -647,12 +801,34 @@
               <div class="platrow"><span>Windows (Jamf)</span><span class="mono">2,620 / 2,672 · 98.1%</span></div>
               <div style="margin-top:14px;display:flex;gap:9px"><button class="btn primary sm">Push to 52 pending</button><button class="btn sm">View deployment log</button></div>
             </div>
+            <div class="deploy-card" id="gwCard">
+              <div class="blab" style="margin-top:0">Step 4 · TrismX AI gateway</div>
+              <div class="drow"><span class="vlogo">GW</span><div><div class="dn">TrismX AI Gateway</div><div class="dm">Proxy for LLM calls from your own agents · records model, data classes and tools per call</div></div><span class="va" style="margin-left:auto" id="gwAct"></span></div>
+            </div>
           </div>
         </section>
 
       </div>
     </div>
   </main>
+
+  <!-- Evidence overlay (upload / Office 365) -->
+  <div class="rk-ov" id="evOv" hidden>
+    <div class="rk-modal ev-modal" role="dialog" aria-label="Provide evidence">
+      <div class="rk-mh"><b id="evTitle"></b><div class="muted" id="evSub" style="font-size:12px;margin-top:2px"></div></div>
+      <div id="evBody" class="ev-body"></div>
+      <div class="rk-mf"><button class="btn sm" id="evCancel">Cancel</button><button class="btn primary sm" id="evGo" disabled>Upload</button></div>
+    </div>
+  </div>
+
+  <!-- Risk Management folder overlay -->
+  <div class="rk-ov" id="rkOv" hidden>
+    <div class="rk-modal" role="dialog" aria-label="Select a folder">
+      <div class="rk-mh"><div><b>Select folders</b><div class="muted" style="font-size:12px">Microsoft 365 · SharePoint · Northcrest Bank</div></div></div>
+      <div class="rk-folders" id="rkFolders"></div>
+      <div class="rk-mf"><button class="btn sm" id="rkCancel">Cancel</button><button class="btn primary sm" id="rkDone" disabled>Done</button></div>
+    </div>
+  </div>
 
   <!-- Right drill-down drawer -->
   <div class="drawer-back" id="drawerBack"></div>
@@ -760,6 +936,33 @@
   function originLine(bom){var e=0,i=0,o=0;bom.forEach(function(c){if(c.source==='ext')e++;else if(c.source==='oss')o++;else i++;});return e+' external · '+i+' internal · '+o+' OSS';}
 
   /* ----- Table ----- */
+
+  var USAGE = {
+    "Candidate Screening Assistant":{
+      models:[["Claude 3.7 Sonnet","anthropic.claude-3-7-sonnet-20250219","Bedrock InvokeModel","48,210","31.4M","6.2M","Today 09:12"],["Amazon Titan Text Embeddings V2","amazon.titan-embed-text-v2:0","Bedrock InvokeModel","212,400","18.9M","—","Today 09:12"]],
+      apis:[["POST /v1/screen","ATS webhook · new application","Workday → agent","9,880","Today 09:10"],["POST /v1/rank","Recruiter UI · Rank shortlist","Recruiter portal","3,214","Today 08:47"],["POST /v1/schedule","Recruiter UI · Schedule interviews","Recruiter portal","1,102","Yesterday 17:31"]],
+      tools:[["calendar.schedule_interview","Google Calendar API v3","Write — create events","1,102","Yesterday 17:31","02 Apr 2026"],["workday.get_candidate","Workday REST v2","Read","9,880","Today 09:10","02 Apr 2026"],["kb.search_roles","OpenSearch kb-roles-v4","Read","14,306","Today 09:12","02 Apr 2026"]]},
+    "Fraud Signal Scorer":{
+      models:[["Fraud scorecard model","fraud-xgb-v3.2 · mr-4821","SageMaker InvokeEndpoint","6.8M","—","—","Today 09:14"],["GPT-4o case summariser","gpt-4o-2024-11-20","Azure OpenAI chat/completions","41,950","22.1M","5.7M","Today 09:13"]],
+      apis:[["POST /v3/score","Payments engine · each card transaction","Payments gateway","6.8M","Today 09:14"],["POST /v3/summarise","Analyst console · Open case","Case management","41,950","Today 09:13"],["POST /v3/route","Score above threshold 0.82","Internal event bus","118,400","Today 09:14"]],
+      tools:[["feedzai.get_signals","Feedzai API","Read","6.8M","Today 09:14","21 Nov 2025"],["featurestore.fetch","Feast 0.36","Read","6.8M","Today 09:14","21 Nov 2025"],["case.assign_queue","Case-routing agent","Write — queue assignment","118,400","Today 09:14","21 Nov 2025"]]},
+    "Credit Limit Recommender":{
+      models:[["Credit scorecard model","credit-scorecard-v4.1 · mr-3390","SageMaker InvokeEndpoint","412,300","—","—","Today 08:58"]],
+      apis:[["POST /v4/recommend","Retail banking app · Review limit","Decision service","412,300","Today 08:58"],["POST /v4/explain","Adverse action generated","Explainability service","38,900","Today 08:41"]],
+      tools:[["experian.pull_bureau","Experian bureau API","Read","412,300","Today 08:58","14 Jan 2026"],["explain.reason_codes","Explainability service","Read","38,900","Today 08:41","14 Jan 2026"]]},
+    "M365 Copilot — Finance &amp; HR":{
+      models:[["Copilot orchestrator + LLMs","Microsoft (GPT-4 class)","Microsoft Graph / Copilot","186,500","94.0M","21.3M","Today 09:15"]],
+      apis:[["Microsoft Graph /me/messages","User prompt in Outlook","Copilot (Outlook)","71,200","Today 09:15"],["Microsoft Graph /drive/items","User prompt in Word / Excel","Copilot (Office apps)","88,400","Today 09:11"],["Copilot Studio /agents/invoke","User prompt in Teams","Copilot (Teams)","26,900","Today 09:02"]],
+      tools:[["FinPolicyBot","Copilot Studio agent","Read","9,420","Today 08:30","03 Mar 2026"],["InvoiceTriage","Copilot Studio agent","Write — Planner tasks","4,870","Today 09:02","03 Mar 2026"],["HR-FAQ","Copilot Studio agent","Read","12,610","Today 09:05","03 Mar 2026"],["Connectors (6 approved)","Admin allow-list","Mixed read / write","31,950","Today 09:11","03 Mar 2026"]]},
+    "GitHub Copilot — Engineering":{
+      models:[["GitHub Copilot model","GPT-4 class + Codex-derived","GitHub Copilot API","2.1M","310M","74M","Today 09:15"]],
+      apis:[["api.githubcopilot.com/completions","IDE keystroke · inline suggestion","VS Code / JetBrains","1.9M","Today 09:15"],["api.githubcopilot.com/chat","IDE chat panel","VS Code / JetBrains","214,000","Today 09:14"]],
+      tools:[["Copilot IDE extension","VS Code / JetBrains","Read repo context","2.1M","Today 09:15","10 Jun 2025"],["Workspace context","IDE workspace index","Read","640,300","Today 09:14","10 Jun 2025"]]},
+    "Marketing Copy Generator":{
+      models:[["Jasper AI","Jasper (GPT-4 class)","Jasper REST API","27,400","11.8M","9.3M","Yesterday 16:20"]],
+      apis:[["POST api.jasper.ai/v1/generate","Marketer · Generate draft","Jasper web app","19,800","Yesterday 16:20"],["POST api.jasper.ai/v1/brand-voice","Campaign brief upload","Jasper web app","7,600","Yesterday 14:05"]],
+      tools:[["Brand voice KB connector","Internal knowledge base","Read","7,600","Yesterday 14:05","19 Feb 2026"]]}
+  };
   function modelsOf(s){return s.bom.filter(function(c){return c.kind==='model';});}
   function renderTable(){
     document.getElementById('sysTbody').innerHTML = SYSTEMS.map(function(s,i){
@@ -790,6 +993,17 @@
   function kv(obj){ return '<dl class="flowbox">'+Object.keys(obj).map(function(k){return '<dt>'+k+'</dt><dd>'+obj[k]+'</dd>';}).join('')+'</dl>'; }
   function srcBadge(src){ return '<span class="src '+src+'">'+SRC[src].toUpperCase()+'</span>'; }
 
+
+  function usageHtml(s){
+    var u=USAGE[s.name]; if(!u) return '';
+    var t=function(h,rows){return '<div class="ubx"><table class="bt"><thead><tr>'+h.map(function(x){return '<th>'+x+'</th>';}).join('')+'</tr></thead><tbody>'+rows.map(function(r){return '<tr>'+r.map(function(c,i){return '<td'+(i===0?' class="cmp"':'')+'>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div>';};
+    return '<div class="blab">Models consumed<span class="rt">'+u.models.length+' · usage to date</span></div>'+
+      t(['Model','Model ID','Called via','Calls','In tokens','Out tokens','Last used'],u.models)+
+      '<div class="blab">APIs that triggered it<span class="rt">'+u.apis.length+' entry points</span></div>'+
+      t(['Endpoint','Trigger','Caller','Calls','Last call'],u.apis)+
+      '<div class="blab">Tools invoked to date<span class="rt">'+u.tools.length+' tools</span></div>'+
+      t(['Tool','Integration','Scope','Invocations','Last invoked','First seen'],u.tools);
+  }
   function systemFrame(i){
     var s=SYSTEMS[i];
     return { title:s.name, sub:s.id["System ID"],
@@ -806,7 +1020,7 @@
             Object.keys(s.id).map(function(k){return '<span class="kt">'+k+': <b>'+s.id[k]+'</b></span>';}).join('')+'</div>'+
           '<div class="blab">Purpose</div><p style="margin:0;font-size:13px;color:var(--ink-2)">'+s.purpose+'</p>'+
           '<div class="blab">Owner</div><div class="own" style="max-width:340px"><div class="n">'+s.owner.n+'</div><div class="role">'+s.owner.role+'</div><div class="e">'+s.owner.e+'</div></div>'+
-          '<div class="blab">AI Bill of Materials<span class="rt">'+originLine(s.bom)+'</span></div>'+
+          usageHtml(s)+'<div class="blab">All components<span class="rt">'+originLine(s.bom)+'</span></div>'+
           '<table class="bt"><thead><tr><th>Component</th><th>Type</th><th>Source</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>'+
           '<div class="legend"><span><i style="background:var(--accent)"></i>Internal</span><span><i style="background:var(--blue)"></i>External</span><span><i style="background:var(--muted)"></i>OSS</span><span class="muted">Click a component for detail</span></div>';
       }};
@@ -946,266 +1160,6 @@
     else if(p[0]==='comp') openDrawer(compFrame(SYSTEMS[+p[1]].bom[+p[2]]));
     else if(p[0]==='cname') openDrawer(compFrame(compByName(decodeURIComponent(p.slice(1).join(':')))));
     else if(p[0]==='prov') openDrawer(providerFrame(p[1]));
-  });
-
-  /* ---------- Compliance: ISO/IEC 42001 Annex A ---------- */
-  var OWN = {
-    gov:["Órla Byrne","AI Governance Lead","orla.byrne@northcrestbank.ie"],
-    ciso:["Declan Harte","CISO","declan.harte@northcrestbank.ie"],
-    dpo:["Maeve Kennedy","Data Protection Officer","maeve.kennedy@northcrestbank.ie"],
-    data:["Ruairí Flynn","Head of Data Governance","ruairi.flynn@northcrestbank.ie"],
-    mlops:["Lena Fischer","MLOps Lead","lena.fischer@northcrestbank.ie"],
-    mlplat:["Dev Patel","ML Platform Lead","dev.patel@northcrestbank.ie"],
-    vendor:["Grace O'Sullivan","Head of Vendor Risk","grace.osullivan@northcrestbank.ie"],
-    hr:["Colm Doyle","HR Operations Lead","colm.doyle@northcrestbank.ie"],
-    sec:["Niall Brady","Security Engineering Lead","niall.brady@northcrestbank.ie"]
-  };
-  // evidence: [title, source, status(c=collected,s=stale,m=missing), date]
-  var DOMAINS = [
-    {id:"A.2", name:"AI policies", ctl:[
-      ["A.2.2","AI policy","gov","ok","The organization shall document an AI policy, approved by top management, setting its principles for developing and using AI.",[
-        ["AI Acceptable-Use Policy v4 — approved by CISO","TrismX policy module","c","12 Aug 2026"],
-        ["Policy-acknowledgement completion 95.6%","Workday Learning","c","24 Sep 2026"],
-        ["GenAI app-control policy (allow / block / coach)","Netskope","c","auto"]]],
-      ["A.2.3","Alignment with other policies","gov","ok","The AI policy shall be kept consistent with other organizational policies (infosec, privacy, HR, ethics).",[
-        ["Policy cross-reference map → ISO 27001 / Privacy / HR","TrismX","c","12 Aug 2026"],
-        ["AI processing reflected in RoPA","OneTrust","c","03 Sep 2026"]]],
-      ["A.2.4","Review of the AI policy","gov","partial","The AI policy shall be reviewed at planned intervals or when significant changes occur.",[
-        ["Last reviewed 12 Aug 2026 · next due 12 Feb 2027","TrismX","c","12 Aug 2026"],
-        ["Recurring policy-review task","Jira SEC-REV-42","s","overdue 9 d"]]]
-    ]},
-    {id:"A.3", name:"Internal organization", ctl:[
-      ["A.3.2","AI roles and responsibilities","gov","ok","Roles and responsibilities for the AI management system shall be defined and allocated.",[
-        ["'AI Governance' group — 9 named members provisioned","Okta","c","auto"],
-        ["RACI / control-ownership map + AI governance charter","TrismX","c","01 Sep 2026"]]],
-      ["A.3.3","Reporting of concerns","ciso","ok","A mechanism shall exist for people to report concerns about AI systems (misuse, harm, ethics).",[
-        ["AI-concern request type · 4 reports resolved","ServiceNow","c","auto"],
-        ["#report-ai-concern workflow configured","Microsoft Teams","c","auto"]]]
-    ]},
-    {id:"A.4", name:"Resources for AI systems", ctl:[
-      ["A.4.2","Resource documentation","gov","ok","Resources needed for AI systems (data, tooling, compute, people) shall be identified and documented.",[
-        ["AI-system inventory — 63 apps · 6 systems","TrismX discovery","c","auto"],
-        ["Deployed model endpoints + compute","AWS Bedrock / Azure OpenAI","c","auto"]]],
-      ["A.4.3","Data resources","data","ok","Information about the data resources used for AI systems shall be documented.",[
-        ["Datasets with classification & owners","Microsoft Purview","c","auto"],
-        ["RAG / knowledge-base sources per model","Bedrock KB","c","auto"]]],
-      ["A.4.4","Tooling resources","mlplat","ok","Information about the tooling resources used for AI systems shall be documented.",[
-        ["Registered frameworks & pipelines per model","SageMaker / MLflow","c","auto"],
-        ["SBOM + dependency manifests per repo","GitHub","c","auto"]]],
-      ["A.4.5","System & computing resources","mlplat","ok","Information about system and computing resources used for AI systems shall be documented.",[
-        ["Compute inventory tagged to AI workloads","AWS","c","auto"],
-        ["AI resource posture & configuration","Wiz","c","auto"]]],
-      ["A.4.6","Human resources","hr","partial","Human resources (competencies, roles) required for AI systems shall be documented.",[
-        ["Roles / skills mapped to AI systems","Workday","c","auto"],
-        ["AI-literacy training completion — 28 overdue","Workday Learning","s","95.6%"]]]
-    ]},
-    {id:"A.5", name:"Assessing impacts of AI systems", ctl:[
-      ["A.5.2","Impact assessment process","gov","ok","A process shall assess potential consequences of AI systems on individuals, groups, and society.",[
-        ["AISIA template + trigger criteria defined","TrismX","c","01 Aug 2026"],
-        ["Impact assessment gated in intake workflow","ServiceNow","c","auto"]]],
-      ["A.5.3","Documentation of impact assessments","gov","ok","Results of AI system impact assessments shall be documented and retained.",[
-        ["6 completed AISIA records with sign-off","TrismX","c","auto"],
-        ["Assessments retained & versioned","SharePoint","c","auto"]]],
-      ["A.5.4","Impacts on individuals & groups","dpo","partial","Potential impacts of AI systems on individuals and groups shall be assessed.",[
-        ["Bias / fairness tests by affected group","SageMaker Clarify","c","5 of 6 systems"],
-        ["Fairness test — Fraud Signal Scorer","SageMaker Clarify","m","not on record"]]],
-      ["A.5.5","Societal impacts","gov","ok","Potential broader societal impacts of AI systems shall be assessed.",[
-        ["Societal-impact section of each AISIA","TrismX","c","auto"]]]
-    ]},
-    {id:"A.6", name:"AI system life cycle", ctl:[
-      ["A.6.1.2","Objectives for responsible development","mlplat","ok","Objectives to guide the responsible development of AI systems shall be documented.",[
-        ["Responsible-development objectives approved","TrismX","c","01 Aug 2026"],
-        ["Model-card 'intended purpose' per model","SageMaker Model Registry","c","auto"]]],
-      ["A.6.1.3","Processes for responsible design","mlops","ok","Processes for responsible design and development of AI systems shall be defined.",[
-        ["Gated pipeline stages enforced","MLflow","c","auto"],
-        ["Branch protection + required PR review","GitHub","c","auto"]]],
-      ["A.6.2.2","Requirements & specification","mlplat","ok","Requirements for new AI systems or material enhancements shall be specified.",[
-        ["Requirement epics linked per system","Jira","c","auto"],
-        ["Model-card requirement & constraint fields","SageMaker","c","auto"]]],
-      ["A.6.2.3","Design & development documentation","mlplat","ok","The design and development of AI systems shall be documented.",[
-        ["Model cards + experiment lineage","MLflow","c","auto"],
-        ["Architecture decision records + commit history","GitHub","c","auto"]]],
-      ["A.6.2.4","Verification & validation","mlops","gap","V&V measures for AI systems shall be defined, used, and their results retained.",[
-        ["Eval results / benchmarks per version","Bedrock Evaluations","c","4 of 6 systems"],
-        ["Red-team / adversarial test — Fraud Signal Scorer","Lakera","m","not on record"]]],
-      ["A.6.2.5","Deployment","mlops","ok","Requirements and controls for deploying AI systems into use shall be applied.",[
-        ["Deployment approvals + release history","GitHub Actions","c","auto"],
-        ["Model-promotion approvals (staging → prod)","SageMaker","c","auto"]]],
-      ["A.6.2.6","Operation & monitoring","mlops","partial","Controls needed to operate and monitor AI systems in production shall be applied.",[
-        ["Drift / performance monitors configured","Fiddler","c","2 open drift alerts"],
-        ["Runtime policy-violation events","TrismX Gateway","c","auto"]]],
-      ["A.6.2.7","Technical documentation","mlplat","partial","Technical documentation appropriate to its audience shall be maintained per AI system.",[
-        ["Model cards / technical docs per version","MLflow","c","auto"],
-        ["Annex-IV technical file — Credit Limit Recommender","Confluence","m","not compiled"]]],
-      ["A.6.2.8","Event logging","sec","ok","Events AI systems record during operation shall be determined and the logs maintained.",[
-        ["AI event logs retained 12 months","Splunk","c","auto"],
-        ["Prompt / response + decision logging enabled","TrismX Gateway","c","auto"]]]
-    ]},
-    {id:"A.7", name:"Data for AI systems", ctl:[
-      ["A.7.2","Data for development & enhancement","data","ok","Data-management requirements for development and enhancement of AI systems shall be documented.",[
-        ["Training / enhancement datasets with owners","Microsoft Purview","c","auto"],
-        ["Feature-store versions per model","SageMaker Feature Store","c","auto"]]],
-      ["A.7.3","Acquisition of data","data","ok","How data is acquired and selected for AI systems shall be documented.",[
-        ["Source records per dataset","Collibra","c","auto"],
-        ["Data-licensing terms — Experian bureau feed","Ironclad","c","01 Jan 2026"]]],
-      ["A.7.4","Quality of data","data","ok","The quality of data used in AI systems shall be defined and managed.",[
-        ["Data-quality test results & rules","Great Expectations","c","auto"],
-        ["Validation-step outputs in training pipeline","SageMaker","c","auto"]]],
-      ["A.7.5","Data provenance","data","ok","Provenance (origin and history) of data used in AI systems shall be recorded.",[
-        ["Lineage graphs source → transformation","Purview / Unity Catalog","c","auto"],
-        ["Dataset-version linkage per model run","MLflow","c","auto"]]],
-      ["A.7.6","Data preparation","data","ok","Data-preparation methods (cleaning, labeling, transformation) shall be documented.",[
-        ["Transformation pipeline definitions & runs","dbt","c","auto"],
-        ["Labeling job config + quality audit","SageMaker Ground Truth","c","auto"]]]
-    ]},
-    {id:"A.8", name:"Information for interested parties", ctl:[
-      ["A.8.2","System documentation for users","gov","ok","Information shall be provided to users to understand and appropriately use the AI system.",[
-        ["Published user-facing documentation","Confluence","c","auto"],
-        ["AI disclosure published","TrismX Trust Centre","c","auto"]]],
-      ["A.8.3","External reporting","gov","ok","A means shall exist for interested parties to receive information and report matters.",[
-        ["Public reporting / contact channel configured","SafeBase","c","auto"],
-        ["External AI request queue","ServiceNow","c","auto"]]],
-      ["A.8.4","Communication of incidents","ciso","ok","A process shall communicate AI system incidents to relevant interested parties.",[
-        ["AI-tagged incident records + timeline","PagerDuty","c","auto"],
-        ["Published incident-communication history","Atlassian Statuspage","c","auto"]]],
-      ["A.8.5","Information for interested parties","dpo","partial","Information needed by interested parties (regulators, affected individuals) shall be provided.",[
-        ["Published transparency information","TrismX Trust Centre","c","auto"],
-        ["Regulator information package","SharePoint","s","draft pending"]]]
-    ]},
-    {id:"A.9", name:"Use of AI systems", ctl:[
-      ["A.9.2","Processes for responsible use","gov","ok","Processes for the responsible use of AI systems shall be established.",[
-        ["Active guardrail / acceptable-use enforcement","TrismX Gateway","c","auto"],
-        ["GenAI allow / block / coach + DLP rules","Netskope","c","auto"]]],
-      ["A.9.3","Objectives for responsible use","gov","ok","Objectives for the responsible use of AI systems shall be documented.",[
-        ["Responsible-use objectives in AUP","Vanta","c","auto"],
-        ["Enforcement metrics evidencing objectives","TrismX","c","auto"]]],
-      ["A.9.4","Intended use","gov","ok","AI systems shall be used in accordance with their intended use.",[
-        ["Usage telemetry + off-label flags per app","TrismX","c","auto"],
-        ["Declared intended-use vs actual use","SageMaker","c","auto"]]]
-    ]},
-    {id:"A.10", name:"Third-party & customer relationships", ctl:[
-      ["A.10.2","Allocating responsibilities","vendor","ok","Responsibilities for the AI life cycle shall be allocated among internal parties, suppliers, and customers.",[
-        ["RACI matrix across the value chain","TrismX","c","auto"],
-        ["Supplier responsibility clauses","Ironclad","c","auto"]]],
-      ["A.10.3","Suppliers","vendor","partial","Suppliers of AI systems, data, or services shall align with the responsible-AI approach.",[
-        ["Supplier AI due-diligence assessments","OneTrust","c","auto"],
-        ["Jasper AI — US data-transfer review","OneTrust","s","open"]]],
-      ["A.10.4","Customers","vendor","ok","Relevant information shall be made available to customers to meet their responsibilities.",[
-        ["Customer terms + AI addendum","Ironclad","c","auto"],
-        ["Published customer usage guidance","TrismX Trust Centre","c","auto"]]]
-    ]}
-  ];
-
-  var STMAP = {ok:{p:"ok",l:"Ready",w:1}, partial:{p:"warn",l:"Partial",w:.5}, gap:{p:"crit",l:"Gap",w:0}};
-  var EVMAP = {c:{cls:"collected",mk:"✓",p:"ok",l:"Collected"}, s:{cls:"stale",mk:"!",p:"warn",l:"Stale"}, m:{cls:"missing",mk:"✕",p:"crit",l:"Missing"}};
-  var DNAME={}; DOMAINS.forEach(function(d){DNAME[d.id]=d.name;});
-
-  function evRow(e){
-    var m=EVMAP[e[2]];
-    return '<div class="ev '+m.cls+'"><span class="evmk">'+m.mk+'</span>'+
-      '<div><div class="evt">'+e[0]+'</div><div class="evs">'+e[1]+' · '+e[3]+'</div></div>'+
-      '<span class="evp pill '+m.p+'">'+m.l+'</span></div>';
-  }
-  function missSummary(c){
-    var t=c[5].filter(function(e){return e[2]!=='c';}).map(function(e){return e[0];});
-    return t.length? t.join(' · ') : 'Evidence incomplete';
-  }
-  // control detail opens in the right drawer
-  function controlFrame(di,ci){
-    var d=DOMAINS[di], c=d.ctl[ci], st=STMAP[c[3]], o=OWN[c[2]];
-    return { title:c[0]+' · '+c[1], sub:d.id+' '+d.name,
-      html:function(){
-        return '<div class="badgerow"><span class="pill '+st.p+'">'+st.l+'</span></div>'+
-          '<div class="blab">Requirement</div><p style="margin:0;font-size:13px;color:var(--ink-2);max-width:76ch">'+c[4]+'</p>'+
-          '<div class="blab">Owner</div><div class="own" style="max-width:340px"><div class="n">'+o[0]+'</div><div class="role">'+o[1]+'</div><div class="e">'+o[2]+'</div></div>'+
-          '<div class="blab">Evidence collected<span class="rt">'+c[5].length+' records</span></div>'+
-          '<div class="evlist">'+c[5].map(evRow).join('')+'</div>';
-      }};
-  }
-  function domainPct(d){ var t=0; d.ctl.forEach(function(c){ t+=STMAP[c[3]].w; }); return Math.round(t/d.ctl.length*100); }
-
-  (function renderIso(){
-    var ok=0,pa=0,gp=0,tot=0,pts=0, attention=[];
-    DOMAINS.forEach(function(d,di){ d.ctl.forEach(function(c,ci){ tot++; pts+=STMAP[c[3]].w;
-      if(c[3]==='ok')ok++; else { if(c[3]==='partial')pa++; else gp++; attention.push({di:di,ci:ci,c:c}); }
-    }); });
-    var overall=Math.round(pts/tot*100);
-    document.getElementById('isoPct').textContent=overall+'%';
-    document.getElementById('isoBar').style.width=overall+'%';
-    document.getElementById('isoCounts').innerHTML=
-      '<div class="cchip ok"><div class="cv">'+ok+'</div><div class="cl">Ready</div></div>'+
-      '<div class="cchip warn"><div class="cv">'+pa+'</div><div class="cl">Partial</div></div>'+
-      '<div class="cchip crit"><div class="cv">'+gp+'</div><div class="cl">Gap</div></div>';
-
-    // needs attention — gaps first, then partials
-    attention.sort(function(a,b){ return (a.c[3]==='gap'?0:1)-(b.c[3]==='gap'?0:1); });
-    document.getElementById('isoAttention').innerHTML = attention.map(function(a){
-      var c=a.c, st=STMAP[c[3]], o=OWN[c[2]];
-      return '<div class="att '+c[3]+'" data-open="ctl:'+a.di+':'+a.ci+'">'+
-        '<span class="aid">'+c[0]+'</span>'+
-        '<span class="amn"><span class="anm">'+c[1]+'</span><span class="amiss">Missing: '+missSummary(c)+'</span><span class="aown">'+o[0]+' · '+o[1]+'</span></span>'+
-        '<span class="pill '+st.p+'">'+st.l+'</span>'+
-        '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>'+
-      '</div>';
-    }).join('');
-
-    // readiness by domain
-    document.getElementById('isoDomainBars').innerHTML = DOMAINS.map(function(d){
-      var p=domainPct(d);
-      return '<div class="dbari"><div class="t"><b>'+d.id+' '+d.name+'</b><span class="p">'+p+'%</span></div><div class="bar"><i style="width:'+p+'%"></i></div></div>';
-    }).join('');
-
-    // all controls — compact clickable rows grouped by domain
-    document.getElementById('isoDomains').innerHTML = DOMAINS.map(function(d,di){
-      var p=domainPct(d);
-      var rows=d.ctl.map(function(c,ci){ var st=STMAP[c[3]], o=OWN[c[2]];
-        return '<div class="ctlrow" data-open="ctl:'+di+':'+ci+'"><button class="ctlhead">'+
-          '<span class="ctlid">'+c[0]+'</span>'+
-          '<span class="mn"><span class="nm">'+c[1]+'</span><span class="sub">Owner: '+o[0]+' · '+o[1]+'</span></span>'+
-          '<span class="pill '+st.p+'">'+st.l+'</span>'+
-          '<svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>'+
-        '</button></div>';
-      }).join('');
-      return '<div class="dgroup">'+
-        '<div class="dhead">'+
-          '<span class="did">'+d.id+'</span><span class="dnm">'+d.name+'</span>'+
-          '<span class="dcount">'+d.ctl.length+' controls</span>'+
-          '<span class="dbar"><i style="width:'+p+'%"></i></span><span class="dpct">'+p+'%</span>'+
-          '<svg class="dchev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>'+
-        '</div>'+
-        '<div class="dlist">'+rows+'</div>'+
-      '</div>';
-    }).join('');
-  })();
-
-  // open control detail from attention list or all-controls list
-  function ctlDelegate(e){ var el=e.target.closest('[data-open^="ctl:"]'); if(!el)return; var p=el.getAttribute('data-open').split(':'); openDrawer(controlFrame(+p[1],+p[2])); }
-  document.getElementById('isoAttention').addEventListener('click', ctlDelegate);
-  document.getElementById('isoDomains').addEventListener('click', function(e){
-    if(e.target.closest('[data-open^="ctl:"]')){ ctlDelegate(e); return; }
-    var h=e.target.closest('.dhead'); if(h) h.parentElement.classList.toggle('collapsed');
-  });
-  // overview / all controls toggle
-  document.querySelectorAll('#isoSeg .seg').forEach(function(s){
-    s.addEventListener('click', function(){
-      document.querySelectorAll('#isoSeg .seg').forEach(function(x){x.classList.remove('active');});
-      s.classList.add('active');
-      var ov=s.dataset.seg==='overview';
-      document.getElementById('isoOverview').hidden=!ov;
-      document.getElementById('isoAll').hidden=ov;
-    });
-  });
-  // framework tabs
-  var FWNAME={nist:"NIST AI RMF", eu:"EU AI Act", admt:"ADMT / US state privacy"};
-  document.querySelectorAll('#fwTabs .fwtab').forEach(function(t){
-    t.addEventListener('click', function(){
-      document.querySelectorAll('#fwTabs .fwtab').forEach(function(x){x.classList.remove('active');});
-      t.classList.add('active');
-      var iso=t.dataset.fw==='iso';
-      document.getElementById('fwIso').hidden=!iso;
-      document.getElementById('fwOther').hidden=iso;
-      if(!iso) document.getElementById('otherName').textContent=FWNAME[t.dataset.fw];
-    });
   });
 
   /* ---------- People ---------- */
@@ -1350,13 +1304,68 @@
     ["DeepSeek","chat.deepseek.com","22 users","Blocked","crit"],
     ["Claude (personal)","claude.ai","18 users","Redirected to enterprise","warn"]
   ];
+  var SH_USERS=[
+    {n:"Aoife Brennan",t:"Marketing",apps:[["Grammarly Desktop","Writing assistant · LT-MKT-0102"]],doms:[["chatgpt.com","310 requests"]],mcp:[],acc:[["ChatGPT (personal)","chatgpt.com","Redirected to enterprise","warn"]]},
+    {n:"Conor Walsh",t:"Engineering",apps:[["Ollama","Local models · LT-ENG-0388"],["DeepSeek Desktop","Assistant · LT-ENG-0388"]],doms:[["chat.deepseek.com","760 requests"]],mcp:[["postgres-mcp","DB read (prod) · stdio · LT-ENG-0388"]],acc:[["DeepSeek","chat.deepseek.com","Blocked","crit"]]},
+    {n:"Niamh Doyle",t:"Sales",apps:[["Perplexity","Research · LT-SAL-0223"]],doms:[["perplexity.ai","410 requests"]],mcp:[["custom-crm-mcp","CRM read · stdio · LT-SAL-0223"]],acc:[["Perplexity","perplexity.ai","Blocked","crit"]]},
+    {n:"Eoin Murphy",t:"Finance",apps:[],doms:[["gemini.google.com","230 requests"]],mcp:[],acc:[["Gemini (personal)","gemini.google.com","Coached","warn"]]},
+    {n:"Sinead Kelly",t:"Legal",apps:[["Otter.ai","Meeting notes · LT-LEG-0061"]],doms:[["otter.ai","95 requests"]],mcp:[],acc:[]},
+    {n:"Darragh Byrne",t:"Operations",apps:[],doms:[["claude.ai","180 requests"]],mcp:[],acc:[["Claude (personal)","claude.ai","Redirected to enterprise","warn"]]},
+    {n:"Orla Fitzgerald",t:"Marketing",apps:[["Grammarly Desktop","Writing assistant · LT-MKT-0117"]],doms:[["grammarly.com","520 requests"]],mcp:[],acc:[]},
+    {n:"Cian O'Neill",t:"Engineering",apps:[["Cursor","Developer AI · LT-ENG-0441"]],doms:[["chatgpt.com","540 requests"]],mcp:[["brave-search-mcp","Web search · stdio · LT-ENG-0441"]],acc:[["ChatGPT (personal)","chatgpt.com","Coached","warn"]]}
+  ];
+  var shSel=-1;
+  function shSection(title,items,render){
+    return '<div class="blab">'+title+'<span class="rt">'+items.length+'</span></div>'+(items.length?'<div class="shitems">'+items.map(render).join('')+'</div>':'<div class="muted" style="font-size:12.5px">None detected</div>');
+  }
+  function drawShDetail(){
+    var el=document.getElementById('shDet');
+    if(shSel<0){ el.innerHTML='<div class="shph">Select a user to see the unsanctioned applications, domains, MCP servers and personal accounts they accessed.</div>'; return; }
+    var u=SH_USERS[shSel];
+    el.innerHTML='<div class="shdh"><span class="mav" style="width:34px;height:34px;border-radius:50%;background:var(--surface-3);color:var(--ink-2);display:grid;place-items:center;font-size:12px;font-weight:700">'+u.n.split(' ').map(function(w){return w[0];}).join('')+'</span><div><div style="font-weight:700;font-size:14.5px">'+u.n+'</div><div class="muted" style="font-size:12px">'+u.t+'</div></div></div>'+
+      shSection('Unsanctioned applications',u.apps,function(x){return '<div class="shit"><b>'+x[0]+'</b><span class="muted">'+x[1]+'</span></div>';})+
+      shSection('Unsanctioned domains',u.doms,function(x){return '<div class="shit"><b class="mono" style="font-size:12.5px">'+x[0]+'</b><span class="muted">'+x[1]+'</span></div>';})+
+      shSection('Unregistered MCP servers',u.mcp,function(x){return '<div class="shit"><b class="mono" style="font-size:12.5px">'+x[0]+'</b><span class="muted">'+x[1]+'</span></div>';})+
+      shSection('Personal accounts',u.acc,function(x){return '<div class="shit"><b>'+x[0]+'</b><span class="muted mono" style="font-size:11.5px">'+x[1]+'</span></div>';});
+  }
+  var SH_APPS=[
+    ["Grammarly Desktop","Writing assistant","720","690 devices","Coached","warn"],
+    ["Otter.ai","Meeting notes","40","38 devices","Blocked","crit"],
+    ["DeepSeek Desktop","Assistant","22","22 devices","Blocked","crit"],
+    ["Perplexity","Research","95","88 devices","Blocked","crit"],
+    ["Cursor","Developer AI","31","31 devices","Under review","warn"],
+    ["Ollama","Local models","12","12 devices","Under review","warn"],
+    ["Fireflies.ai","Meeting notes","17","15 devices","Blocked","crit"]
+  ];
   (function renderShadow(){
+    document.getElementById('shSumUsers').textContent='642 users flagged for shadow-AI use in the last 90 days. Showing the highest-volume users.';
+    function drawShUsers(){
+      document.getElementById('shUsers').innerHTML = miniTable([{t:'User'},{t:'Team'}],
+        SH_USERS.map(function(x,i){return '<tr class="clk'+(i===shSel?' sel':'')+'" data-u="'+i+'"><td class="ttl">'+x.n+'</td><td>'+x.t+'</td></tr>';}).join(''));
+    }
+    drawShUsers(); drawShDetail();
+    document.getElementById('shUsers').addEventListener('click',function(e){
+      var tr=e.target.closest('tr[data-u]'); if(!tr) return;
+      shSel=+tr.dataset.u; drawShUsers(); drawShDetail();
+    });
+    document.getElementById('shSumApps').textContent='23 unsanctioned AI applications seen on endpoints. Showing the most used.';
+    document.getElementById('shApps').innerHTML = miniTable([{t:'Application'},{t:'Category'},{t:'Users'},{t:'Footprint'}],
+      SH_APPS.map(function(x){return '<tr><td class="ttl">'+x[0]+'</td><td>'+x[1]+'</td><td>'+x[2]+'</td><td class="muted">'+x[3]+'</td></tr>';}).join(''));
+    document.getElementById('shSumDomains').textContent=SH_DOMAINS.length+' unsanctioned AI domains visited from managed browsers.';
     document.getElementById('shDomains').innerHTML = miniTable([{t:'Domain'},{t:'Category'},{t:'Exposure'}],
       SH_DOMAINS.map(function(x){return '<tr><td class="ttl mono" style="font-size:12.5px">'+x[0]+'</td><td>'+x[1]+'</td><td class="muted">'+x[3]+'</td></tr>';}).join(''));
-    document.getElementById('shMcp').innerHTML = miniTable([{t:'MCP server'},{t:'Transport'},{t:'Scope'},{t:'Host'}],
-      SH_MCP.map(function(x){return '<tr><td class="ttl mono" style="font-size:12.5px">'+x[0]+'</td><td>'+x[1]+'</td><td class="muted">'+x[2]+'</td><td class="mono" style="font-size:12px">'+x[3]+'</td></tr>';}).join(''));
-    document.getElementById('shAccounts').innerHTML = miniTable([{t:'Service'},{t:'Domain'},{t:'Users'},{t:'Action'}],
-      SH_ACCOUNTS.map(function(x){return '<tr><td class="ttl">'+x[0]+'</td><td class="mono" style="font-size:12px">'+x[1]+'</td><td>'+x[2]+'</td><td>'+pill(x[4],x[3])+'</td></tr>';}).join(''));
+    document.getElementById('shSumMcp').textContent=SH_MCP.length+' MCP servers connected from endpoints that are not in the registry.';
+    document.getElementById('shMcp').innerHTML = miniTable([{t:'MCP server'},{t:'Transport'},{t:'Scope'},{t:'Host'},{t:'Status'}],
+      SH_MCP.map(function(x){return '<tr><td class="ttl mono" style="font-size:12.5px">'+x[0]+'</td><td>'+x[1]+'</td><td class="muted">'+x[2]+'</td><td class="mono" style="font-size:12px">'+x[3]+'</td><td>'+pill(x[5],x[4])+'</td></tr>';}).join(''));
+    document.getElementById('shSumAccounts').textContent='406 personal accounts used with AI services on work devices.';
+    document.getElementById('shAccounts').innerHTML = miniTable([{t:'Service'},{t:'Domain'},{t:'Users'}],
+      SH_ACCOUNTS.map(function(x){return '<tr><td class="ttl">'+x[0]+'</td><td class="mono" style="font-size:12px">'+x[1]+'</td><td>'+x[2]+'</td></tr>';}).join(''));
+    document.querySelectorAll('#shSeg .seg').forEach(function(sg){
+      sg.addEventListener('click',function(){
+        document.querySelectorAll('#shSeg .seg').forEach(function(x){x.classList.toggle('active',x===sg);});
+        document.querySelectorAll('.shpanel').forEach(function(p){ p.hidden = p.dataset.shp!==sg.dataset.sh; });
+      });
+    });
   })();
 
   /* ---------- Connect infrastructure ---------- */
@@ -1415,8 +1424,6 @@
     var mid = (top&&rest) ? '<div class="sechead" style="margin:6px 0 12px"><h2>Available integrations</h2></div>' : '';
     document.getElementById('vendorCats').innerHTML = (top+mid+rest) || '<div class="muted" style="padding:20px 0">No integrations match your search.</div>';
   }
-  renderVendors('');
-  document.getElementById('vendSearch').addEventListener('input',function(){ renderVendors(this.value); });
   document.querySelectorAll('#connSeg .seg').forEach(function(s){
     s.addEventListener('click',function(){
       document.querySelectorAll('#connSeg .seg').forEach(function(x){x.classList.remove('active');});
@@ -1442,96 +1449,420 @@
     an.innerHTML='<div class="aq"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2" style="flex:none;margin-top:2px"><path d="M12 3a9 9 0 00-9 9 9 9 0 001.5 5L3 21l4-1.5A9 9 0 1012 3z"/></svg><span>'+x.q+'</span></div>'+x.a;
     an.classList.add('show');
   });
-  var SHADOW=[["Grammarly (personal)",720,"warn"],["Gemini (personal)",210,"warn"],["Perplexity",95,"crit"],["Otter.ai",40,"crit"],["DeepSeek",22,"crit"]];
-  var smax=720;
-  document.getElementById('shadowBars').innerHTML = SHADOW.map(function(b){
-    return '<div class="bar2"><span>'+b[0]+'</span><span class="track"><i class="'+b[2]+'" style="width:'+Math.round(b[1]/smax*100)+'%"></i></span><span class="bv">'+b[1]+'</span></div>';
-  }).join('');
+  /* ---------- Governance ---------- */
+  var DATA=[{"id":"1.1","q":"Does your organization leverage generative AI?","lv":1,"tier":"Auto","src":"Inventory (endpoint agent + gateway) shows AI apps, agents, models in use.","cav":"Embedded AI in SaaS is out of PRD scope, so TrismX can say \"none detected\", never prove \"No\".","need":"endpoint","ans":"Yes, for product/service"},{"id":"1.2","q":"Does your organization use generative AI in support of services provided to our Company?","lv":1,"tier":"Assisted","src":"Inventory knows what AI exists; one-time tag of which AI entities serve which customer service (business-context chat, PRD 5.6).","cav":"","locked":"Business-context tagging"},{"id":"1.4","q":"[IF YES to 1.1 or 1.2] In what ways will our purchased product depend on generative AI?","lv":1,"tier":"Assisted","src":"Gateway call volume per feature gives a signal.","cav":"\"Key\" vs \"secondary\" feature is a product judgement; tag once.","locked":"Business-context tagging"},{"id":"1.5","q":"[IF YES to 1.1 or 1.2] Will the use of generative AI support any customer interactions or services?","lv":1,"tier":"Auto","src":"Publicly exposed agents/systems are in discovery scope (PRD 5.1).","cav":"Internal vs customer-facing needs an owner tag.","need":"gateway","ans":"Yes, 2 public agents"},{"id":"2.1","q":"Will our Company's use of your product remain anonymous?","lv":1,"tier":"Attest","src":"Architecture/contract fact.","cav":"Ill-posed question; rewrite in template."},{"id":"2.2","q":"Does your product offer transparent notice to an end user that they will be interacting with a generative AI system?","lv":1,"tier":"Attest","src":"UI behaviour TrismX cannot see.","cav":"Attach screenshot as evidence."},{"id":"2.3","q":"Is there an option to opt out of the generative AI features?","lv":1,"tier":"Attest","src":"Product feature.","cav":"","seed":"Yes. Users can disable AI features in settings."},{"id":"2.4","q":"[IF YES] Who has the option to opt out?","lv":1,"tier":"Attest","src":"Product feature.","cav":""},{"id":"2.5","q":"[IF YES] If an end user opts to not use the generative artificial intelligence portion(s) of your product, to what degree will your product still function?","lv":1,"tier":"Attest","src":"Product feature.","cav":""},{"id":"2.6","q":"Will data we input into the model be used to train the model?","lv":2,"tier":"Assisted","src":"Gateway shows which provider/tier is called; provider-terms fact library gives training policy.","cav":"Library must be kept current; verify against provider terms.","locked":"AI gateway + provider library"},{"id":"2.7","q":"[IF YES] Can you provide evidence that opt outs have been removed?","lv":2,"tier":"Attest","src":"Only the model provider can evidence this.","cav":"Attach provider attestation."},{"id":"2.8","q":"Are prompts attributable to specific users or organizations (when no identifying information is included in the prompt)?","lv":2,"tier":"Assisted","src":"Gateway shows what user/org identifiers travel upstream; IdP for mapping.","cav":"","need":"idp"},{"id":"2.9","q":"[IF NO] Can you provide evidence of the controls used to prevent attribution?","lv":2,"tier":"Attest","src":"Control description.","cav":""},{"id":"2.10","q":"Will our inputs to the model remain segmented from that of other companies?","lv":2,"tier":"Attest","src":"Tenant-isolation architecture.","cav":"Gateway per-tenant keys/routes can support."},{"id":"2.11","q":"Does the vendor moderate prompts (inputs) for the purpose of evaluating inappropriate content or bias?","lv":2,"tier":"Assisted","src":"Gateway shows whether a moderation call/guardrail sits in the path.","cav":"Detect-only: evidences presence, not effectiveness.","locked":"AI gateway"},{"id":"2.12","q":"Are there different data retention polices for the user interface versus the API?","lv":2,"tier":"Assisted","src":"Provider-terms library for provider-side retention.","cav":"Two retention layers (provider + vendor's own store); TrismX sees only the first.","locked":"AI gateway + provider library"},{"id":"2.13","q":"How long will our inputs/prompts be retained if submitted via the user interface?","lv":2,"tier":"Assisted","src":"Provider-terms library / cloud platform config.","cav":"","locked":"AI gateway + provider library"},{"id":"2.14","q":"How long will our inputs/prompts be retained if submitted via the API?","lv":2,"tier":"Assisted","src":"Provider-terms library / cloud platform config.","cav":"","locked":"AI gateway + provider library"},{"id":"2.15","q":"[IF RETAINED] Is the data retention period configurable?","lv":2,"tier":"Assisted","src":"Cloud/model platform config via integration.","cav":"","locked":"Cloud / model platform"},{"id":"2.16","q":"[IF RETAINED] Can our data be deleted on request, even if temporarily retained?","lv":2,"tier":"Attest","src":"Deletion process.","cav":"Supports with DPA clause if ingested."},{"id":"2.17","q":"Where will our data reside?","lv":2,"tier":"Auto","src":"Gateway destination endpoints show 4th party (LLM provider) and Nth party (CSP).","cav":"Data at rest in vendor's own DB not covered.","need":"gateway","ans":"With vendor 4th party (AWS Bedrock)"},{"id":"2.18","q":"Do we have the option to choose country residency for our data?","lv":2,"tier":"Assisted","src":"Region config on cloud/model platform (e.g. Azure OpenAI, Bedrock) via integration.","cav":"","locked":"Cloud / model platform"},{"id":"2.19","q":"Will our data traverse international boundaries?","lv":2,"tier":"Auto","src":"Gateway destination region vs user location (endpoint/IdP).","cav":"Only for traffic routed via gateway.","need":"gateway","ans":"No, stays in AU"},{"id":"2.20","q":"Do we have the option to restrict usage of the generative AI platform by region or country?","lv":2,"tier":"Attest","src":"Product feature.","cav":""},{"id":"2.21","q":"Will personally identifiable information sent to your product be anonymized?","lv":3,"tier":"Assisted","src":"Gateway can classify data in transit (PRD 5.1.2).","cav":"Depends on gateway data-classification depth; confirm MVP scope.","locked":"AI gateway"},{"id":"3.1","q":"What foundational model is used?","lv":2,"tier":"Auto","src":"Gateway shows model reached; ML platform integration for self-hosted.","cav":"","need":"gateway","ans":"Licensed proprietary"},{"id":"3.2","q":"Will you provide the common name of the foundational model? (e.g. GPT-3.5, LLAMA, etc.)","lv":2,"tier":"Auto","src":"Same as 3.1.","cav":"","need":"gateway","ans":"Claude (AWS Bedrock)"},{"id":"3.3","q":"Does the generative AI feature rely on a Large Language Model (LLM)?","lv":2,"tier":"Auto","src":"Same as 3.1.","cav":"","need":"gateway","ans":"Yes"},{"id":"3.4","q":"[IF YES] Is the product's LLM trained on an open or closed model?","lv":2,"tier":"Auto","src":"Model-name lookup table (open/closed).","cav":"","need":"gateway","ans":"Closed"},{"id":"3.5","q":"Do you have controls in place to ensure the foundational model was not trained with prohibited or biased content?","lv":1,"tier":"Attest","src":"Nth-party: only the model provider knows.","cav":"Attach provider model card. If model is third-party, template auto-routes to \"Nth Party\"."},{"id":"3.6","q":"Do you check the provenance of the data in the training set to ensure its use is permitted?","lv":1,"tier":"Attest","src":"Nth-party.","cav":"Auto N/A if vendor does not train."},{"id":"3.7","q":"Is the model data de-identified, aggregated, and anonymized?","lv":1,"tier":"Attest","src":"Nth-party.","cav":""},{"id":"3.8","q":"Does your model training process include human re-enforcement?","lv":1,"tier":"Attest","src":"Nth-party.","cav":"Auto N/A if vendor does not train."},{"id":"3.9","q":"Do you publish a change log for the model?","lv":2,"tier":"Assisted","src":"Inventory diff gives a dated change history of models/agents in use.","cav":"Whether to \"publish\" is a vendor decision. Fits the \"anything changed in 6 months?\" pain (Sankar).","locked":"AI gateway"},{"id":"3.10","q":"Have you performed any independent audits or validation of AI model outputs?","lv":3,"tier":"Assisted","src":"Eval/observability tool integration (Fiddler, Arthur, Bedrock Evaluations) or uploaded report.","cav":"","locked":"Eval / observability tool"},{"id":"3.11","q":"[IF YES] Are you willing to share those results?","lv":3,"tier":"Attest","src":"Disclosure decision.","cav":""},{"id":"3.12","q":"[IF YES] What is the frequency of model validation and testing?","lv":3,"tier":"Assisted","src":"Eval tool run history.","cav":"","locked":"Eval / observability tool"},{"id":"4.1","q":"Are penetration tests or other types of security assessments conducted on the model?","lv":1,"tier":"Assisted","src":"Red-team tool integration (Lakera, Garak) or uploaded pen-test report.","cav":"","locked":"Red-team tool"},{"id":"4.2","q":"[IF YES] Do you regularly share / post the results of these independent tests?","lv":1,"tier":"Attest","src":"Disclosure decision.","cav":""},{"id":"4.3","q":"[IF YES] What is the frequency of model validation and testing?","lv":1,"tier":"Assisted","src":"Eval/red-team tool run history.","cav":"Duplicate of 3.12 wording; dedupe.","locked":"Eval / red-team tool"},{"id":"4.4","q":"Are we permitted to test the model controls using prompt engineering techniques?","lv":1,"tier":"Attest","src":"Contractual permission.","cav":""},{"id":"4.5","q":"Does the AI system or provider have change/release management processes to identify, reduce/mitigate, and manage toxic outputs, hallucinations, and biases during system development and operation?","lv":1,"tier":"Assisted","src":"CI/CD + ALM (GitHub Actions, Jira) plus policy doc.","cav":"","need":"itsm"},{"id":"4.6","q":"Do you ensure that third-party libraries and components integrated into the AI system are current and secure?","lv":2,"tier":"Assisted","src":"Code repo / dependency scanning via GitHub.","cav":"Generic AppSec, outside TrismX's AI lane.","locked":"Code repository"},{"id":"4.7","q":"Are you able to provide evidence of the implementation, effectiveness, and maintenance of security controls within the AI system?","lv":2,"tier":"Assisted","src":"CSPM/SIEM evidence.","cav":"Generic security evidence.","locked":"CSPM / SIEM"},{"id":"4.8","q":"Do you maintain evidence of baseline configurations and any subsequent changes made to the AI system?","lv":2,"tier":"Assisted","src":"CMDB / IaC repo history.","cav":"","need":"itsm"},{"id":"4.9","q":"Do you log security-related events (unplanned or externally initiated event) in the AI system? (e.g. breaches, exfiltration of data, attempted exploits)","lv":2,"tier":"Assisted","src":"SIEM integration; gateway log is partial evidence.","cav":"","locked":"SIEM"},{"id":"4.10","q":"Is there a formalized training to ensure stakeholders remain current on best practices, emerging threats, and risks associated with AI?","lv":2,"tier":"Assisted","src":"LMS integration (KnowBe4, Workday Learning).","cav":"","locked":"LMS"},{"id":"4.11","q":"What measures are in place to prevent unintentional leakage of private or sensitive information?","lv":2,"tier":"Out","src":"TrismX is detect-only (strategy: no enforcement).","cav":"Must not auto-claim \"prevention\"; answer from the customer's own DLP/guardrail tools."},{"id":"4.12","q":"Are safeguards implemented to protect the AI system agaInst malicious input or prompt injections?","lv":2,"tier":"Out","src":"No enforcement layer in TrismX.","cav":"Guardrail-tool integration could make this Assisted later; see strategy conflict note."},{"id":"4.13","q":"Do you maintain a configuration management plan, and can you provide evidence of its implementation?","lv":2,"tier":"Assisted","src":"Doc upload + CMDB.","cav":"","need":"o365"},{"id":"5.1","q":"Can the generative AI system be integrated via an API?","lv":1,"tier":"Attest","src":"Product feature.","cav":"Section 5 targets AI-platform vendors; mostly N/A for AI-feature vendors.","seed":"Yes, REST API."},{"id":"5.2","q":"Do you offer private (in-house) and public options for use of the generative AI system?","lv":2,"tier":"Attest","src":"Product offering.","cav":""},{"id":"5.3","q":"Do you allow third parties to develop plugins or add-ons for sale to the public?","lv":1,"tier":"Attest","src":"Product policy.","cav":"Plugins out of PRD scope.","seed":"No."},{"id":"5.4","q":"[IF YES] Do you publish standards for developers?","lv":2,"tier":"Attest","src":"Product policy.","cav":"Conditional on 5.3."},{"id":"5.5","q":"[IF YES] Do you review the plugins or add-ons before publication to ensure they meet the same security standards as your AI solution?","lv":2,"tier":"Attest","src":"Product policy.","cav":"Conditional on 5.3."},{"id":"6.1","q":"Do you utilize subcontractors in the development of or support of your generative AI system?","lv":2,"tier":"Assisted","src":"Inventory lists AI subprocessors (model providers, AI tools, MCP servers).","cav":"Human subcontractors (labelling etc.) need vendor-list input.","locked":"AI gateway / vendor list"},{"id":"6.2","q":"[IF YES] Will you disclose the subcontractors who support the platform?","lv":2,"tier":"Assisted","src":"TrismX can generate the AI subprocessor list.","cav":"Disclosure itself is a vendor decision.","locked":"AI gateway / vendor list"},{"id":"6.3","q":"Will subcontractors have access to any of our data that we submit to the generative AI system, or that has been captured in logs?","lv":1,"tier":"Assisted","src":"Gateway shows what data goes to which provider; DPA for terms.","cav":"","locked":"AI gateway"},{"id":"6.4","q":"[IF YES] Do you have a Third Party Risk Management (TPRM) policy by which you have assessed those subcontractors?","lv":2,"tier":"Assisted","src":"TPRM tool integration (OneTrust, Whistic) or policy doc.","cav":"","locked":"TPRM tool"},{"id":"6.5","q":"Is the generative AI service delivered via a cloud service provider (CSP)?","lv":1,"tier":"Auto","src":"Gateway destination (Azure OpenAI, Bedrock, Vertex).","cav":"","need":"gateway","ans":"Yes"},{"id":"6.6","q":"[IF YES] Which one?","lv":1,"tier":"Auto","src":"Same as 6.5.","cav":"","need":"gateway","ans":"Amazon Web Services"},{"id":"6.7","q":"[IF YES] Is the same CSP used for failover / disaster recovery purposes?","lv":1,"tier":"Assisted","src":"Cloud infrastructure integration (DR config).","cav":"","locked":"Cloud infrastructure"},{"id":"6.8","q":"Will you disclose the critical subservice providers that support the platform?","lv":2,"tier":"Assisted","src":"Same list as 6.2, extended to critical subservice providers.","cav":"","locked":"AI gateway / vendor list"},{"id":"7.1","q":"Will you disclose future discoveries in the model that may materially impact the output?","lv":1,"tier":"Attest","src":"Forward-looking commitment.","cav":""},{"id":"7.2","q":"Is the AI model continuously scanned (security scans, bias scans, etc.)?","lv":2,"tier":"Assisted","src":"AI observability/eval integration.","cav":"TrismX monitors governance posture, not model quality; do not claim model scanning.","locked":"AI observability tool"},{"id":"7.3","q":"Do you maintain policies and procedures related to user privacy, biases, and explainability?","lv":2,"tier":"Assisted","src":"Policy repo (SharePoint, Confluence) plus ISO 42001 A.2 mapping.","cav":"","need":"o365"},{"id":"7.4","q":"Are your services compliant with relevant data protection regulations (e.g., GDPR, HIPAA) and industry-specific regulations (e.g., finance, healthcare)?","lv":2,"tier":"Attest","src":"Legal conclusion.","cav":"Attach certs; overlaps 7.6."},{"id":"7.5","q":"Can you provide documentation of compliance or audits?","lv":2,"tier":"Assisted","src":"Trust Centre plus GRC integration (Vanta/Drata) holds audit docs.","cav":"","need":"o365"},{"id":"7.6","q":"Is your service compliant with regulations such as GLBA, CCPA, GDPR, or other data protection laws/regs regarding the handling of personal identifying information?","lv":2,"tier":"Attest","src":"Legal conclusion.","cav":"Overlaps 7.4; dedupe."},{"id":"7.7","q":"Do you have a Data Processing Agreement (DPA) that outlines data protection responsibilities?","lv":2,"tier":"Assisted","src":"CLM / doc store ingestion (Ironclad, DocuSign CLM).","cav":"","need":"o365"},{"id":"7.8","q":"Who owns the data generated by the generative AI system?","lv":1,"tier":"Attest","src":"Contract position.","cav":""},{"id":"7.9","q":"Is ownership clearly defined in the Terms and Conditions?","lv":1,"tier":"Assisted","src":"Ingest T&Cs and extract clause.","cav":"","need":"o365"},{"id":"7.10","q":"Are there any restrictions on how we can use the AI-generated content?","lv":1,"tier":"Assisted","src":"Ingest T&Cs plus provider terms.","cav":"","need":"o365"},{"id":"7.11","q":"Is there any potential that copyrighted or other protected information could be produced as outputs from the generative AI systems?","lv":1,"tier":"Attest","src":"Provider statement.","cav":""},{"id":"7.12","q":"Do you provide mechanisms to trace or audit the AI-generated results?","lv":2,"tier":"Auto","src":"Gateway per-call record: model, data, tools invoked (PRD 5.1.2).","cav":"Only traffic routed via the gateway.","need":"gateway","ans":"Yes, per-call log"},{"id":"7.13","q":"Do you assume liability in the event that the output of the generative AI system contradicts laws or regulations?","lv":1,"tier":"Out","src":"Legal/commercial commitment.","cav":"TrismX must never auto-answer; human sign-off only."},{"id":"7.14","q":"Is there an indemnification clause in the contract to protect clients in such situations?","lv":1,"tier":"Assisted","src":"Contract ingestion.","cav":"","need":"o365"},{"id":"7.15","q":"Do you provide guaranteed SLAs for uptime of the generative AI service?","lv":2,"tier":"Assisted","src":"CLM contract SLA clause; status-page uptime data.","cav":"","need":"o365"},{"id":"7.18","q":"Is there a subcontractor disclosure provision in the contract?","lv":2,"tier":"Assisted","src":"Contract ingestion.","cav":"Numbering skips 7.16-7.17 in source.","need":"o365"},{"id":"7.19","q":"Should we need to terminate the relationship, will you be able to remove our data from your generative AI system in a reasonable period of time?","lv":2,"tier":"Attest","src":"Offboarding process.","cav":"DPA clause if ingested."}];
+  var G={endpoint:true,gateway:false,itsm:false,idp:true,o365:false};
+  DATA.forEach(function(d){ if(d.tier==='Out') d.out=1; if(d.tier!=='Auto' && !d.need){ d.tier='Assisted'; d.need='o365'; } });
+  var TPL={std:{name:'Standard AI Questionnaire Blueprint v1',lvl:3}};
+  var tplCur='std';
+  var DOM={1:'General',2:'Data privacy',3:'Model',4:'InfoSec',5:'Integration',6:'Nth party',7:'Legal'};
+  var CONN={itsm:{n:'ITSM',lg:'IT',opts:['Jira Service Management','ServiceNow'],d:'Change, release and incident records'},
+            idp:{n:'Identity provider',lg:'ID',opts:['Microsoft Entra ID','Okta'],d:'Users and groups; ties prompts and owners to people'},
+            o365:{n:'Microsoft 365',lg:'M3',opts:['SharePoint &amp; OneDrive'],d:'Policy, contract and T&amp;C documents'}};
+  var connFrom=null;
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  function vis(){ return DATA.filter(function(d){ return d.lv<=TPL[tplCur].lvl; }); }
+  var UNANS={}; ['1.2','1.4','2.6','2.8','2.11','2.12','2.13','2.14','3.9','3.10','4.1','4.5','4.6','4.8','4.13','7.3','7.5','7.7','7.14','7.15'].forEach(function(i){UNANS[i]=1;});
+  var EV={};
+  function isAnswered(d){ return !!G[d.need] && !(UNANS[d.id] && !EV[d.id]); }
+  function isLocked(d){ return !G[d.need]; }
+  function needName(k){ return {endpoint:'Endpoint agent',gateway:'AI gateway',itsm:'ITSM',idp:'IdP',o365:'Microsoft 365'}[k]; }
+  var LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>';
+  function secStats(rows){ var a=rows.filter(isAnswered).length; return {a:a,n:rows.length}; }
+  function pg(s){ return '<div class="pg"><span class="num">'+s.a+' / '+s.n+' answered</span><span class="cbar"><i style="width:'+(s.n?Math.round(s.a/s.n*100):0)+'%"></i></span></div>'; }
+  function rq(k,label){ return '<span class="rq '+(G[k]?'on':'off')+'">'+(G[k]?'✓':'○')+' '+label+'</span>'; }
+  function autoRow(d){
+    var lk=isLocked(d);
+    return '<tr class="'+(lk?'locked':'')+'"><td class="id">'+d.id+'</td><td class="qq"><span class="qt" title="'+esc(d.q)+'">'+esc(d.q)+'</span></td><td>'+DOM[d.id.split('.')[0]]+'</td><td>L'+d.lv+'</td><td>'+
+      (lk?'<span class="lk">'+LOCK+'Locked</span>':'<span class="av">'+esc(d.ans)+'</span>')+'</td></tr>';
+  }
+  function assistRow(d){
+    var lk=isLocked(d), un=UNANS[d.id]&&!EV[d.id], e=EV[d.id];
+    var cell = lk ? '<span class="lk">'+LOCK+'Locked</span>'
+      : un ? '<div class="ua-btns"><button class="btn sm" data-ev="upload" data-id="'+d.id+'">Upload evidence</button><button class="btn sm" data-ev="o365" data-id="'+d.id+'">Refer to Office 365</button></div>'
+      : '<span class="pill ok"><span class="d"></span>Answered</span>'+(e?'<span class="as">'+(e.kind==='upload'?'Uploaded: ':'Linked: ')+esc(e.name)+'</span>':'');
+    return '<tr class="'+(lk?'locked':'')+'"><td class="id">'+d.id+'</td><td class="qq"><span class="qt" title="'+esc(d.q)+'">'+esc(d.q)+'</span>'+(d.out?'<span class="pill crit" style="margin-top:4px">Needs human sign-off</span>':'')+'</td><td>'+DOM[d.id.split('.')[0]]+'</td><td>L'+d.lv+'</td><td>'+cell+'</td></tr>';
+  }
+  function tbl(rowsHtml){ return '<table class="gt"><thead><tr><th>#</th><th>Question</th><th>Domain</th><th>Level</th><th>Answer</th></tr></thead><tbody>'+rowsHtml+'</tbody></table>'; }
+  function renderGov(){
+    var V=vis();
+    var auto=V.filter(function(d){return d.tier==='Auto';});
+    var assi=V.filter(function(d){return d.tier==='Assisted';});
+    var sa=secStats(auto), ss=secStats(assi), tot=secStats(V);
+    document.getElementById('totBig').textContent=tot.a+' / '+tot.n;
+    document.getElementById('totBar').style.width=Math.round(tot.a/tot.n*100)+'%';
+    document.getElementById('tplMeta').textContent=tot.n+' controls · Level '+TPL[tplCur].lvl+' scope';
+    var h='';
+    h+='<div class="tsec auto" id="sA"><div class="tsec-h"><div><span class="pill accent">Auto</span></div><div class="cta">'+pg(sa)+'</div></div>'+tbl(auto.map(autoRow).join(''))+'</div>';
+    h+='<div class="tsec assisted" id="sB"><div class="tsec-h"><div><span class="pill" style="background:var(--blue-tint);color:var(--blue)">Assisted</span></div><div class="cta">'+pg(ss)+'</div></div>'+tbl(assi.map(assistRow).join(''))+'</div>';
+    document.getElementById('gvSections').innerHTML=h;
+    renderConnect();
+  }
+  document.getElementById('gvMain').addEventListener('click',function(e){
+    var s=e.target.closest('[data-scroll]'); if(s){ document.getElementById(s.dataset.scroll).scrollIntoView({behavior:'smooth',block:'start'}); return; }
+    var go=e.target.closest('[data-go]'); if(go){ goConnect(go.dataset.go, go.dataset.from); return; }
+    var ch=e.target.closest('[data-chat]'); if(ch){ chatAction(ch.dataset.chat); }
+  });
+  /* tpl select */
+  function renderTplSel(){ document.getElementById('tplSel').innerHTML=Object.keys(TPL).map(function(k){return '<option value="'+k+'"'+(k===tplCur?' selected':'')+'>'+TPL[k].name+'</option>';}).join(''); }
+  document.getElementById('tplSel').addEventListener('change',function(){ tplCur=this.value; renderGov(); });
 
-  /* ---------- Questionnaire Assistant ---------- */
+  /* ---------- Connect tools (3 cards) ---------- */
+  function unlockIds(k){ return DATA.filter(function(d){return d.need===k && d.tier==='Assisted';}).map(function(d){return d.id;}); }
+  function renderConnect(){
+    var bn=document.getElementById('connBanner');
+    if(connFrom==='assisted') bn.innerHTML='<div class="conn-banner"><span>You came from <b>Governance › Controls · Assisted</b>. Connect Microsoft 365, ITSM and IdP to unlock '+(unlockIds('itsm').length+unlockIds('idp').length+unlockIds('o365').length)+' controls.</span><button class="btn sm" data-back="1">Back to Controls</button></div>';
+    else if(connFrom==='auto') bn.innerHTML='<div class="conn-banner"><span>You came from <b>Governance › Controls · Auto</b>. Deploy the endpoint agent and the AI gateway to unlock Auto controls.</span><button class="btn sm" data-back="1">Back to Controls</button></div>';
+    else bn.innerHTML='';
+    document.getElementById('connCards').innerHTML=Object.keys(CONN).map(function(k){
+      var c=CONN[k], ids=unlockIds(k), on=G[k];
+      return '<div class="ccard'+((connFrom==='assisted'&&!on)?' need':'')+'"><span class="vlogo">'+c.lg+'</span><div><div class="cn">'+c.n+'</div><div class="cd">'+c.d+'</div>'+
+        '<select data-sel="'+k+'">'+c.opts.map(function(o){return '<option>'+o+'</option>';}).join('')+'</select>'+
+        '<div class="ul">Unlocks '+ids.length+' Assisted control'+(ids.length>1?'s':'')+': '+ids.slice(0,8).map(function(i){return '<span class="tag">'+i+'</span>';}).join('')+(ids.length>8?'<span class="muted">+'+(ids.length-8)+' more</span>':'')+'</div></div>'+
+        '<div class="cact">'+(on?'<span class="connected">Connected</span><button class="btn ghost sm" data-toggle="'+k+'">Disconnect</button>':'<button class="btn primary sm" data-toggle="'+k+'">Connect</button>')+'</div></div>';
+    }).join('');
+    document.getElementById('gwAct').innerHTML=G.gateway?'<span class="connected">Deployed</span> <button class="btn ghost sm" data-toggle="gateway">Remove</button>':'<button class="btn primary sm" data-toggle="gateway">Deploy gateway</button>';
+  }
+  document.querySelector('.view[data-view="connect"]').addEventListener('click',function(e){
+    var t=e.target.closest('[data-toggle]'); if(t){ G[t.dataset.toggle]=!G[t.dataset.toggle]; renderConnect(); renderGov(); return; }
+    if(e.target.closest('[data-back]')){ var f=connFrom; connFrom=null; show('gov-controls'); setTimeout(function(){ var el=document.getElementById(f==='auto'?'sA':'sB'); if(el) el.scrollIntoView({block:'start'}); },0); }
+  });
+  function goConnect(tab, from){
+    connFrom=from;
+    show('connect');
+    var seg=document.querySelector('#connSeg .seg[data-cseg="'+(tab==='deploy'?'deploy':'tools')+'"]'); if(seg) seg.click();
+    renderConnect();
+  }
+
+  /* ---------- Governance chat ---------- */
   function mBot(h){ return '<div class="msg bot"><span class="mav">TX</span><div class="bubble">'+h+'</div></div>'; }
   function mUser(h){ return '<div class="msg user"><span class="mav">SR</span><div class="bubble">'+h+'</div></div>'; }
-  function evRowA(id,q,ans,ev){ return '<tr><td class="qid">'+id+'</td><td>'+q+'</td><td><span class="ans-v">'+ans+'</span><span class="ans-ev">◦ '+ev+'</span></td></tr>'; }
-  function manRow(id,q,why){ return '<tr class="man"><td class="qid">'+id+'</td><td>'+q+'</td><td><span class="manu">[Fill manually]</span><span class="ans-ev">'+why+'</span></td></tr>'; }
-
-  var ansTable='<table class="q"><thead><tr><th>#</th><th>Question</th><th>Answer · evidence</th></tr></thead><tbody>'+
-    evRowA('1.1','Does your organization leverage GenAI?','Yes — for product/service','Gateway observed model calls from Trust Analyser')+
-    evRowA('3.1','What foundational model is used?','Licensed Proprietary','Model fingerprint on egress')+
-    evRowA('3.2','Common name of the model','Claude 3.5 Sonnet (AWS Bedrock)','Gateway fingerprint')+
-    evRowA('2.17','Where will our data reside?','Directly with vendor · AWS ap-southeast-2','Endpoint geo / ASN')+
-    evRowA('2.19','Will data traverse international boundaries?','No — stays in AU','No cross-region egress observed')+
-    evRowA('5.1','Can it be integrated via an API?','Yes','Observed REST API traffic')+
-    evRowA('6.6','Which cloud provider?','Amazon Web Services (AWS)','Endpoint ASN')+
-    evRowA('6.1','Do you use subcontractors?','Yes — Amazon Textract (4th party)','Nth-party call detected')+
-    '</tbody></table>';
-
-  var manTable='<table class="q"><thead><tr><th>#</th><th>Question</th><th>Why not auto-filled</th></tr></thead><tbody>'+
-    manRow('1–11','Internal stakeholder questions','Internal business context — Risk / Legal')+
-    manRow('2.6','Will our data train the model?','Vendor contractual claim — not observable')+
-    manRow('3.5–3.12','Training controls & model audits','Vendor attestation')+
-    manRow('4.1–4.13','Pen-tests, security evidence','Vendor documentation')+
-    manRow('7.1–7.19','DPA, indemnification, SLA, ownership','Legal & contract')+
-    '</tbody></table>';
-
-  var QA_TURNS=[
-    [ mBot('<p>Hi Srejith — I\'m the <b>TrismX Questionnaire Assistant</b>. Upload a vendor security or AI questionnaire (Excel, CSV or Word) and I\'ll pre-fill every answer I can evidence from your TrismX environment, and flag the rest for you.</p><div class="dropzone"><div class="big">Drop a questionnaire here</div>or choose a file · .xlsx .csv .docx</div>') ],
-    [ mUser('<div class="filechip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5a2 2 0 012-2h9l5 5v13a1 1 0 01-1 1H6a2 2 0 01-2-2z"/><path d="M14 3v5h5"/></svg> AI_Questionnaire.xlsx · 48 KB</div><p style="margin-top:8px">Please fill this in for us.</p>') ],
-    [ mBot('<p>Analysing the workbook…</p><p>Detected: <b>BNK\'s Generative AI — Vendor Evaluation &amp; Qualitative Risk Assessment</b>.</p><div class="filechip" style="margin-bottom:4px">Vendor: Trust Analyser · frankieone.com</div><p style="margin-top:8px">4 sheets · <b>91 questions</b> (11 internal stakeholder + 80 vendor) · risk tier assessed <b>Level 3 (High)</b>. I matched this vendor to a system already in your AI Inventory.</p>') ],
-    [ mBot('<p>Here\'s what I could answer from TrismX telemetry, and what I can\'t.</p>'+
-        '<div class="cov"><div><div class="big">34%</div></div><div class="cbar"><i style="width:31%"></i></div><span class="cpill ans">28 answered</span><span class="cpill man">63 to fill manually</span></div>'+
-        '<table class="q" style="margin-top:12px"><thead><tr><th>Section</th><th>Answered</th><th>Manual</th></tr></thead><tbody>'+
-        '<tr><td>Internal stakeholder</td><td>0</td><td class="manu">11</td></tr>'+
-        '<tr><td>1.0 General (discovery)</td><td>4</td><td>0</td></tr>'+
-        '<tr><td>2.0 Data privacy</td><td>6</td><td class="manu">15</td></tr>'+
-        '<tr><td>3.0 Model training</td><td>6</td><td class="manu">6</td></tr>'+
-        '<tr><td>4.0 Information security</td><td>2</td><td class="manu">11</td></tr>'+
-        '<tr><td>5.0 Technology integration</td><td>4</td><td>1</td></tr>'+
-        '<tr><td>6.0 Nth-party risk</td><td>5</td><td>3</td></tr>'+
-        '<tr><td>7.0 Legal &amp; compliance</td><td>1</td><td class="manu">16</td></tr>'+
-        '</tbody></table>') ],
-    [ mBot('<p><b>Answered from evidence.</b> Everything here is what TrismX directly observed about Trust Analyser in your network — no guessing.</p>'+ansTable) ],
-    [ mBot('<p><b>These need you.</b> I can\'t see a vendor\'s policies, attestations, contracts or your internal business context — those are marked <span class="manu">[Fill manually]</span>.</p>'+manTable+'<p style="margin-top:10px">To start closing these: is a signed <b>DPA</b> in place with FrankieOne (7.7), and does Trust Analyser process any <b>customer PII</b> (2.21)?</p>') ],
-    [ mUser('<p>Yes — DPA signed 12 Mar 2026, owner Risk Ops (Maeve Kennedy). No customer PII is sent, only trust-deed documents. Business justification: faster trust-deed onboarding for lending.</p>') ],
-    [ mBot('<p>Thanks — I filled <b>6 more</b> from that: 7.7 (DPA = Yes), 2.21 (PII = N/A), 7.8/7.9 (ownership, per DPA), and stakeholder Q1 (business justification).</p>'+
-        '<div class="cov"><div><div class="big">37%</div></div><div class="cbar"><i style="width:37%"></i></div><span class="cpill ans">34 answered</span><span class="cpill man">57 to fill manually</span></div>'+
-        '<p style="margin-top:10px">The remaining 57 are vendor attestations and legal terms. I\'ve routed them: <b>36 to FrankieOne</b> as a vendor questionnaire, and <b>21 to internal owners</b> (Legal, Risk). The prefilled workbook keeps every <span class="manu">[Fill manually]</span> cell highlighted.</p>'+
-        '<div style="margin-top:12px"><button class="btn primary sm">⬇ Download prefilled workbook</button> <button class="btn sm">Send vendor questionnaire</button></div>') ]
-  ];
-  var qaTurn=0;
-  function renderQA(){
-    document.getElementById('qaInner').innerHTML = QA_TURNS.slice(0,qaTurn+1).map(function(t){return t.join('');}).join('');
-    document.getElementById('qaStep').textContent='Step '+(qaTurn+1)+' / '+QA_TURNS.length;
-    var nb=document.getElementById('qaNext'); nb.disabled = qaTurn>=QA_TURNS.length-1;
-    nb.textContent = qaTurn>=QA_TURNS.length-1 ? 'Done' : 'Next ▶';
-    var sc=document.getElementById('qaScroll'); sc.scrollTop=sc.scrollHeight;
+  var gcMsgs=[];
+  function say(h){ gcMsgs.push(mBot(h)); drawChat(); }
+  function me(h){ gcMsgs.push(mUser(h)); drawChat(); }
+  function drawChat(){ document.getElementById('gcInner').innerHTML=gcMsgs.join(''); var s=document.getElementById('gcScroll'); s.scrollTop=s.scrollHeight; }
+  document.getElementById('gcChips').innerHTML=
+    '<button data-act="upload">Upload questionnaire</button><button data-act="clone">Clone this template</button><button data-act="policy">Define custom policy</button><button data-act="next">What next?</button>';
+  function chatAction(a){
+    if(a==='upload'){
+      me('<div class="filechip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5a2 2 0 012-2h9l5 5v13a1 1 0 01-1 1H6a2 2 0 01-2-2z"/><path d="M14 3v5h5"/></svg> Prospect_AI_Questionnaire.xlsx</div>');
+      say('<p>I matched <b>58 of 71</b> questions to blueprint controls: 9 Auto and 49 Assisted. The other <b>13</b> have no match.</p><p>Clone the standard template first and I will add the 13 as custom controls.</p>');
+    } else if(a==='clone'){
+      if(TPL.custom){ say('You already have a custom copy: <b>'+TPL.custom.name+'</b>.'); return; }
+      me('Clone the standard template for our Level 2 scope.');
+      TPL.custom={name:'Northcrest Custom · Level 2',lvl:2}; tplCur='custom'; renderTplSel(); renderGov();
+      say('Created <b>Northcrest Custom · Level 2</b> from the standard blueprint. It drops the controls only needed at Level 3. Tell me what to add, remove or reword.');
+    } else if(a==='policy'){
+      me('Define a custom policy.');
+      say('Upload the policy document or paste its text. I will map it to the controls it evidences and mark those as answered.<p class="muted" style="margin-top:6px">Placeholder: whether this means policy documents or custom question sets is still to be decided.</p>');
+    } else if(a==='next'){
+      me('What should I do next?');
+      if(!G.gateway) say('Deploy the <b>AI gateway</b>. It unlocks '+vis().filter(function(d){return d.tier==='Auto'&&d.need==='gateway';}).length+' Auto controls.<div style="margin-top:8px"><button class="btn primary sm" data-go="deploy" data-from="auto">Go to Deploy</button></div>');
+      else if(!(G.itsm&&G.idp&&G.o365)) say('Connect <b>Microsoft 365, ITSM and IdP</b>. Microsoft 365 alone unlocks most of the Assisted controls.<div style="margin-top:8px"><button class="btn primary sm" data-go="tools" data-from="assisted">Connect systems</button></div>');
+      else say('Everything is connected. Review the retrieved answers and confirm them.');
+    }
   }
-  document.getElementById('qaNext').addEventListener('click',function(){ if(qaTurn<QA_TURNS.length-1){qaTurn++;renderQA();} });
-  document.getElementById('qaRestart').addEventListener('click',function(){ qaTurn=0;renderQA(); });
-  renderQA();
+  document.getElementById('gcChips').addEventListener('click',function(e){ var b=e.target.closest('[data-act]'); if(b) chatAction(b.dataset.act); });
+  document.getElementById('gcInner').addEventListener('click',function(e){ var go=e.target.closest('[data-go]'); if(go) goConnect(go.dataset.go, go.dataset.from); });
+  function sendChat(){
+    var i=document.getElementById('gcInput'), t=i.value.trim(); if(!t) return; i.value=''; me(esc(t));
+    if(/upload/i.test(t)) chatAction('upload'); else if(/clone/i.test(t)) chatAction('clone'); else if(/polic/i.test(t)) chatAction('policy');
+    else say('This chat is simulated in the wireframe. Use the chips below.');
+  }
+  document.getElementById('gcSend').addEventListener('click',sendChat);
+  document.getElementById('gcInput').addEventListener('keydown',function(e){ if(e.key==='Enter') sendChat(); });
+  gcMsgs.push(mBot('<p>Your controls are ready: <b>80 recommended controls</b>, split into Auto and Assisted.</p><p>You can upload a questionnaire, or clone this template into a custom one.</p>'));
+  renderTplSel(); drawChat(); renderGov();
+
+  /* ---------- Risk Management ---------- */
+  var RK_FOLDERS=["Board Papers","Business Impact Analysis","Finance","HR Policies","IT Operations","Vendor Contracts"];
+  var RK_DOCS={
+    ai:[
+      {n:"AI System Risk Register",ty:"Excel",ow:"Maeve Kennedy · Risk Ops",md:"12 Sep 2026",s:"Register of every AI system rated high risk, with owner, impact rating and mitigation status.",c:["7.2","7.3"]},
+      {n:"Fraud Signal Scorer Impact Assessment",ty:"Word",ow:"Declan Harte · CISO",md:"28 Aug 2026",s:"Business impact analysis for the fraud scoring model: recovery targets, dependencies and fallback to manual review.",c:["4.5","4.13"]},
+      {n:"Credit Decisioning Model BIA",ty:"Word",ow:"Priya Nair · Credit Risk",md:"03 Aug 2026",s:"Impact of model downtime or drift on credit decisions, with validation and monitoring commitments.",c:["3.10","4.7"]},
+      {n:"AI Incident Response Plan",ty:"PDF",ow:"Declan Harte · CISO",md:"17 Jul 2026",s:"Steps for detecting, escalating and reporting incidents involving AI systems.",c:["4.9","7.1"]}
+    ],
+    priv:[
+      {n:"DPIA: Trust Analyser",ty:"Word",ow:"Maeve Kennedy · Risk Ops",md:"09 Sep 2026",s:"Data protection impact assessment for the document-analysis vendor: data flows, lawful basis and residual risks.",c:["2.21","7.4"]},
+      {n:"Data Retention Schedule",ty:"Excel",ow:"Legal",md:"22 Jun 2026",s:"Retention periods and deletion routes for prompts, outputs and logs held by AI systems.",c:["2.13","2.16"]},
+      {n:"Privacy Notice (AI)",ty:"PDF",ow:"DPO Office",md:"14 May 2026",s:"Customer-facing notice describing where AI is used and how personal data is handled.",c:["2.2","7.3"]},
+      {n:"DPA Register",ty:"Excel",ow:"Legal",md:"30 Jul 2026",s:"Data processing agreements held with every AI vendor, with signature and review dates.",c:["7.7","6.3"]}
+    ]};
+  var rk={step:'start',tab:'ai',sel:-1,folder:null,folders:[]};
+  var FOLDER_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>';
+  function rkReset(){ rk.step='start'; rk.tab='ai'; rk.sel=-1; rk.folder=null; rk.folders=[]; document.getElementById('rkOv').hidden=true; rkDraw(); }
+  function ctlTitle(id){ var d=DATA.filter(function(x){return x.id===id;})[0]; return d?d.q:''; }
+  function rkDraw(){
+    var el=document.getElementById('rkRoot');
+    if(rk.step==='start'){
+      el.innerHTML='<div class="rk-center"><div><div class="ei" style="width:44px;height:44px;border-radius:11px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;margin:0 auto 14px;color:var(--muted)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg></div><h3>Risk Management</h3><p>Pull your AI-governance documents into one repository, starting from your business impact analysis.</p><button class="btn primary" data-rk="start">Get Started</button></div></div>';
+    } else if(rk.step==='connect'){
+      el.innerHTML='<div class="rk-center"><div style="width:100%"><div class="rk-card"><span class="vlogo">M3</span><div style="flex:1"><div style="font-weight:700;font-size:15px">Connect to Office 365</div><div class="muted" style="font-size:12.5px">Choose the folder that holds your AI-governance documents.</div></div><button class="btn primary sm" data-rk="connect">Connect</button></div></div></div>';
+    } else if(rk.step==='spin'){
+      el.innerHTML='<div class="rk-center"><div><div class="rk-spin"></div><h3>Indexing documents</h3><p>Indexing documents from '+rk.folders.join(', ')+'…</p></div></div>';
+    } else {
+      var docs=rk.folders.indexOf('Business Impact Analysis')>=0 ? RK_DOCS[rk.tab] : [];
+      el.innerHTML='<div class="muted" style="font-size:13px;margin-bottom:12px">Document repository · '+rk.folders.join(', ')+' · Microsoft 365</div>'+
+        '<div class="segmented" id="rkSeg"><button class="seg'+(rk.tab==='ai'?' active':'')+'" data-rktab="ai">High Risk AI Systems</button><button class="seg'+(rk.tab==='priv'?' active':'')+'" data-rktab="priv">Privacy Controls</button></div>'+
+        '<div class="shsplit"><div id="rkTbl">'+miniTable([{t:'Document'},{t:'Type'},{t:'Owner'},{t:'Modified'},{t:'Path'}],
+          docs.map(function(d,i){return '<tr class="clk rkdoc'+(i===rk.sel?' sel':'')+'" data-rkdoc="'+i+'"><td class="ttl">'+d.n+'</td><td>'+d.ty+'</td><td class="muted">'+d.ow+'</td><td>'+d.md+'</td><td class="mono muted" style="font-size:11.5px">Business Impact Analysis/</td></tr>';}).join('')+(docs.length?'':'<tr><td colspan="5" class="muted" style="text-align:center;padding:22px">No AI-governance documents found in the selected folders.</td></tr>'))+'</div>'+
+        '<aside class="shdet" id="rkDet">'+rkDetail(docs)+'</aside></div>';
+    }
+  }
+  function rkDetail(docs){
+    if(rk.sel<0) return '<div class="shph">Select a document to see its summary and the controls it supports.</div>';
+    var d=docs[rk.sel];
+    return '<div style="font-weight:700;font-size:14.5px">'+d.n+'</div><div class="muted" style="font-size:12px;margin-bottom:6px">'+d.ty+' · '+d.ow+' · '+d.md+'</div>'+
+      '<div class="blab">Summary</div><div class="rkp">'+d.s+'</div>'+
+      '<div class="blab">Controls it supports<span class="rt">'+d.c.length+'</span></div><div class="shitems">'+d.c.map(function(id){return '<div class="shit"><b class="mono" style="font-size:12.5px">'+id+'</b><span class="muted">'+(function(t){return t.length>90?t.slice(0,87)+'…':t;})(esc(ctlTitle(id)))+'</span></div>';}).join('')+'</div>';
+  }
+  var rkSelFolders=[];
+  function rkOpenOverlay(){
+    rkSelFolders=[];
+    document.getElementById('rkFolders').innerHTML=RK_FOLDERS.map(function(n){return '<button class="rk-f" data-f="'+n+'"><span class="rk-cb"></span>'+FOLDER_SVG+n+'</button>';}).join('');
+    document.getElementById('rkDone').disabled=true;
+    document.getElementById('rkOv').hidden=false;
+  }
+  function rkCloseOverlay(){ document.getElementById('rkOv').hidden=true; }
+  document.getElementById('rkRoot').addEventListener('click',function(e){
+    var a=e.target.closest('[data-rk]');
+    if(a){
+      if(a.dataset.rk==='start'){ rk.step='connect'; rkDraw(); }
+      else if(a.dataset.rk==='connect'){ G.o365=true; renderConnect(); renderGov(); rkOpenOverlay(); }
+      return;
+    }
+    var t=e.target.closest('[data-rktab]'); if(t){ rk.tab=t.dataset.rktab; rk.sel=-1; rkDraw(); return; }
+    var r=e.target.closest('[data-rkdoc]'); if(r){ rk.sel=+r.dataset.rkdoc; rkDraw(); }
+  });
+  document.getElementById('rkFolders').addEventListener('click',function(e){
+    var b=e.target.closest('[data-f]'); if(!b) return;
+    var n=b.dataset.f, i=rkSelFolders.indexOf(n);
+    if(i>=0) rkSelFolders.splice(i,1); else rkSelFolders.push(n);
+    b.classList.toggle('sel',i<0);
+    document.getElementById('rkDone').disabled = rkSelFolders.length===0;
+  });
+  document.getElementById('rkCancel').addEventListener('click',rkCloseOverlay);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') rkCloseOverlay(); });
+  document.getElementById('rkDone').addEventListener('click',function(){
+    if(!rkSelFolders.length) return;
+    rk.folders=rkSelFolders.slice(); rkCloseOverlay(); rk.step='spin'; rkDraw();
+    setTimeout(function(){ if(rk.step==='spin'){ rk.step='repo'; rk.tab='ai'; rk.sel=-1; rkDraw(); } },2500);
+  });
+  rkDraw();
+
+  /* ---------- Controls onboarding ---------- */
+  var gvS={step:'start',conn:{endpoint:false,gateway:false,o365:false},note:false};
+  var OB_SRC=[['endpoint','EP','Connect to endpoint','Endpoint agent on managed devices'],['gateway','GW','Connect to agent gateway','Gateway for your own agents and LLM calls'],['o365','M3','Connect to Office 365','SharePoint and OneDrive documents']];
+  function gvReset(){
+    gvS.step='start'; gvS.conn={endpoint:false,gateway:false,o365:false}; gvS.note=false; EV={}; renderGov(); gvDraw();
+  }
+  function gvDraw(){
+    var onb=document.getElementById('gvOnb'), app=document.getElementById('gvApp');
+    var inApp=gvS.step==='app';
+    onb.hidden=inApp; app.hidden=!inApp;
+    if(inApp) return;
+    if(gvS.step==='start') onb.innerHTML='<div class="ob"><div class="ei" style="width:44px;height:44px;border-radius:11px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;margin:0 auto 14px;color:var(--muted)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Controls</h3><p>Answer your AI questionnaires from one set of controls. Connect your sources first.</p><button class="btn primary" data-ob="start">Get Started</button></div>';
+    else if(gvS.step==='sources') onb.innerHTML='<div class="ob"><h3>Connect your sources</h3><p>Connect all three to continue.</p><div class="ob-rows">'+OB_SRC.map(function(s){return '<div class="ob-row"><span class="vlogo">'+s[1]+'</span><div><div class="t">'+s[2]+'</div><div class="s">'+s[3]+'</div></div><div class="a">'+(gvS.conn[s[0]]?'<span class="connected">Connected</span>':'<button class="btn primary sm" data-ob="conn" data-k="'+s[0]+'">Connect</button>')+'</div></div>';}).join('')+'</div></div>';
+    else if(gvS.step==='choose') onb.innerHTML='<div class="ob"><h3>Choose your controls</h3><p>Start from the controls TrismX recommends, or bring your own.</p><div class="ob-opts"><button class="ob-opt" data-ob="rec"><b>Use TrismX-recommended controls</b><span>80 controls across 7 domains, ready to use.</span></button><button class="ob-opt" data-ob="own"><b>Upload your own controls</b><span>Import a questionnaire or control list.</span></button></div>'+(gvS.note?'<p class="muted" style="margin-top:12px;font-size:12.5px">Upload is not part of this prototype flow.</p>':'')+'</div>';
+    else if(gvS.step==='spin') onb.innerHTML='<div class="ob"><div class="rk-spin"></div><h3>Preparing your controls</h3><p>Setting up 80 recommended controls…</p></div>';
+  }
+  document.getElementById('gvOnb').addEventListener('click',function(e){
+    var b=e.target.closest('[data-ob]'); if(!b) return; var a=b.dataset.ob;
+    if(a==='start'){ gvS.step='sources'; gvDraw(); }
+    else if(a==='conn'){
+      var k=b.dataset.k; gvS.conn[k]=true; G[k]=true; gvDraw();
+      if(gvS.conn.endpoint&&gvS.conn.gateway&&gvS.conn.o365) setTimeout(function(){ if(gvS.step==='sources'){ gvS.step='choose'; gvDraw(); } },450);
+    }
+    else if(a==='own'){ gvS.note=true; gvDraw(); }
+    else if(a==='rec'){
+      gvS.step='spin'; gvDraw();
+      setTimeout(function(){ if(gvS.step==='spin'){ G.itsm=true; G.idp=true; gvS.step='app'; renderGov(); renderConnect(); gvDraw(); } },1800);
+    }
+  });
+  gvDraw();
+
+  /* ---------- Evidence overlay ---------- */
+  var EV_TREE=[
+    ["Policies",["AI Acceptable Use Policy.docx","Privacy Policy v4.pdf","Information Security Policy.pdf"]],
+    ["Contracts",["Master Services Agreement.pdf","DPA - Trust Analyser.pdf","SLA Schedule.xlsx"]],
+    ["Security",["Penetration Test Report 2026.pdf","Change Management Procedure.docx","Configuration Baseline.xlsx"]],
+    ["Model Governance",["Model Validation Report.pdf","Prompt Testing Log.xlsx","Model Change Log.xlsx"]]
+  ];
+  var EV_SUGG={1:["Policies","AI Acceptable Use Policy.docx"],2:["Policies","Privacy Policy v4.pdf"],3:["Model Governance","Model Validation Report.pdf"],4:["Security","Change Management Procedure.docx"],6:["Contracts","DPA - Trust Analyser.pdf"],7:["Contracts","Master Services Agreement.pdf"]};
+  var evCur=null;
+  var EV_FILE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5a2 2 0 012-2h9l5 5v13a1 1 0 01-1 1H6a2 2 0 01-2-2z"/><path d="M14 3v5h5"/></svg>';
+  function evQ(id){ var d=DATA.filter(function(x){return x.id===id;})[0]; return d?d.q:''; }
+  function evDraw(){
+    var c=evCur, body=document.getElementById('evBody'), go=document.getElementById('evGo');
+    document.getElementById('evTitle').textContent=c.kind==='upload'?'Upload evidence':'Refer to Office 365';
+    var q=evQ(c.id); document.getElementById('evSub').textContent=c.id+' · '+(q.length>80?q.slice(0,77)+'…':q);
+    if(c.busy){ body.innerHTML='<div style="text-align:center;padding:24px 0"><div class="rk-spin"></div><div>'+(c.kind==='upload'?'Uploading evidence…':'Linking file…')+'</div></div>'; go.disabled=true; return; }
+    if(c.kind==='upload'){
+      body.innerHTML='<div class="ev-drop">Drag a file here or <button class="lnk" data-evpick="1">choose a file</button></div>'+(c.file?'<div class="ev-file">'+EV_FILE_SVG+c.file+'<span class="muted" style="margin-left:auto;font-weight:500">186 KB</span></div>':'');
+      go.textContent='Upload'; go.disabled=!c.file;
+    } else {
+      var sg=EV_SUGG[c.id.split('.')[0]];
+      body.innerHTML='<div class="muted" style="font-size:12px;margin-bottom:10px">Microsoft 365 › SharePoint › Northcrest Bank</div>'+EV_TREE.map(function(f){
+        var open = f[0]===sg[0] || (c.file&&c.file.folder===f[0]);
+        return '<div class="ev-fold'+(open?' open':'')+'"><button class="ev-fh" data-evfold="1">'+FOLDER_SVG+f[0]+'<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button><div class="ev-files">'+f[1].map(function(n){
+          var sel=c.file&&c.file.folder===f[0]&&c.file.name===n;
+          return '<button class="ev-fi'+(sel?' sel':'')+'" data-evfile="'+f[0]+'|'+n+'"><span class="ev-rad"></span>'+n+(f[0]===sg[0]&&n===sg[1]?'<span class="pill accent" style="margin-left:auto">Suggested</span>':'')+'</button>';
+        }).join('')+'</div></div>';
+      }).join('');
+      go.textContent='Attach file'; go.disabled=!c.file;
+    }
+  }
+  function evOpen(kind,id){ evCur={kind:kind,id:id,file:null,busy:false}; document.getElementById('evOv').hidden=false; evDraw(); }
+  function evClose(){ document.getElementById('evOv').hidden=true; evCur=null; }
+  document.getElementById('gvMain').addEventListener('click',function(e){ var b=e.target.closest('[data-ev]'); if(b) evOpen(b.dataset.ev,b.dataset.id); });
+  document.getElementById('evBody').addEventListener('click',function(e){
+    if(!evCur||evCur.busy) return;
+    if(e.target.closest('[data-evpick]')){ evCur.file='Evidence_'+evCur.id.replace('.','_')+'.pdf'; evDraw(); return; }
+    var fh=e.target.closest('[data-evfold]'); if(fh){ fh.parentElement.classList.toggle('open'); return; }
+    var fi=e.target.closest('[data-evfile]'); if(fi){ var p=fi.dataset.evfile.split('|'); evCur.file={folder:p[0],name:p[1]}; evDraw(); }
+  });
+  document.getElementById('evCancel').addEventListener('click',evClose);
+  document.getElementById('evGo').addEventListener('click',function(){
+    var c=evCur; if(!c||!c.file||c.busy) return; c.busy=true; evDraw();
+    setTimeout(function(){
+      if(evCur!==c) return;
+      EV[c.id]={kind:c.kind,name:c.kind==='upload'?c.file:c.file.folder+'/'+c.file.name};
+      evClose(); renderGov();
+    },1100);
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') evClose(); });
+
+  /* ---------- Tokens ---------- */
+  var TK_MODELS=[{k:'claude',n:'Claude (AWS Bedrock)',base:520,p:6.0,c:'var(--s1)'},{k:'gpt',n:'GPT-4.1 (Azure OpenAI)',base:310,p:5.0,c:'var(--s2)'},{k:'gem',n:'Gemini (Vertex AI)',base:120,p:2.5,c:'var(--s3)'},{k:'oth',n:'Other models',base:60,p:1.0,c:'var(--s4)'}];
+  var TK_AGENTS=[["Fraud Signal Scorer","Risk",.28],["Credit Decisioning Assistant","Risk",.22],["Support Copilot","Customer Ops",.19],["Trust Analyser","Customer Ops",.14],["Internal Research Agent","Engineering",.09],["Other agents","Various",.08]];
+  var TK_TEAMS=[["Risk",.31],["Customer Ops",.26],["Engineering",.21],["Marketing",.12],["Finance",.10]];
+  var TK_DAYS=(function(){
+    var out=[], end=new Date(2026,9,3);
+    for(var i=29;i>=0;i--){
+      var d=new Date(end.getTime()-i*86400000), wd=d.getDay(), wk=(wd===0||wd===6)?0.42:1;
+      var row={d:d,v:{}};
+      TK_MODELS.forEach(function(m,mi){ var n=1+0.18*Math.sin((i+mi*3)*0.9)+0.1*Math.cos(i*0.37+mi); row.v[m.k]=Math.round(m.base*wk*n*(1+(29-i)*0.006)); });
+      out.push(row);
+    }
+    return out;
+  })();
+  var tk={range:30,tab:'model',view:'chart'};
+  function fmtK(n){ return n>=1000?(n/1000).toFixed(2)+'M':n+'K'; }
+  function fmtN(n){ return n>=1000?(n/1000).toFixed(1)+'M':Math.round(n)+'K'; }
+  function fmtD(d){ return d.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]; }
+  function tkData(){
+    var days=TK_DAYS.slice(30-tk.range), tot={}, all=0, cost=0;
+    TK_MODELS.forEach(function(m){ tot[m.k]=0; });
+    days.forEach(function(r){ TK_MODELS.forEach(function(m){ tot[m.k]+=r.v[m.k]; }); });
+    TK_MODELS.forEach(function(m){ all+=tot[m.k]; cost+=tot[m.k]*m.p/1000; });
+    return {days:days,tot:tot,all:all,cost:cost};
+  }
+  function tkChart(D){
+    var W=880,H=250,L=44,R=8,T=10,B=26, n=D.days.length, bw=(W-L-R)/n;
+    var max=0; D.days.forEach(function(r){ var s=0; TK_MODELS.forEach(function(m){s+=r.v[m.k];}); if(s>max) max=s; });
+    var top=Math.ceil(max/200)*200, svg='<svg class="tk-svg" viewBox="0 0 '+W+' '+H+'" id="tkSvg" role="img" aria-label="Daily token usage by model">';
+    for(var g=0;g<=4;g++){ var y=T+(H-T-B)*(1-g/4); svg+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" stroke="var(--tk-grid)" stroke-width="1"/><text x="'+(L-6)+'" y="'+(y+3.5)+'" text-anchor="end">'+fmtN(top*g/4)+'</text>'; }
+    D.days.forEach(function(r,i){
+      var x=L+i*bw+bw*0.14, w=bw*0.72, acc=0;
+      TK_MODELS.forEach(function(m,mi){
+        var v=r.v[m.k], hh=(H-T-B)*v/top, y=H-B-acc-hh; acc+=hh;
+        if(hh>0.5) svg+='<rect x="'+x.toFixed(1)+'" y="'+(y+(mi? 1:0)).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+Math.max(hh-(mi?1:0),0.5).toFixed(1)+'" fill="'+m.c+'"'+(mi===3?' rx="2"':'')+'/>';
+      });
+      if(i%(n>14?5:1)===0 || i===n-1) svg+='<text x="'+(x+w/2).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+fmtD(r.d)+'</text>';
+      svg+='<rect data-i="'+i+'" x="'+(L+i*bw).toFixed(1)+'" y="'+T+'" width="'+bw.toFixed(1)+'" height="'+(H-T-B)+'" fill="transparent"/>';
+    });
+    return svg+'<line x1="'+L+'" x2="'+(W-R)+'" y1="'+(H-B)+'" y2="'+(H-B)+'" stroke="var(--border-strong)"/></svg>';
+  }
+  function tkDaily(D){
+    return '<div class="tk-tw"><table class="tk-tbl"><thead><tr><th>Day</th>'+TK_MODELS.map(function(m){return '<th class="r">'+m.n+'</th>';}).join('')+'<th class="r">Total</th></tr></thead><tbody>'+
+      D.days.slice().reverse().map(function(r){ var s=0; return '<tr><td>'+fmtD(r.d)+'</td>'+TK_MODELS.map(function(m){ s+=r.v[m.k]; return '<td class="r">'+r.v[m.k]+'K</td>'; }).join('')+'<td class="r"><b>'+s+'K</b></td></tr>'; }).join('')+'</tbody></table></div>';
+  }
+  function tkTable(D){
+    var rows='', head='';
+    var fmtC=function(c){ return '$'+Math.round(c).toLocaleString('en-US'); };
+    if(tk.tab==='model'){
+      head='<th>Model</th><th class="r">Requests</th><th class="r">Input</th><th class="r">Output</th><th>Share</th>';
+      rows=TK_MODELS.map(function(m){ var t=D.tot[m.k], sh=t/D.all; return '<tr><td><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:'+m.c+';margin-right:8px"></i>'+m.n+'</td><td class="r">'+Math.round(t/1.8).toLocaleString('en-US')+'</td><td class="r">'+fmtN(t*.7)+'</td><td class="r">'+fmtN(t*.3)+'</td><td><span class="tk-bar" style="width:'+Math.round(sh*120)+'px;background:'+m.c+'"></span> '+Math.round(sh*100)+'%</td></tr>'; }).join('');
+    } else if(tk.tab==='agent'){
+      head='<th>Agent</th><th>Team</th><th class="r">Requests</th><th class="r">Tokens</th><th>Share</th>';
+      rows=TK_AGENTS.map(function(a){ var t=D.all*a[2]; return '<tr><td>'+a[0]+'</td><td class="muted">'+a[1]+'</td><td class="r">'+Math.round(t/1.8).toLocaleString('en-US')+'</td><td class="r">'+fmtN(t)+'</td><td><span class="tk-bar" style="width:'+Math.round(a[2]*300)+'px"></span> '+Math.round(a[2]*100)+'%</td></tr>'; }).join('');
+    } else {
+      head='<th>Team</th><th class="r">Requests</th><th class="r">Tokens</th><th>Share</th>';
+      rows=TK_TEAMS.map(function(a){ var t=D.all*a[1]; return '<tr><td>'+a[0]+'</td><td class="r">'+Math.round(t/1.8).toLocaleString('en-US')+'</td><td class="r">'+fmtN(t)+'</td><td><span class="tk-bar" style="width:'+Math.round(a[1]*300)+'px"></span> '+Math.round(a[1]*100)+'%</td></tr>'; }).join('');
+    }
+    return '<div class="tk-tw"><table class="tk-tbl"><thead><tr>'+head+'</tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }
+  function tkDraw(){
+    var D=tkData(), el=document.getElementById('tkRoot');
+    var top=TK_AGENTS[0];
+    el.innerHTML=
+      '<div class="tk-top"><div class="segmented" id="tkRange"><button class="seg'+(tk.range===7?' active':'')+'" data-tkr="7">7 days</button><button class="seg'+(tk.range===30?' active':'')+'" data-tkr="30">30 days</button></div><span class="tk-note">Observed through the AI gateway. Usage is measured, not limited.</span></div>'+
+      '<div class="stats">'+
+        '<div class="stat"><div class="v num">'+fmtN(D.all)+'</div><div class="l">Tokens used</div></div>'+
+        '<div class="stat"><div class="v num">'+Math.round(D.all/1.8).toLocaleString('en-US')+'</div><div class="l">Requests</div></div>'+
+        '<div class="stat"><div class="v num">'+TK_MODELS.length+'</div><div class="l">Models in use</div></div>'+
+        '<div class="stat"><div class="v" style="font-size:18px;line-height:1.5">'+top[0]+'</div><div class="l">Top agent · '+Math.round(top[2]*100)+'% of tokens</div></div>'+
+      '</div>'+
+      '<div class="tk-card"><div class="tk-ch"><h2>Daily token usage</h2>'+
+        (tk.view==='chart'?'<div class="tk-leg">'+TK_MODELS.map(function(m){return '<span><i style="background:'+m.c+'"></i>'+m.n+'</span>';}).join('')+'</div>':'')+
+        '<div class="segmented" id="tkView"><button class="seg'+(tk.view==='chart'?' active':'')+'" data-tkv="chart">Chart</button><button class="seg'+(tk.view==='table'?' active':'')+'" data-tkv="table">Table</button></div></div>'+
+        (tk.view==='chart'?tkChart(D)+'<div class="tk-tip" id="tkTip" hidden></div>':tkDaily(D))+'</div>'+
+      '<div class="segmented" id="tkTabs"><button class="seg'+(tk.tab==='model'?' active':'')+'" data-tkt="model">By model</button><button class="seg'+(tk.tab==='agent'?' active':'')+'" data-tkt="agent">By agent</button><button class="seg'+(tk.tab==='team'?' active':'')+'" data-tkt="team">By team</button></div>'+
+      tkTable(D);
+    var svg=document.getElementById('tkSvg'), tip=document.getElementById('tkTip');
+    if(svg){
+      var card=svg.parentElement;
+      svg.addEventListener('mousemove',function(e){
+        var r=e.target.closest('rect[data-i]'); if(!r){ tip.hidden=true; return; }
+        var day=D.days[+r.dataset.i], s=0;
+        tip.innerHTML='<b>'+fmtD(day.d)+'</b>'+TK_MODELS.map(function(m){ s+=day.v[m.k]; return '<div><span><i style="background:'+m.c+'"></i>'+m.n.split(' (')[0]+'</span><span>'+day.v[m.k]+'K</span></div>'; }).join('')+'<div style="border-top:1px solid var(--border);margin-top:4px;padding-top:4px"><b style="margin:0">Total</b><b style="margin:0">'+s+'K</b></div>';
+        var cb=card.getBoundingClientRect(), x=e.clientX-cb.left+14, y=e.clientY-cb.top+10;
+        if(x>cb.width-190) x=e.clientX-cb.left-180;
+        tip.style.left=x+'px'; tip.style.top=y+'px'; tip.hidden=false;
+      });
+      svg.addEventListener('mouseleave',function(){ tip.hidden=true; });
+    }
+  }
+  document.getElementById('tkRoot').addEventListener('click',function(e){
+    var b;
+    if(b=e.target.closest('[data-tkr]')){ tk.range=+b.dataset.tkr; tkDraw(); }
+    else if(b=e.target.closest('[data-tkv]')){ tk.view=b.dataset.tkv; tkDraw(); }
+    else if(b=e.target.closest('[data-tkt]')){ tk.tab=b.dataset.tkt; tkDraw(); }
+  });
+  tkDraw();
 
   /* ---------- Navigation ---------- */
   var META = {
-    dashboard:{t:"AI Posture", c:"Agents, compliance & shadow AI at a glance"},
-    questionnaire:{t:"Questionnaire Assistant", c:"Auto-fill security questionnaires from TrismX evidence"},
+    dashboard:{t:"Home", c:"Ask about your compliance posture"},
+    "gov-controls":{t:"Governance · Controls", c:"Standard questionnaire blueprint, by tier"},
+    "gov-risk":{t:"Governance · Risk Management", c:"AI-governance document repository"},
+    "gov-tokens":{t:"Governance · Tokens", c:"AI token usage, from the AI gateway"},
     inventory:{t:"AI Inventory", c:"AI agents, models & connections"},
-    compliance:{t:"Compliance", c:"Framework controls, owners & evidence"},
+    
     people:{t:"People", c:"User accounts & connected AI"},
-    shadow:{t:"Shadow AI", c:"Unsanctioned domains, MCP servers & personal accounts"},
+    "gov-shadow":{t:"Governance · Shadow AI", c:"Unsanctioned domains, MCP servers & personal accounts"},
     trust:{t:"Trust Centre", c:"Public AI systems, tools & models"},
     connect:{t:"Connect Infrastructure", c:"Vendors & endpoint deployment"}
   };
   var views = document.querySelectorAll('.view');
   var navBtns = document.querySelectorAll('.nav-btn');
-  function show(v){
+  function show(v,opts){
     views.forEach(function(s){ s.classList.toggle('active', s.dataset.view===v); });
-    navBtns.forEach(function(b){ b.classList.toggle('active', b.dataset.view===v); });
+    navBtns.forEach(function(b){ b.classList.toggle('active', b.dataset.group ? v.indexOf(b.dataset.group)===0 : b.dataset.view===v); });
     document.getElementById('pageTitle').textContent = META[v].t;
     document.getElementById('pageCrumb').textContent = META[v].c;
     if(v==='people') showPeopleList();
-    document.querySelector('.content').classList.toggle('flush', v==='questionnaire');
+    if(v==='gov-risk') rkReset();
+    if(v==='gov-controls') gvReset();
+    document.querySelector('.content').classList.toggle('flush', v==='gov-controls');
+    if(v==='connect' && !(opts&&opts.keep)){ } 
     document.querySelector('.content').scrollTop = 0;
   }
-  navBtns.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.view); }); });
+  navBtns.forEach(function(b){ b.addEventListener('click', function(){ connFrom=null; show(b.dataset.view||b.dataset.open); }); });
+
+  document.querySelector('.brand').style.cursor='pointer';
+  document.querySelector('.brand').addEventListener('click',function(){ connFrom=null; show('dashboard'); });
 
   /* Accordions */
   document.querySelectorAll('.acc').forEach(function(a){
@@ -1541,7 +1872,7 @@
     });
   });
 
-  show('inventory');
+  show('dashboard');
 })();
 </script>
 </body>
